@@ -79,7 +79,7 @@ export default function Hero() {
 
             {/* Big Heading with Yellow Marker Highlight */}
             <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.15] mb-5 text-[#1a1a1a]">
-              Hola 👋, soy <br />
+              Hi 👋, I'm <br />
               <span className="bg-[#27f5a9] px-2.5 py-0.5 border-[3px] border-[#1a1a1a] shadow-[4px_4px_0px_#1a1a1a] inline-block mt-2">
                 {personalData.shortName}
               </span>
@@ -118,7 +118,7 @@ export default function Hero() {
                 href="#projects"
                 className="neo-btn bg-[#27f5a9] text-[#1a1a1a] hover:bg-[#eab308]"
               >
-                <span>EXPLORAR PROYECTOS</span>
+                <span>EXPLORE PROJECTS</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
 
@@ -222,11 +222,11 @@ export default function Hero() {
 
                   <div className="neo-tag bg-[#a3e635] text-[#1a1a1a] mb-2 shadow-[2px_2px_0px_#1a1a1a]">
                     <Camera className="w-3.5 h-3.5" />
-                    <span>TU FOTO AQUÍ</span>
+                    <span>YOUR PHOTO HERE</span>
                   </div>
 
                   <p className="text-[#1a1a1a] text-xs font-mono leading-tight max-w-[200px]">
-                    Coloca tu imagen en <span className="bg-[#27f5a9] px-1 font-bold">/public/profile.jpg</span>
+                    Place your image in <span className="bg-[#27f5a9] px-1 font-bold">/public/profile.jpg</span>
                   </p>
 
                   {/* Real Image Overlay */}

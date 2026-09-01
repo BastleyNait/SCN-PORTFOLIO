@@ -43,15 +43,15 @@ export default function TechStack() {
         <div className="flex flex-col items-center text-center mb-12">
           <div className="neo-section-label mb-4">
             <Terminal className="w-4 h-4" />
-            <span>STACK TECNOLÓGICO</span>
+            <span>TECH STACK</span>
           </div>
 
           <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-[#1a1a1a] tracking-tight mb-4">
-            Tecnologías & Herramientas
+            Technologies & Tools
           </h2>
 
           <p className="text-slate-700 text-sm sm:text-base max-w-2xl font-medium leading-relaxed">
-            Dominio de tecnologías Systems Engineer de última generación, arquitecturas en la nube e inferencia de Inteligencia Artificial.
+            Mastery of state-of-the-art Systems Engineering technologies, cloud architectures, and Artificial Intelligence inference.
           </p>
         </div>
 
@@ -135,7 +135,7 @@ export default function TechStack() {
               </div>
               <h3 className="font-heading font-extrabold text-lg text-[#1a1a1a] mb-2">Frontend Excellence</h3>
               <p className="text-slate-700 text-xs sm:text-sm leading-relaxed font-normal">
-                React 19, Next.js (App Router), Zustand para estado global reactivo, Tailwind CSS v4 para interfaces ultrarrápidas.
+                React 19, Next.js (App Router), Zustand for reactive global state, Tailwind CSS v4 for ultra-fast interfaces.
               </p>
             </div>
           </div>
@@ -151,7 +151,7 @@ export default function TechStack() {
               </div>
               <h3 className="font-heading font-extrabold text-lg text-[#1a1a1a] mb-2">Backend Architecture</h3>
               <p className="text-slate-700 text-xs sm:text-sm leading-relaxed font-normal">
-                FastAPI para APIs asíncronas de ultra baja latencia, Flask y Django para lógica compleja, Node.js y microservicios.
+                FastAPI for ultra-low latency asynchronous APIs, Flask and Django for complex logic, Node.js and microservices.
               </p>
             </div>
           </div>
@@ -167,7 +167,7 @@ export default function TechStack() {
               </div>
               <h3 className="font-heading font-extrabold text-lg text-[#1a1a1a] mb-2">AI & Edge Computing</h3>
               <p className="text-slate-700 text-xs sm:text-sm leading-relaxed font-normal">
-                Modelos de Machine Learning cuantizados con TensorFlow Lite y PyTorch para inferencia offline en Android y Vector DBs.
+                Quantized Machine Learning models with TensorFlow Lite and PyTorch for offline inference in Android and Vector DBs.
               </p>
             </div>
           </div>

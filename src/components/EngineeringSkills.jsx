@@ -32,15 +32,15 @@ export default function EngineeringSkills() {
         <div className="flex flex-col items-center text-center mb-16">
           <div className="neo-section-label mb-4">
             <Cpu className="w-4 h-4" />
-            <span>INGENIERÍA</span>
+            <span>ENGINEERING</span>
           </div>
 
           <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-[#1a1a1a] tracking-tight mb-4">
-            Ingeniería de Software
+            Software Engineering
           </h2>
 
           <p className="text-slate-700 text-sm sm:text-base max-w-2xl font-medium leading-relaxed">
-            Más allá de escribir código, aporto conocimiento estructurado de ingeniería para construir productos robustos, seguros y mantenibles.
+            Beyond writing code, I bring structured engineering knowledge to build robust, secure, and maintainable products.
           </p>
         </div>
 
@@ -88,7 +88,7 @@ export default function EngineeringSkills() {
                 <div className="pt-3 border-t-2 border-dashed border-[#1a1a1a] flex items-center gap-2">
                   <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
                   <span className="font-mono font-bold text-xs text-[#1a1a1a]">
-                    Estándares de Producción
+                    Production Standards
                   </span>
                 </div>
               </motion.div>

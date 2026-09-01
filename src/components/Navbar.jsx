@@ -5,12 +5,12 @@ import { Github, Linkedin, Whatsapp } from './Icons';
 import { personalData } from '../data/portfolioData';
 
 const navLinks = [
-  { name: 'Inicio', href: '#hero', id: 'hero' },
-  { name: 'Proyectos', href: '#projects', id: 'projects' },
+  { name: 'Home', href: '#hero', id: 'hero' },
+  { name: 'Projects', href: '#projects', id: 'projects' },
   { name: 'Tech Stack', href: '#stack', id: 'stack' },
-  { name: 'Ingeniería', href: '#engineering', id: 'engineering' },
+  { name: 'Engineering', href: '#engineering', id: 'engineering' },
   { name: 'GitHub Stats', href: '#github', id: 'github' },
-  { name: 'Contacto', href: '#contact', id: 'contact' },
+  { name: 'Contact', href: '#contact', id: 'contact' },
 ];
 
 export default function Navbar() {
@@ -118,7 +118,7 @@ export default function Navbar() {
               href="#contact"
               className="neo-btn !py-2 !px-4 !text-xs bg-[#27f5a9] text-[#1a1a1a] hover:bg-[#fde047] ml-1"
             >
-              <span>CONTACTAR</span>
+              <span>CONTACT</span>
               <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
             </a>
           </div>
@@ -196,7 +196,7 @@ export default function Navbar() {
                 onClick={() => setMobileMenuOpen(false)}
                 className="neo-btn !py-2 !px-4 !text-xs bg-[#27f5a9] text-[#1a1a1a]"
               >
-                <span>CONTACTAR</span>
+                <span>CONTACT</span>
                 <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" />
               </a>
             </div>

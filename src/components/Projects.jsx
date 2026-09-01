@@ -27,9 +27,9 @@ const getStatusBadgeStyle = (status) => {
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState('Todos');
 
-  const categories = ['Todos', 'Systems Engineer / Web', 'E-Commerce & POS', 'AI & Edge ML'];
+  const categories = ['All', 'Systems Engineer / Web', 'E-Commerce & POS', 'AI & Edge ML'];
 
-  const filteredProjects = activeCategory === 'Todos'
+  const filteredProjects = activeCategory === 'All'
     ? projectsData
     : projectsData.filter(p => p.category === activeCategory);
 
@@ -41,15 +41,15 @@ export default function Projects() {
         <div className="flex flex-col items-center text-center mb-14">
           <div className="inline-flex items-center gap-2 neo-section-label mb-4">
             <Sparkles className="w-4 h-4 text-[#1a1a1a]" />
-            <span>PORTAFOLIO</span>
+            <span>PORTFOLIO</span>
           </div>
 
           <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mb-4 text-[#1a1a1a]">
-            Proyectos Destacados
+            Featured Projects
           </h2>
 
           <p className="text-[#1a1a1a]/80 font-medium text-sm sm:text-base max-w-2xl leading-relaxed">
-            Explora las plataformas web en producción y aplicaciones móviles con inteligencia artificial integradas en la nube. Hacé clic en cualquier mosaico para navegar directamente a la demo en vivo.
+            Explore production web platforms and mobile apps with artificial intelligence integrated in the cloud. Click any tile to navigate directly to the live demo.
           </p>
 
           {/* Category Filter Pills */}
@@ -132,10 +132,10 @@ export default function Projects() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="neo-btn bg-[#27f5a9] text-[#1a1a1a] text-xs py-2 px-4 shadow-[4px_4px_0px_#1a1a1a] hover:bg-[#fde047]"
-                        title={`Visitar ${project.title}`}
+                        title={`Visit ${project.title}`}
                       >
                         <Eye className="w-4 h-4" />
-                        <span>ABRIR PÁGINA</span>
+                        <span>VIEW PROJECT</span>
                       </a>
                     </div>
                   </div>
@@ -201,7 +201,7 @@ export default function Projects() {
                         className={`neo-btn bg-white text-[#1a1a1a] text-xs py-2 px-3 border-2 border-[#1a1a1a] shadow-[3px_3px_0px_#1a1a1a] hover:bg-[#27f5a9]/20 ${
                           !project.liveUrl ? 'flex-1' : ''
                         }`}
-                        title="Ver Código en GitHub"
+                        title="View Code on GitHub"
                       >
                         <Github className="w-3.5 h-3.5" />
                         <span>REPO</span>

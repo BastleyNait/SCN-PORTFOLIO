@@ -30,15 +30,15 @@ export default function ContactFooter() {
             <div className="lg:col-span-7 flex flex-col items-start">
               <div className="neo-section-label bg-white text-[#1a1a1a] mb-4">
                 <Sparkles className="w-4 h-4" />
-                <span>¿HABLAMOS?</span>
+                <span>LET'S TALK</span>
               </div>
 
               <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight text-[#1a1a1a] mb-4 leading-tight">
-                Construyamos algo extraordinario.
+                Let's build something extraordinary.
               </h2>
 
               <p className="text-[#1a1a1a] font-medium text-sm sm:text-base leading-relaxed mb-8 max-w-lg">
-                Estoy disponible para incorporarme a equipos innovadores, liderar desarrollo Systems Engineer o colaborar en soluciones de alto rendimiento con Inteligencia Artificial.
+                I am available to join innovative teams, lead Systems Engineering development, or collaborate on high-performance solutions with Artificial Intelligence.
               </p>
 
               {/* Copy Email Button */}
@@ -61,7 +61,7 @@ export default function ContactFooter() {
 
                 {copied && (
                   <span className="neo-tag bg-emerald-300 text-[#1a1a1a] font-mono text-xs font-bold animate-pulse">
-                    ¡Email copiado al portapapeles!
+                    Email copied to clipboard!
                   </span>
                 )}
               </div>
@@ -72,24 +72,24 @@ export default function ContactFooter() {
               <div className="neo-card p-6 sm:p-8 bg-white">
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                   <h3 className="font-heading font-black text-base sm:text-lg text-[#1a1a1a] uppercase tracking-wide mb-1">
-                    Enviar Mensaje Directo
+                    Send Direct Message
                   </h3>
 
                   <div className="flex flex-col gap-1.5">
                     <label className="font-mono text-xs font-bold text-[#1a1a1a] uppercase">
-                      Tu Nombre / Empresa
+                      Your Name / Company
                     </label>
                     <input
                       type="text"
                       required
-                      placeholder="Tu Nombre / Empresa"
+                      placeholder="Your Name / Company"
                       className="w-full px-3.5 py-2.5 bg-[#fffdf7] border-[3px] border-[#1a1a1a] rounded-none font-mono text-xs sm:text-sm text-[#1a1a1a] placeholder:text-stone-400 focus:outline-none focus:bg-white focus:shadow-[3px_3px_0px_#1a1a1a] transition-all"
                     />
                   </div>
 
                   <div className="flex flex-col gap-1.5">
                     <label className="font-mono text-xs font-bold text-[#1a1a1a] uppercase">
-                      Correo Electrónico
+                      Email Address
                     </label>
                     <input
                       type="email"
@@ -101,12 +101,12 @@ export default function ContactFooter() {
 
                   <div className="flex flex-col gap-1.5">
                     <label className="font-mono text-xs font-bold text-[#1a1a1a] uppercase">
-                      Mensaje
+                      Message
                     </label>
                     <textarea
                       required
                       rows={3}
-                      placeholder="¿En qué te puedo ayudar?"
+                      placeholder="How can I help you?"
                       className="w-full px-3.5 py-2.5 bg-[#fffdf7] border-[3px] border-[#1a1a1a] rounded-none font-mono text-xs sm:text-sm text-[#1a1a1a] placeholder:text-stone-400 focus:outline-none focus:bg-white focus:shadow-[3px_3px_0px_#1a1a1a] transition-all resize-none"
                     />
                   </div>
@@ -116,12 +116,12 @@ export default function ContactFooter() {
                     className="neo-btn bg-[#1a1a1a] text-white hover:bg-black hover:text-[#27f5a9] w-full mt-2"
                   >
                     <Send className="w-4 h-4" />
-                    <span>ENVIAR MENSAJE</span>
+                    <span>SEND MESSAGE</span>
                   </button>
 
                   {formSubmitted && (
                     <div className="neo-tag bg-emerald-300 text-[#1a1a1a] text-center font-bold text-xs py-2 px-3 justify-center">
-                      ¡Gracias por tu mensaje! Me pondré en contacto muy pronto.
+                      Thanks for your message! I'll get in touch very soon.
                     </div>
                   )}
                 </form>
@@ -145,7 +145,7 @@ export default function ContactFooter() {
             <span>•</span>
             <span className="inline-flex items-center gap-1">
               <MapPin className="w-3.5 h-3.5" />
-              {personalData.location || "Arequipa, Perú"}
+              {personalData.location || "Arequipa, Peru"}
             </span>
           </div>
 
