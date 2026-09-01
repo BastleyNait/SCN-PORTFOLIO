@@ -9,13 +9,15 @@ import {
   Database, 
   Brain, 
   CheckCircle2, 
-  Terminal 
+  Terminal,
 } from 'lucide-react';
-import { techStackData } from '../data/portfolioData';
+import { useAppContext } from '../context/AppContext';
 
 const categoryColors = ['#27f5a9', '#a3e635', '#f472b6', '#38bdf8', '#fb923c', '#c084fc', '#f87171'];
 
 export default function TechStack() {
+  const { t, data } = useAppContext();
+  const techStackData = data.techStackData;
   const [selectedCategory, setSelectedCategory] = useState(techStackData[0].category);
 
   const iconMap = {
@@ -33,7 +35,7 @@ export default function TechStack() {
   const activeColor = categoryColors[(activeIndex >= 0 ? activeIndex : 0) % categoryColors.length];
 
   return (
-    <section id="stack" className="py-20 relative bg-[#fffdf7]">
+    <section id="stack" className="py-20 relative bg-[var(--bg-color)]">
       {/* Background stripes texture wrapper */}
       <div className="absolute inset-0 bg-stripes pointer-events-none opacity-40" />
 
@@ -43,15 +45,15 @@ export default function TechStack() {
         <div className="flex flex-col items-center text-center mb-12">
           <div className="neo-section-label mb-4">
             <Terminal className="w-4 h-4" />
-            <span>TECH STACK</span>
+            <span>{t.techStack.label}</span>
           </div>
 
-          <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-[#1a1a1a] tracking-tight mb-4">
-            Technologies & Tools
+          <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-[var(--black-color)] tracking-tight mb-4">
+            {t.techStack.title}
           </h2>
 
           <p className="text-slate-700 text-sm sm:text-base max-w-2xl font-medium leading-relaxed">
-            Mastery of state-of-the-art Systems Engineering technologies, cloud architectures, and Artificial Intelligence inference.
+            {t.techStack.description}
           </p>
         </div>
 
@@ -66,12 +68,12 @@ export default function TechStack() {
                 onClick={() => setSelectedCategory(cat.category)}
                 className={`neo-tag cursor-pointer text-xs sm:text-sm font-mono font-bold px-4 py-2 transition-all duration-150 ${
                   isActive
-                    ? 'scale-105 shadow-[4px_4px_0px_#1a1a1a] translate-x-[-2px] translate-y-[-2px]'
-                    : 'bg-white hover:bg-slate-50 hover:translate-x-[-1px] hover:translate-y-[-1px] shadow-[2px_2px_0px_#1a1a1a]'
+                    ? 'scale-105 shadow-[4px_4px_0px_var(--black-color)] translate-x-[-2px] translate-y-[-2px]'
+                    : 'bg-[var(--card-color)] hover:bg-slate-50 hover:translate-x-[-1px] hover:translate-y-[-1px] shadow-[2px_2px_0px_var(--black-color)]'
                 }`}
                 style={{
                   backgroundColor: isActive ? tabColor : '#ffffff',
-                  color: '#1a1a1a'
+                  color: 'var(--black-color)'
                 }}
               >
                 {iconMap[cat.icon]}
@@ -92,18 +94,18 @@ export default function TechStack() {
           {activeCategoryData.items.map((item, idx) => (
             <div 
               key={idx}
-              className="neo-card-sm p-4 flex items-center justify-between gap-3 bg-white"
+              className="neo-card-sm p-4 flex items-center justify-between gap-3 bg-[var(--card-color)]"
             >
               {/* Left icon & text */}
               <div className="flex items-center gap-3 min-w-0">
                 <div 
-                  className="w-10 h-10 border-2 border-[#1a1a1a] flex items-center justify-center shrink-0 shadow-[2px_2px_0px_#1a1a1a]"
+                  className="w-10 h-10 border-2 border-[var(--black-color)] flex items-center justify-center shrink-0 shadow-[2px_2px_0px_var(--black-color)]"
                   style={{ backgroundColor: activeColor }}
                 >
-                  <CheckCircle2 className="w-5 h-5 text-[#1a1a1a]" />
+                  <CheckCircle2 className="w-5 h-5 text-[var(--black-color)]" />
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="font-heading font-bold text-sm text-[#1a1a1a] truncate">
+                  <span className="font-heading font-bold text-sm text-[var(--black-color)] truncate">
                     {item.name}
                   </span>
                   <span className="text-[11px] font-mono font-semibold text-slate-600">
@@ -126,48 +128,48 @@ export default function TechStack() {
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {/* Frontend Excellence */}
           <div 
-            className="neo-card p-6 bg-white flex flex-col justify-between"
+            className="neo-card p-6 bg-[var(--card-color)] flex flex-col justify-between"
             style={{ borderTop: '4px solid #38bdf8' }}
           >
             <div>
-              <div className="w-12 h-12 border-2 border-[#1a1a1a] bg-[#38bdf8] flex items-center justify-center mb-4 shadow-[3px_3px_0px_#1a1a1a]">
-                <Layout className="w-6 h-6 text-[#1a1a1a]" />
+              <div className="w-12 h-12 border-2 border-[var(--black-color)] bg-[#38bdf8] flex items-center justify-center mb-4 shadow-[3px_3px_0px_var(--black-color)]">
+                <Layout className="w-6 h-6 text-[var(--black-color)]" />
               </div>
-              <h3 className="font-heading font-extrabold text-lg text-[#1a1a1a] mb-2">Frontend Excellence</h3>
+              <h3 className="font-heading font-extrabold text-lg text-[var(--black-color)] mb-2">{t.techStack.frontendTitle}</h3>
               <p className="text-slate-700 text-xs sm:text-sm leading-relaxed font-normal">
-                React 19, Next.js (App Router), Zustand for reactive global state, Tailwind CSS v4 for ultra-fast interfaces.
+                {t.techStack.frontendDesc}
               </p>
             </div>
           </div>
 
           {/* Backend Architecture */}
           <div 
-            className="neo-card p-6 bg-white flex flex-col justify-between"
+            className="neo-card p-6 bg-[var(--card-color)] flex flex-col justify-between"
             style={{ borderTop: '4px solid #a3e635' }}
           >
             <div>
-              <div className="w-12 h-12 border-2 border-[#1a1a1a] bg-[#a3e635] flex items-center justify-center mb-4 shadow-[3px_3px_0px_#1a1a1a]">
-                <Server className="w-6 h-6 text-[#1a1a1a]" />
+              <div className="w-12 h-12 border-2 border-[var(--black-color)] bg-[#a3e635] flex items-center justify-center mb-4 shadow-[3px_3px_0px_var(--black-color)]">
+                <Server className="w-6 h-6 text-[var(--black-color)]" />
               </div>
-              <h3 className="font-heading font-extrabold text-lg text-[#1a1a1a] mb-2">Backend Architecture</h3>
+              <h3 className="font-heading font-extrabold text-lg text-[var(--black-color)] mb-2">{t.techStack.backendTitle}</h3>
               <p className="text-slate-700 text-xs sm:text-sm leading-relaxed font-normal">
-                FastAPI for ultra-low latency asynchronous APIs, Flask and Django for complex logic, Node.js and microservices.
+                {t.techStack.backendDesc}
               </p>
             </div>
           </div>
 
           {/* AI & Edge Computing */}
           <div 
-            className="neo-card p-6 bg-white flex flex-col justify-between"
+            className="neo-card p-6 bg-[var(--card-color)] flex flex-col justify-between"
             style={{ borderTop: '4px solid #f472b6' }}
           >
             <div>
-              <div className="w-12 h-12 border-2 border-[#1a1a1a] bg-[#f472b6] flex items-center justify-center mb-4 shadow-[3px_3px_0px_#1a1a1a]">
-                <Brain className="w-6 h-6 text-[#1a1a1a]" />
+              <div className="w-12 h-12 border-2 border-[var(--black-color)] bg-[#f472b6] flex items-center justify-center mb-4 shadow-[3px_3px_0px_var(--black-color)]">
+                <Brain className="w-6 h-6 text-[var(--black-color)]" />
               </div>
-              <h3 className="font-heading font-extrabold text-lg text-[#1a1a1a] mb-2">AI & Edge Computing</h3>
+              <h3 className="font-heading font-extrabold text-lg text-[var(--black-color)] mb-2">{t.techStack.aiTitle}</h3>
               <p className="text-slate-700 text-xs sm:text-sm leading-relaxed font-normal">
-                Quantized Machine Learning models with TensorFlow Lite and PyTorch for offline inference in Android and Vector DBs.
+                {t.techStack.aiDesc}
               </p>
             </div>
           </div>

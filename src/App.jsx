@@ -10,7 +10,7 @@ import ContactFooter from './components/ContactFooter';
 
 export default function App() {
   return (
-    <div className="relative min-h-screen bg-[#fffdf7] text-[#1a1a1a] font-['Inter',sans-serif] overflow-x-hidden">
+    <div className="relative min-h-screen bg-[var(--bg-color)] text-[var(--black-color)] font-body overflow-x-hidden">
       <BackgroundCanvas />
       <Navbar />
       <main className="relative z-10">

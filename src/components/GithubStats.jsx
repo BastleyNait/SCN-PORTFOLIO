@@ -2,27 +2,30 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Activity, Flame, ExternalLink } from 'lucide-react';
 import { Github } from './Icons';
-import { personalData } from '../data/portfolioData';
+import { useAppContext } from '../context/AppContext';
 
 export default function GithubStats() {
+  const { t, data } = useAppContext();
+  const personalData = data.personalData;
+
   return (
-    <section id="github" className="py-20 bg-stripes border-t-[3px] border-b-[3px] border-[#1a1a1a] relative z-10">
+    <section id="github" className="py-20 bg-stripes border-t-[3px] border-b-[3px] border-[var(--black-color)] relative z-10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-12">
           <div className="neo-section-label mb-4">
             <Github className="w-4 h-4" />
-            <span>OPEN SOURCE</span>
+            <span>{t.github.label}</span>
           </div>
 
-          <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-[#1a1a1a] tracking-tight mb-4">
-            GitHub Statistics
+          <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-[var(--black-color)] tracking-tight mb-4">
+            {t.github.title}
           </h2>
 
-          <p className="text-[#1a1a1a] font-mono text-xs sm:text-sm max-w-2xl leading-relaxed">
-            Constant development activity, open source repositories, and continuous contributions at{' '}
-            <span className="bg-[#27f5a9] px-1.5 py-0.5 border-2 border-[#1a1a1a] font-bold">
+          <p className="text-[var(--black-color)] font-mono text-xs sm:text-sm max-w-2xl leading-relaxed">
+            {t.github.description}{' '}
+            <span className="bg-[#27f5a9] px-1.5 py-0.5 border-2 border-[var(--black-color)] font-bold">
               @{personalData.username}
             </span>.
           </p>
@@ -42,9 +45,9 @@ export default function GithubStats() {
               transition={{ duration: 0.4 }}
               className="neo-card border-t-[4px] border-t-[#38bdf8] p-6 flex flex-col items-center justify-center"
             >
-              <div className="neo-tag bg-[#38bdf8] text-[#1a1a1a] mb-4">
+              <div className="neo-tag bg-[#38bdf8] text-[var(--black-color)] mb-4">
                 <Activity className="w-3.5 h-3.5" />
-                <span>ACTIVITY OVERVIEW</span>
+                <span>{t.github.activity}</span>
               </div>
               <img 
                 src={`https://github-readme-stats.vercel.app/api?username=${personalData.username}&show_icons=true&theme=default&include_all_commits=true&count_private=true&hide_border=false&border_color=1A1A1A&bg_color=FFFDF7&title_color=1A1A1A&icon_color=27f5a9&text_color=1A1A1A`} 
@@ -61,9 +64,9 @@ export default function GithubStats() {
               transition={{ duration: 0.4, delay: 0.1 }}
               className="neo-card border-t-[4px] border-t-[#fb923c] p-6 flex flex-col items-center justify-center"
             >
-              <div className="neo-tag bg-[#fb923c] text-[#1a1a1a] mb-4">
+              <div className="neo-tag bg-[#fb923c] text-[var(--black-color)] mb-4">
                 <Flame className="w-3.5 h-3.5" />
-                <span>TOP LANGUAGES</span>
+                <span>{t.github.languages}</span>
               </div>
               <img 
                 src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${personalData.username}&layout=compact&theme=default&hide_border=false&border_color=1A1A1A&bg_color=FFFDF7&title_color=1A1A1A&text_color=1A1A1A&langs_count=8`} 
@@ -82,9 +85,9 @@ export default function GithubStats() {
             transition={{ duration: 0.4, delay: 0.2 }}
             className="neo-card border-t-[4px] border-t-[#a3e635] p-6 w-full flex flex-col items-center justify-center"
           >
-            <div className="neo-tag bg-[#a3e635] text-[#1a1a1a] mb-4">
+            <div className="neo-tag bg-[#a3e635] text-[var(--black-color)] mb-4">
               <Flame className="w-3.5 h-3.5" />
-              <span>CONTRIBUTION STREAK</span>
+              <span>{t.github.streak}</span>
             </div>
             <img 
               src={`https://github-readme-streak-stats.herokuapp.com/?user=${personalData.username}&theme=default&hide_border=false&border=1A1A1A&background=FFFDF7&ring=27f5a9&fire=F87171&currStreakLabel=1A1A1A`} 
@@ -105,9 +108,9 @@ export default function GithubStats() {
               href={personalData.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="neo-btn bg-white text-[#1a1a1a] hover:bg-[#27f5a9]"
+              className="neo-btn bg-[var(--card-color)] text-[var(--black-color)] hover:bg-[#27f5a9]"
             >
-              <span>VIEW GITHUB PROFILE</span>
+              <span>{t.github.viewProfile}</span>
               <ExternalLink className="w-4 h-4" />
             </a>
           </motion.div>

@@ -1,3 +1,18 @@
+
+@layer base {
+  :root {
+    --bg-color: #fffdf7;
+    --black-color: #1a1a1a;
+    --card-color: #ffffff;
+  }
+  
+  .dark {
+    --bg-color: #757272;
+    --black-color: #000000;
+    --card-color: #6a6a6a;
+  }
+}
+
 @import "tailwindcss";
 
 @theme {
@@ -5,16 +20,16 @@
   --font-body: 'Inter', sans-serif;
   --font-mono: 'Fira Code', monospace;
 
-  --color-neo-bg: #fffdf7;
-  --color-neo-black: #1a1a1a;
-  --color-neo-yellow: #27f5a9;
-  --color-neo-lime: #a3e635;
+  --color-neo-bg: var(--bg-color);
+  --color-neo-black: var(--black-color);
+  --color-neo-yellow: #d5e0c1;
+  --color-neo-lime: ##27f5a9;
   --color-neo-pink: #f472b6;
   --color-neo-blue: #38bdf8;
   --color-neo-orange: #fb923c;
   --color-neo-purple: #c084fc;
   --color-neo-red: #f87171;
-  --color-neo-card: #ffffff;
+  --color-neo-card: var(--card-color);
 }
 
 @layer base {
@@ -32,7 +47,7 @@
 
   ::selection {
     background-color: #27f5a9;
-    color: #1a1a1a;
+    color: var(--black-color);
   }
 }
 
@@ -40,27 +55,27 @@
 
 /* Hard shadow card — the signature neobrutalist look */
 .neo-card {
-  background: #ffffff;
-  border: 3px solid #1a1a1a;
-  box-shadow: 6px 6px 0px #1a1a1a;
+  background: var(--card-color);
+  border: 3px solid var(--black-color);
+  box-shadow: 6px 6px 0px var(--black-color);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .neo-card:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 8px 8px 0px #1a1a1a;
+  box-shadow: 8px 8px 0px var(--black-color);
 }
 
 .neo-card-sm {
-  background: #ffffff;
-  border: 2px solid #1a1a1a;
-  box-shadow: 4px 4px 0px #1a1a1a;
+  background: var(--card-color);
+  border: 2px solid var(--black-color);
+  box-shadow: 4px 4px 0px var(--black-color);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .neo-card-sm:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px #1a1a1a;
+  box-shadow: 6px 6px 0px var(--black-color);
 }
 
 /* Colored shadow variants */
@@ -82,20 +97,20 @@
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border: 3px solid #1a1a1a;
-  box-shadow: 4px 4px 0px #1a1a1a;
+  border: 3px solid var(--black-color);
+  box-shadow: 4px 4px 0px var(--black-color);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
   cursor: pointer;
 }
 
 .neo-btn:hover {
   transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px #1a1a1a;
+  box-shadow: 6px 6px 0px var(--black-color);
 }
 
 .neo-btn:active {
   transform: translate(2px, 2px);
-  box-shadow: 0px 0px 0px #1a1a1a;
+  box-shadow: 0px 0px 0px var(--black-color);
 }
 
 /* Brutalist tag/badge */
@@ -107,14 +122,14 @@
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 600;
-  border: 2px solid #1a1a1a;
-  background: #ffffff;
+  border: 2px solid var(--black-color);
+  background: var(--card-color);
 }
 
 /* Section divider — thick dashed line */
 .neo-divider {
   border: none;
-  border-top: 3px dashed #1a1a1a;
+  border-top: 3px dashed var(--black-color);
   margin: 0;
 }
 
@@ -129,9 +144,9 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  border: 2px solid #1a1a1a;
-  background: #27f5a9;
-  box-shadow: 3px 3px 0px #1a1a1a;
+  border: 2px solid var(--black-color);
+  background: #d5e0c1;
+  box-shadow: 3px 3px 0px var(--black-color);
 }
 
 /* Custom scrollbar — brutalist */
@@ -141,15 +156,15 @@
 
 ::-webkit-scrollbar-track {
   background: var(--color-neo-bg);
-  border-left: 3px solid #1a1a1a;
+  border-left: 3px solid var(--black-color);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1a1a1a;
+  background: var(--black-color);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #27f5a9;
+  background: #d5e0c1;
 }
 
 /* Grid background pattern */

@@ -10,11 +10,13 @@ import {
   CheckCircle,
   Cpu
 } from 'lucide-react';
-import { engineeringPrinciples } from '../data/portfolioData';
+import { useAppContext } from '../context/AppContext';
 
 const colorCycle = ['#27f5a9', '#a3e635', '#f472b6', '#38bdf8', '#fb923c', '#c084fc'];
 
 export default function EngineeringSkills() {
+  const { t, data } = useAppContext();
+  const engineeringPrinciples = data.engineeringPrinciples;
   const iconMap = {
     Building2: <Building2 className="w-6 h-6" />,
     ClipboardCheck: <ClipboardCheck className="w-6 h-6" />,
@@ -25,22 +27,22 @@ export default function EngineeringSkills() {
   };
 
   return (
-    <section id="engineering" className="py-20 relative bg-[#fffdf7]">
+    <section id="engineering" className="py-20 relative bg-[var(--bg-color)]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-16">
           <div className="neo-section-label mb-4">
             <Cpu className="w-4 h-4" />
-            <span>ENGINEERING</span>
+            <span>{t.engineering.label}</span>
           </div>
 
-          <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-[#1a1a1a] tracking-tight mb-4">
-            Software Engineering
+          <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-[var(--black-color)] tracking-tight mb-4">
+            {t.engineering.title}
           </h2>
 
           <p className="text-slate-700 text-sm sm:text-base max-w-2xl font-medium leading-relaxed">
-            Beyond writing code, I bring structured engineering knowledge to build robust, secure, and maintainable products.
+            {t.engineering.description}
           </p>
         </div>
 
@@ -55,27 +57,27 @@ export default function EngineeringSkills() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="neo-card p-6 bg-white flex flex-col justify-between"
+                className="neo-card p-6 bg-[var(--card-color)] flex flex-col justify-between"
                 style={{ borderLeft: `4px solid ${color}` }}
               >
                 <div>
                   {/* Top: Icon and Tag */}
                   <div className="flex items-center justify-between mb-5">
                     <div 
-                      className="w-12 h-12 border-2 border-[#1a1a1a] flex items-center justify-center shadow-[2px_2px_0px_#1a1a1a]"
+                      className="w-12 h-12 border-2 border-[var(--black-color)] flex items-center justify-center shadow-[2px_2px_0px_var(--black-color)]"
                       style={{ backgroundColor: color }}
                     >
                       {iconMap[principle.icon]}
                     </div>
                     <span 
-                      className="neo-tag text-[11px] font-mono font-bold uppercase tracking-wider shadow-[2px_2px_0px_#1a1a1a]"
+                      className="neo-tag text-[11px] font-mono font-bold uppercase tracking-wider shadow-[2px_2px_0px_var(--black-color)]"
                       style={{ backgroundColor: color }}
                     >
                       {principle.tag}
                     </span>
                   </div>
 
-                  <h3 className="font-heading font-extrabold text-lg text-[#1a1a1a] mb-2">
+                  <h3 className="font-heading font-extrabold text-lg text-[var(--black-color)] mb-2">
                     {principle.title}
                   </h3>
 
@@ -85,10 +87,10 @@ export default function EngineeringSkills() {
                 </div>
 
                 {/* Bottom: Dashed separator & Production standards badge */}
-                <div className="pt-3 border-t-2 border-dashed border-[#1a1a1a] flex items-center gap-2">
+                <div className="pt-3 border-t-2 border-dashed border-[var(--black-color)] flex items-center gap-2">
                   <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span className="font-mono font-bold text-xs text-[#1a1a1a]">
-                    Production Standards
+                  <span className="font-mono font-bold text-xs text-[var(--black-color)]">
+                    {t.engineering.production}
                   </span>
                 </div>
               </motion.div>

@@ -13,7 +13,7 @@ import {
   Camera 
 } from 'lucide-react';
 import { Github, Linkedin, Whatsapp } from './Icons';
-import { personalData } from '../data/portfolioData';
+import { useAppContext } from '../context/AppContext';
 
 const STAT_COLORS = [
   'bg-[#27f5a9]', // Yellow
@@ -23,6 +23,8 @@ const STAT_COLORS = [
 ];
 
 export default function Hero() {
+  const { t, data } = useAppContext();
+  const personalData = data.personalData;
   const [textIndex, setTextIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
@@ -52,7 +54,7 @@ export default function Hero() {
   }, [displayText, isDeleting, textIndex, lines]);
 
   return (
-    <section id="hero" className="relative pt-28 pb-16 bg-[#fffdf7] bg-grid-neo overflow-hidden">
+    <section id="hero" className="relative pt-28 pb-16 bg-[var(--bg-color)] bg-grid-neo overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Main Grid: 7 / 5 split on lg */}
@@ -67,48 +69,48 @@ export default function Hero() {
           >
             {/* Status & Location Badges
             <div className="flex flex-wrap items-center gap-3 mb-6">
-              <span className="neo-tag bg-[#a3e635] text-[#1a1a1a] shadow-[2px_2px_0px_#1a1a1a]">
-                <span className="w-2 h-2 rounded-full bg-[#1a1a1a] animate-pulse" />
+              <span className="neo-tag bg-[#a3e635] text-[var(--black-color)] shadow-[2px_2px_0px_var(--black-color)]">
+                <span className="w-2 h-2 rounded-full bg-[var(--black-color)] animate-pulse" />
                 AVAILABLE FOR WORK
               </span>
-              <span className="neo-tag bg-white text-[#1a1a1a] shadow-[2px_2px_0px_#1a1a1a]">
-                <MapPin className="w-3.5 h-3.5 text-[#1a1a1a]" />
+              <span className="neo-tag bg-[var(--card-color)] text-[var(--black-color)] shadow-[2px_2px_0px_var(--black-color)]">
+                <MapPin className="w-3.5 h-3.5 text-[var(--black-color)]" />
                 {personalData.location}
               </span>
             </div> */}
 
             {/* Big Heading with Yellow Marker Highlight */}
-            <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.15] mb-5 text-[#1a1a1a]">
-              Hi 👋, I'm <br />
-              <span className="bg-[#27f5a9] px-2.5 py-0.5 border-[3px] border-[#1a1a1a] shadow-[4px_4px_0px_#1a1a1a] inline-block mt-2">
+            <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.15] mb-5 text-[var(--black-color)]">
+              {t.hero.greeting} <br />
+              <span className="bg-[#27f5a9] px-2.5 py-0.5 border-[3px] border-[var(--black-color)] shadow-[4px_4px_0px_var(--black-color)] inline-block mt-2">
                 {personalData.shortName}
               </span>
             </h1>
 
             {/* Typing Effect Terminal Box */}
-            <div className="bg-white border-[3px] border-[#1a1a1a] shadow-[4px_4px_0px_#1a1a1a] px-4 py-3 flex items-center gap-2.5 w-full max-w-lg mb-6">
-              <div className="bg-[#1a1a1a] p-1 text-[#27f5a9]">
+            <div className="bg-[var(--card-color)] border-[3px] border-[var(--black-color)] shadow-[4px_4px_0px_var(--black-color)] px-4 py-3 flex items-center gap-2.5 w-full max-w-lg mb-6">
+              <div className="bg-[var(--black-color)] p-1 text-[#27f5a9]">
                 <Terminal className="w-4 h-4 shrink-0" />
               </div>
-              <span className="font-mono text-xs sm:text-sm text-[#1a1a1a] font-bold tracking-wide break-words truncate">
+              <span className="font-mono text-xs sm:text-sm text-[var(--black-color)] font-bold tracking-wide break-words truncate">
                 {displayText}
               </span>
-              <span className="w-2 h-4 bg-[#1a1a1a] inline-block shrink-0 animate-pulse" />
+              <span className="w-2 h-4 bg-[var(--black-color)] inline-block shrink-0 animate-pulse" />
             </div>
 
             {/* University & Degree Badge */}
             <div className="neo-card-sm p-3.5 flex items-center gap-3 mb-6 max-w-xl w-full">
-              <div className="p-2 bg-[#27f5a9] border-2 border-[#1a1a1a] shrink-0">
-                <GraduationCap className="w-5 h-5 text-[#1a1a1a]" />
+              <div className="p-2 bg-[#27f5a9] border-2 border-[var(--black-color)] shrink-0">
+                <GraduationCap className="w-5 h-5 text-[var(--black-color)]" />
               </div>
-              <div className="text-xs sm:text-sm text-[#1a1a1a] leading-tight">
+              <div className="text-xs sm:text-sm text-[var(--black-color)] leading-tight">
                 <span className="font-bold">{personalData.degree}</span>
-                <span className="text-[#1a1a1a]/80"> — {personalData.status}</span>
+                <span className="text-[var(--black-color)]/80"> — {personalData.status}</span>
               </div>
             </div>
 
             {/* Bio Paragraph */}
-            <p className="text-[#1a1a1a] text-sm sm:text-base leading-relaxed font-normal mb-8 max-w-xl">
+            <p className="text-[var(--black-color)] text-sm sm:text-base leading-relaxed font-normal mb-8 max-w-xl">
               {personalData.bio}
             </p>
 
@@ -116,18 +118,18 @@ export default function Hero() {
             <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto">
               <a
                 href="#projects"
-                className="neo-btn bg-[#27f5a9] text-[#1a1a1a] hover:bg-[#eab308]"
+                className="neo-btn bg-[#27f5a9] text-[var(--black-color)] hover:bg-[#eab308]"
               >
-                <span>EXPLORE PROJECTS</span>
+                <span>{t.hero.exploreBtn}</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
 
               <a
                 href="./resume_2026.pdf"
                 download="resume_2026.pdf"
-                className="neo-btn bg-white text-[#1a1a1a] hover:bg-[#f3f4f6]"
+                className="neo-btn bg-[var(--card-color)] text-[var(--black-color)] hover:bg-[#f3f4f6]"
               >
-                <span>Download CV</span>
+                <span>{t.hero.downloadCv}</span>
               </a>
               {/* Social Icons with Neo-Brutalist Bordered Style */}
               <div className="flex items-center gap-3 ml-auto sm:ml-2 pt-2 sm:pt-0">
@@ -135,7 +137,7 @@ export default function Hero() {
                   href={personalData.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 bg-white border-2 border-[#1a1a1a] shadow-[4px_4px_0px_#1a1a1a] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_#1a1a1a] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center text-[#1a1a1a]"
+                  className="p-2.5 bg-[var(--card-color)] border-2 border-[var(--black-color)] shadow-[4px_4px_0px_var(--black-color)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_var(--black-color)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center text-[var(--black-color)]"
                   title="GitHub Profile"
                 >
                   <Github className="w-5 h-5" />
@@ -144,7 +146,7 @@ export default function Hero() {
                   href={personalData.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 bg-white border-2 border-[#1a1a1a] shadow-[4px_4px_0px_#1a1a1a] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_#1a1a1a] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center text-[#1a1a1a]"
+                  className="p-2.5 bg-[var(--card-color)] border-2 border-[var(--black-color)] shadow-[4px_4px_0px_var(--black-color)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_var(--black-color)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center text-[var(--black-color)]"
                   title="LinkedIn Profile"
                 >
                   <Linkedin className="w-5 h-5" />
@@ -153,7 +155,7 @@ export default function Hero() {
                   href={personalData.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 bg-white border-2 border-[#1a1a1a] shadow-[4px_4px_0px_#1a1a1a] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_#1a1a1a] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center text-[#1a1a1a]"
+                  className="p-2.5 bg-[var(--card-color)] border-2 border-[var(--black-color)] shadow-[4px_4px_0px_var(--black-color)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_var(--black-color)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center text-[var(--black-color)]"
                   title="WhatsApp"
                   aria-label="WhatsApp"
                 >
@@ -177,7 +179,7 @@ export default function Hero() {
               <motion.div 
                 animate={{ y: [-5, 5, -5] }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-4 -left-4 z-20 neo-tag bg-[#38bdf8] text-[#1a1a1a] shadow-[3px_3px_0px_#1a1a1a]"
+                className="absolute -top-4 -left-4 z-20 neo-tag bg-[#38bdf8] text-[var(--black-color)] shadow-[3px_3px_0px_var(--black-color)]"
               >
                 <Code2 className="w-3.5 h-3.5" />
                 <span>React + Next.js</span>
@@ -186,7 +188,7 @@ export default function Hero() {
               <motion.div 
                 animate={{ y: [5, -5, 5] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-1/2 -right-5 z-20 neo-tag bg-[#a3e635] text-[#1a1a1a] shadow-[3px_3px_0px_#1a1a1a]"
+                className="absolute top-1/2 -right-5 z-20 neo-tag bg-[#a3e635] text-[var(--black-color)] shadow-[3px_3px_0px_var(--black-color)]"
               >
                 <Layers className="w-3.5 h-3.5" />
                 <span>FastAPI</span>
@@ -195,7 +197,7 @@ export default function Hero() {
               <motion.div 
                 animate={{ y: [-4, 4, -4] }}
                 transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -bottom-4 left-4 z-20 neo-tag bg-[#f472b6] text-[#1a1a1a] shadow-[3px_3px_0px_#1a1a1a]"
+                className="absolute -bottom-4 left-4 z-20 neo-tag bg-[#f472b6] text-[var(--black-color)] shadow-[3px_3px_0px_var(--black-color)]"
               >
                 <Cpu className="w-3.5 h-3.5" />
                 <span>Android & Edge AI</span>
@@ -203,30 +205,30 @@ export default function Hero() {
               <motion.div 
                 animate={{ y: [-4, 4, -4] }}
                 transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-4 right-4 z-20 neo-tag bg-[#f472b6] text-[#1a1a1a] shadow-[3px_3px_0px_#1a1a1a]"
+                className="absolute -top-4 right-4 z-20 neo-tag bg-[#f472b6] text-[var(--black-color)] shadow-[3px_3px_0px_var(--black-color)]"
               >
                 <Cpu className="w-3.5 h-3.5" />
                 <span>Node.js & Django</span>
               </motion.div>
 
               {/* Neo-card Photo Container */}
-              <div className="w-full bg-white border-[3px] border-[#1a1a1a] shadow-[8px_8px_0px_#27f5a9] p-4 flex flex-col items-center">
+              <div className="w-full bg-[var(--card-color)] border-[3px] border-[var(--black-color)] shadow-[8px_8px_0px_#27f5a9] p-4 flex flex-col items-center">
                 
                 {/* Photo Placeholder / Image Area */}
-                <div className="relative w-full h-[280px] sm:h-[320px] bg-[#fffdf7] border-2 border-[#1a1a1a] flex flex-col items-center justify-center p-6 text-center overflow-hidden">
+                <div className="relative w-full h-[280px] sm:h-[320px] bg-[var(--bg-color)] border-2 border-[var(--black-color)] flex flex-col items-center justify-center p-6 text-center overflow-hidden">
                   
                   {/* Visual Placeholder when no image is present */}
-                  <div className="w-20 h-20 rounded-full bg-[#27f5a9] border-2 border-[#1a1a1a] flex items-center justify-center mb-3 shadow-[3px_3px_0px_#1a1a1a]">
-                    <UserCheck className="w-10 h-10 text-[#1a1a1a]" />
+                  <div className="w-20 h-20 rounded-full bg-[#27f5a9] border-2 border-[var(--black-color)] flex items-center justify-center mb-3 shadow-[3px_3px_0px_var(--black-color)]">
+                    <UserCheck className="w-10 h-10 text-[var(--black-color)]" />
                   </div>
 
-                  <div className="neo-tag bg-[#a3e635] text-[#1a1a1a] mb-2 shadow-[2px_2px_0px_#1a1a1a]">
+                  <div className="neo-tag bg-[#a3e635] text-[var(--black-color)] mb-2 shadow-[2px_2px_0px_var(--black-color)]">
                     <Camera className="w-3.5 h-3.5" />
-                    <span>YOUR PHOTO HERE</span>
+                    <span>{t.hero.photoPlaceholder}</span>
                   </div>
 
-                  <p className="text-[#1a1a1a] text-xs font-mono leading-tight max-w-[200px]">
-                    Place your image in <span className="bg-[#27f5a9] px-1 font-bold">/public/profile.jpg</span>
+                  <p className="text-[var(--black-color)] text-xs font-mono leading-tight max-w-[200px]">
+                    {t.hero.placeImage} <span className="bg-[#27f5a9] px-1 font-bold">/public/profile.jpg</span>
                   </p>
 
                   {/* Real Image Overlay */}
@@ -239,15 +241,15 @@ export default function Hero() {
                 </div>
 
                 {/* Below the Photo: Name & Tag */}
-                <div className="w-full mt-3.5 pt-3 border-t-2 border-dashed border-[#1a1a1a] flex items-center justify-between">
+                <div className="w-full mt-3.5 pt-3 border-t-2 border-dashed border-[var(--black-color)] flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#a3e635] border border-[#1a1a1a]" />
-                    <span className="font-heading font-extrabold text-xs sm:text-sm text-[#1a1a1a] tracking-tight">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#a3e635] border border-[var(--black-color)]" />
+                    <span className="font-heading font-extrabold text-xs sm:text-sm text-[var(--black-color)] tracking-tight">
                       {personalData.shortName}
                     </span>
                   </div>
-                  <span className="neo-tag bg-[#27f5a9] text-[10px] uppercase shadow-[2px_2px_0px_#1a1a1a]">
-                    UNSA ENGINEER
+                  <span className="neo-tag bg-[#27f5a9] text-[10px] uppercase shadow-[2px_2px_0px_var(--black-color)]">
+                    {t.hero.engineerBadge}
                   </span>
                 </div>
 
@@ -269,10 +271,10 @@ export default function Hero() {
             const colorBg = STAT_COLORS[index % STAT_COLORS.length];
             return (
               <div key={index} className="flex flex-col items-center text-center p-2">
-                <span className={`font-heading font-black text-2xl sm:text-3xl text-[#1a1a1a] px-3 py-0.5 border-2 border-[#1a1a1a] shadow-[3px_3px_0px_#1a1a1a] mb-2 ${colorBg}`}>
+                <span className={`font-heading font-black text-2xl sm:text-3xl text-[var(--black-color)] px-3 py-0.5 border-2 border-[var(--black-color)] shadow-[3px_3px_0px_var(--black-color)] mb-2 ${colorBg}`}>
                   {stat.value}
                 </span>
-                <span className="font-mono text-xs text-[#1a1a1a] font-bold tracking-tight">
+                <span className="font-mono text-xs text-[var(--black-color)] font-bold tracking-tight">
                   {stat.label}
                 </span>
               </div>
