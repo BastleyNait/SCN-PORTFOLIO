@@ -1,19 +1,51 @@
+@import "tailwindcss";
 
+/* ==========================================================================
+   DESIGN TOKENS
+   --ink drives text, borders and hard shadows, and flips with the theme.
+   --on-accent is the foreground for anything sitting on a bright accent fill,
+   so it stays dark in both themes and never inverts into an unreadable chip.
+   --black-color is kept as an alias so existing utilities keep working.
+   ========================================================================== */
 @layer base {
   :root {
+    color-scheme: light;
+
+    --ink: #1a1a1a;
+    --ink-rgb: 26, 26, 26;
     --bg-color: #fffdf7;
-    --black-color: #1a1a1a;
     --card-color: #ffffff;
+    --muted-color: rgba(26, 26, 26, 0.72);
+    --on-accent: #14120f;
+
+    --black-color: var(--ink);
+
+    --accent: #27f5a9;
+    --accent-lime: #a3e635;
+    --accent-pink: #f472b6;
+    --accent-blue: #38bdf8;
+    --accent-orange: #fb923c;
+    --accent-purple: #c084fc;
+    --accent-red: #f87171;
+
+    --grid-opacity: 0.06;
+    --stripe-opacity: 0.05;
   }
-  
+
   .dark {
-    --bg-color: #757272;
-    --black-color: #000000;
-    --card-color: #6a6a6a;
+    color-scheme: dark;
+
+    --ink: #f3efe4;
+    --ink-rgb: 243, 239, 228;
+    --bg-color: #12100e;
+    --card-color: #1d1a16;
+    --muted-color: rgba(243, 239, 228, 0.72);
+    --on-accent: #14120f;
+
+    --grid-opacity: 0.08;
+    --stripe-opacity: 0.07;
   }
 }
-
-@import "tailwindcss";
 
 @theme {
   --font-heading: 'Outfit', sans-serif;
@@ -21,21 +53,28 @@
   --font-mono: 'Fira Code', monospace;
 
   --color-neo-bg: var(--bg-color);
-  --color-neo-black: var(--black-color);
-  --color-neo-yellow: #d5e0c1;
-  --color-neo-lime: ##27f5a9;
-  --color-neo-pink: #f472b6;
-  --color-neo-blue: #38bdf8;
-  --color-neo-orange: #fb923c;
-  --color-neo-purple: #c084fc;
-  --color-neo-red: #f87171;
+  --color-neo-ink: var(--ink);
   --color-neo-card: var(--card-color);
+  --color-neo-muted: var(--muted-color);
+  --color-neo-accent: var(--accent);
+  --color-neo-lime: var(--accent-lime);
+  --color-neo-pink: var(--accent-pink);
+  --color-neo-blue: var(--accent-blue);
+  --color-neo-orange: var(--accent-orange);
+  --color-neo-purple: var(--accent-purple);
+  --color-neo-red: var(--accent-red);
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Fixed navbar is ~72px tall; keep anchored sections clear of it. */
+    scroll-padding-top: 6rem;
+  }
+
   body {
-    background-color: var(--color-neo-bg);
-    color: var(--color-neo-black);
+    background-color: var(--bg-color);
+    color: var(--ink);
     font-family: var(--font-body);
   }
 
@@ -46,142 +85,193 @@
   }
 
   ::selection {
-    background-color: #27f5a9;
-    color: var(--black-color);
+    background-color: var(--accent);
+    color: var(--on-accent);
+  }
+
+  /* One visible, consistent focus ring for every interactive element. */
+  :where(a, button, input, textarea, select, [tabindex]):focus-visible {
+    outline: 3px solid var(--accent-blue);
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 }
 
-/* ===== NEOBRUTALIST CORE UTILITIES ===== */
+/* ===== NEOBRUTALIST COMPONENT CLASSES =====
+   Declared inside @layer components so any Tailwind utility applied on
+   top of them still wins. Unlayered rules would silently outrank every
+   bg-* and text-* utility in the markup. */
+@layer components {
+  .neo-card {
+    background: var(--card-color);
+    border: 3px solid var(--ink);
+    box-shadow: 6px 6px 0px var(--ink);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
 
-/* Hard shadow card — the signature neobrutalist look */
-.neo-card {
-  background: var(--card-color);
-  border: 3px solid var(--black-color);
-  box-shadow: 6px 6px 0px var(--black-color);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  .neo-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0px var(--ink);
+  }
+
+  .neo-card-sm {
+    background: var(--card-color);
+    border: 2px solid var(--ink);
+    box-shadow: 4px 4px 0px var(--ink);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .neo-card-sm:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px var(--ink);
+  }
+
+  /* Flat card: no lift on hover, for dense content that should sit still. */
+  .neo-card-flat {
+    background: var(--card-color);
+    border: 3px solid var(--ink);
+    box-shadow: 6px 6px 0px var(--ink);
+  }
+
+  .neo-shadow-accent { box-shadow: 6px 6px 0px var(--accent); }
+  .neo-shadow-lime { box-shadow: 6px 6px 0px var(--accent-lime); }
+  .neo-shadow-pink { box-shadow: 6px 6px 0px var(--accent-pink); }
+  .neo-shadow-blue { box-shadow: 6px 6px 0px var(--accent-blue); }
+
+  .neo-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 800;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 3px solid var(--ink);
+    box-shadow: 4px 4px 0px var(--ink);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    cursor: pointer;
+  }
+
+  .neo-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px var(--ink);
+  }
+
+  .neo-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px var(--ink);
+  }
+
+  .neo-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.65rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    border: 2px solid var(--ink);
+    background: var(--card-color);
+    color: var(--ink);
+  }
+
+  .neo-divider {
+    border: none;
+    border-top: 3px dashed var(--ink);
+    margin: 0;
+  }
+
+  .neo-section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 2px solid var(--ink);
+    background: var(--accent);
+    color: var(--on-accent);
+    box-shadow: 3px 3px 0px var(--ink);
+  }
 }
 
-.neo-card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 8px 8px 0px var(--black-color);
+/* Any chip or button filled with a bright accent opts into dark text. */
+.on-accent {
+  color: var(--on-accent);
 }
 
-.neo-card-sm {
-  background: var(--card-color);
-  border: 2px solid var(--black-color);
-  box-shadow: 4px 4px 0px var(--black-color);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.neo-card-sm:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px var(--black-color);
-}
-
-/* Colored shadow variants */
-.neo-shadow-yellow { box-shadow: 6px 6px 0px #15fa97; }
-.neo-shadow-lime { box-shadow: 6px 6px 0px #a3e635; }
-.neo-shadow-pink { box-shadow: 6px 6px 0px #f472b6; }
-.neo-shadow-blue { box-shadow: 6px 6px 0px #38bdf8; }
-.neo-shadow-orange { box-shadow: 6px 6px 0px #fb923c; }
-.neo-shadow-purple { box-shadow: 6px 6px 0px #c084fc; }
-
-/* Brutalist button */
-.neo-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  font-weight: 800;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border: 3px solid var(--black-color);
-  box-shadow: 4px 4px 0px var(--black-color);
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
-  cursor: pointer;
-}
-
-.neo-btn:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0px var(--black-color);
-}
-
-.neo-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: 0px 0px 0px var(--black-color);
-}
-
-/* Brutalist tag/badge */
-.neo-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.25rem 0.65rem;
+/* Skip link: visible only once it takes focus. */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100%;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  background: var(--accent);
+  color: var(--on-accent);
+  border: 3px solid var(--ink);
+  box-shadow: 4px 4px 0px var(--ink);
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 600;
-  border: 2px solid var(--black-color);
-  background: var(--card-color);
-}
-
-/* Section divider — thick dashed line */
-.neo-divider {
-  border: none;
-  border-top: 3px dashed var(--black-color);
-  margin: 0;
-}
-
-/* Marquee style text for section titles */
-.neo-section-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 1rem;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
   font-weight: 700;
+  font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  border: 2px solid var(--black-color);
-  background: #d5e0c1;
-  box-shadow: 3px 3px 0px var(--black-color);
 }
 
-/* Custom scrollbar — brutalist */
+.skip-link:focus {
+  top: 1rem;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-neo-bg);
-  border-left: 3px solid var(--black-color);
+  background: var(--bg-color);
+  border-left: 3px solid var(--ink);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--black-color);
+  background: var(--ink);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #d5e0c1;
+  background: var(--accent);
 }
 
-/* Grid background pattern */
+/* Backdrop patterns follow the theme through --ink-rgb. */
 .bg-grid-neo {
   background-size: 30px 30px;
-  background-image: 
-    linear-gradient(to right, rgba(26, 26, 26, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(26, 26, 26, 0.06) 1px, transparent 1px);
+  background-image:
+    linear-gradient(to right, rgba(var(--ink-rgb), var(--grid-opacity)) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(var(--ink-rgb), var(--grid-opacity)) 1px, transparent 1px);
 }
 
-/* Striped background for accents */
 .bg-stripes {
   background-image: repeating-linear-gradient(
     -45deg,
     transparent,
     transparent 4px,
-    rgba(26, 26, 26, 0.05) 4px,
-    rgba(26, 26, 26, 0.05) 8px
+    rgba(var(--ink-rgb), var(--stripe-opacity)) 4px,
+    rgba(var(--ink-rgb), var(--stripe-opacity)) 8px
   );
+}
+
+/* Respect the operating-system motion preference across the whole page. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

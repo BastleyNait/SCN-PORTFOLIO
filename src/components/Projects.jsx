@@ -1,203 +1,205 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Sparkles, Eye } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { ExternalLink, Sparkles, Eye, GitBranch, UserCog } from 'lucide-react';
 import { Github } from './Icons';
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '../context/app-context';
 
-const techTagColors = [
-  'bg-[#27f5a9]', // Yellow
-  'bg-[#a3e635]', // Lime
-  'bg-[#38bdf8]', // Blue
-  'bg-[#f472b6]', // Pink
-  'bg-[#fb923c]', // Orange
-  'bg-[#c084fc]', // Purple
+const TECH_TAG_COLORS = [
+  'var(--accent)',
+  'var(--accent-lime)',
+  'var(--accent-blue)',
+  'var(--accent-pink)',
+  'var(--accent-orange)',
+  'var(--accent-purple)'
 ];
 
-const getStatusBadgeStyle = (status) => {
-  const s = (status || '').toLowerCase();
-  if (s.includes('prod')) {
-    return 'bg-[#a3e635] text-[var(--black-color)]';
-  }
-  if (s.includes('mobile') || s.includes('ai')) {
-    return 'bg-[#f472b6] text-[var(--black-color)]';
-  }
-  return 'bg-[#38bdf8] text-[var(--black-color)]';
-};
+const ALL = '__all__';
+
+/** Production reads green; anything else reads as a distinct build type. */
+function statusColor(status) {
+  const value = (status || '').toLowerCase();
+  if (value.startsWith('prod')) return 'var(--accent-lime)';
+  if (value.includes('ai')) return 'var(--accent-pink)';
+  return 'var(--accent-blue)';
+}
 
 export default function Projects() {
   const { t, data } = useAppContext();
   const projectsData = data.projectsData;
-  const [activeCategory, setActiveCategory] = useState(t.projects.categories['All']);
+  const reduceMotion = useReducedMotion();
+  const [activeCategory, setActiveCategory] = useState(ALL);
 
-  const categories = [
-    t.projects.categories['All'], 
-    t.projects.categories['Systems Engineer / Web'], 
-    t.projects.categories['E-Commerce & POS'], 
-    t.projects.categories['AI & Edge ML']
-  ];
+  /* Categories come from the project data itself, so a new project can never
+     end up in a filter that silently matches nothing. */
+  const categories = useMemo(
+    () => [ALL, ...Array.from(new Set(projectsData.map((project) => project.category)))],
+    [projectsData]
+  );
 
-  const filteredProjects = activeCategory === t.projects.categories['All']
+  const visibleProjects = activeCategory === ALL
     ? projectsData
-    : projectsData.filter(p => p.category === activeCategory);
+    : projectsData.filter((project) => project.category === activeCategory);
 
   return (
-    <section id="projects" className="py-20 relative z-10 bg-[var(--bg-color)]">
+    <section id="projects" className="py-20 relative z-10 bg-[var(--bg-color)]" aria-labelledby="projects-title">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
+
         <div className="flex flex-col items-center text-center mb-14">
-          <div className="inline-flex items-center gap-2 neo-section-label mb-4">
-            <Sparkles className="w-4 h-4 text-[var(--black-color)]" />
+          <div className="neo-section-label mb-4">
+            <Sparkles className="w-4 h-4" aria-hidden="true" />
             <span>{t.projects.portfolio}</span>
           </div>
 
-          <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mb-4 text-[var(--black-color)]">
+          <h2
+            id="projects-title"
+            className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mb-4 text-[var(--ink)] text-balance"
+          >
             {t.projects.featured}
           </h2>
 
-          <p className="text-[var(--black-color)]/80 font-medium text-sm sm:text-base max-w-2xl leading-relaxed">
+          <p className="text-[var(--muted-color)] text-sm sm:text-base max-w-2xl leading-relaxed">
             {t.projects.description}
           </p>
 
-          {/* Category Filter Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
+          <div className="flex flex-wrap items-center justify-center gap-3 mt-8" role="group" aria-label={t.projects.featured}>
             {categories.map((category) => {
               const isActive = activeCategory === category;
+              const label = category === ALL ? t.projects.allCategories : category;
+
               return (
                 <button
                   key={category}
+                  type="button"
                   onClick={() => setActiveCategory(category)}
-                  className={`px-4 py-2 text-xs sm:text-sm font-heading font-bold uppercase tracking-wider transition-all duration-150 rounded-sm cursor-pointer ${
+                  aria-pressed={isActive}
+                  className={`px-4 py-2 text-xs sm:text-sm font-heading font-bold uppercase tracking-wider transition-all duration-150 cursor-pointer border-2 border-[var(--ink)] ${
                     isActive
-                      ? 'bg-[#27f5a9] text-[var(--black-color)] border-[3px] border-[var(--black-color)] shadow-[4px_4px_0px_var(--black-color)] translate-x-[-1px] translate-y-[-1px]'
-                      : 'bg-[var(--card-color)] text-[var(--black-color)] border-2 border-[var(--black-color)] shadow-[2px_2px_0px_var(--black-color)] hover:bg-[#27f5a9]/20 hover:shadow-[3px_3px_0px_var(--black-color)] hover:translate-x-[-1px] hover:translate-y-[-1px]'
+                      ? 'bg-[var(--accent)] text-[var(--on-accent)] shadow-[4px_4px_0px_var(--ink)] -translate-x-px -translate-y-px'
+                      : 'bg-[var(--card-color)] text-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] hover:shadow-[3px_3px_0px_var(--ink)] hover:-translate-x-px hover:-translate-y-px'
                   }`}
                 >
-                  {category}
+                  {label}
                 </button>
               );
             })}
           </div>
         </div>
 
-        {/* Projects Grid Tiles */}
-        <motion.div 
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
+        <motion.ul layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 list-none p-0">
           <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project) => (
-              <motion.div
+            {visibleProjects.map((project) => (
+              <motion.li
                 key={project.id}
                 layout
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={reduceMotion ? false : { opacity: 0, scale: 0.94 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.94 }}
                 transition={{ duration: 0.3 }}
-                className="neo-card rounded-none flex flex-col justify-between overflow-hidden group bg-[var(--card-color)]"
+                className="neo-card flex flex-col overflow-hidden group"
               >
-                
-                {/* Tile Top: Browser Bar & Preview Image */}
-                <div className="relative w-full border-b-[3px] border-[var(--black-color)]">
-                  
-                  {/* Fake Browser Bar */}
-                  <div className="h-8 bg-[var(--bg-color)] border-b-2 border-[var(--black-color)] px-3 flex items-center justify-between">
-                    {/* 3 Browser Dots with thick borders */}
-                    <div className="flex items-center gap-1.5">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#f87171] border-2 border-[var(--black-color)] inline-block" />
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#27f5a9] border-2 border-[var(--black-color)] inline-block" />
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#a3e635] border-2 border-[var(--black-color)] inline-block" />
-                    </div>
-
-                    {/* URL text in Mono */}
-                    <span className="font-mono text-[10px] text-[var(--black-color)] font-semibold truncate max-w-[170px] bg-[var(--card-color)] px-2 py-0.5 border border-[var(--black-color)] rounded-none">
-                      {project.liveUrl ? project.liveUrl.replace(/^https?:\/\//, '') : `${project.id}.app`}
+                {/* Preview with a browser chrome affordance */}
+                <div className="relative w-full border-b-[3px] border-[var(--ink)]">
+                  <div className="h-8 bg-[var(--bg-color)] border-b-2 border-[var(--ink)] px-3 flex items-center justify-between gap-2">
+                    <span className="flex items-center gap-1.5 shrink-0" aria-hidden="true">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-red)] border-2 border-[var(--ink)]" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent)] border-2 border-[var(--ink)]" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-lime)] border-2 border-[var(--ink)]" />
                     </span>
 
-                    <div className="w-4" />
+                    <span className="font-mono text-[10px] text-[var(--ink)] font-semibold truncate bg-[var(--card-color)] px-2 py-0.5 border border-[var(--ink)]">
+                      {project.liveUrl ? project.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '') : `${project.id}.apk`}
+                    </span>
+
+                    <span className="w-4 shrink-0" aria-hidden="true" />
                   </div>
 
-                  {/* Image Container with Hover Overlay */}
                   <div className="relative w-full h-48 bg-[var(--bg-color)] overflow-hidden">
-                    <img 
-                      src={project.previewFallbackImage} 
-                      alt={project.title}
+                    <img
+                      src={project.previewFallbackImage}
+                      alt={`${project.title} preview`}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
                     />
 
-                    {/* Status Tag (Top-Left) */}
-                    <div className="absolute bottom-3 right-3 z-10">
-                      <span className={`neo-tag rounded-none shadow-[2px_2px_0px_var(--black-color)] text-[10px] font-mono font-bold uppercase tracking-wider ${getStatusBadgeStyle(project.status)}`}>
-                        {project.status}
-                      </span>
-                    </div>
+                    <span
+                      className="absolute bottom-3 right-3 z-10 neo-tag on-accent shadow-[2px_2px_0px_var(--ink)] text-[10px] font-bold uppercase tracking-wider"
+                      style={{ backgroundColor: statusColor(project.status) }}
+                    >
+                      {project.status}
+                    </span>
 
-                    {/* Hover Overlay with ABRIR PÁGINA Button */}
-                    <div className="absolute inset-0 bg-[var(--black-color)]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center z-20">
+                    <span className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-200 flex items-center justify-center z-20">
                       <a
                         href={project.liveUrl || project.repoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="neo-btn bg-[#27f5a9] text-[var(--black-color)] text-xs py-2 px-4 shadow-[4px_4px_0px_var(--black-color)] hover:bg-[#fde047]"
-                        title={`Visit ${project.title}`}
+                        className="neo-btn bg-[var(--accent)] text-[var(--on-accent)] text-xs py-2 px-4"
                       >
-                        <Eye className="w-4 h-4" />
+                        <Eye className="w-4 h-4" aria-hidden="true" />
                         <span>{t.projects.viewProject}</span>
                       </a>
-                    </div>
+                    </span>
                   </div>
-
                 </div>
 
-                {/* Tile Content Area */}
-                <div className="p-5 flex-1 flex flex-col justify-between">
-                  <div>
-                    {/* Header: Title and Category */}
-                    <div className="flex items-start justify-between gap-2 mb-2">
-                      <h3 className="font-heading font-black text-xl text-[var(--black-color)] leading-tight">
-                        {project.title}
-                      </h3>
-                      <span className="neo-tag bg-[var(--card-color)] text-[var(--black-color)] text-[10px] font-mono font-semibold shrink-0">
-                        {project.category}
-                      </span>
-                    </div>
+                <div className="p-5 flex-1 flex flex-col">
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <h3 className="font-heading font-black text-xl text-[var(--ink)] leading-tight">
+                      {project.title}
+                    </h3>
+                    <span className="neo-tag text-[10px] font-semibold shrink-0">
+                      {project.category}
+                    </span>
+                  </div>
 
-                    {/* Description */}
-                    <p className="text-[var(--black-color)]/85 text-xs sm:text-sm font-medium leading-relaxed mb-4">
-                      {project.description}
+                  <p className="text-[var(--muted-color)] text-xs sm:text-sm leading-relaxed mb-4">
+                    {project.description}
+                  </p>
+
+                  {/* The decision behind the project, given more weight than the stack */}
+                  <div className="bg-[var(--bg-color)] border-2 border-[var(--ink)] p-3 mb-4">
+                    <p className="font-mono text-[10px] font-black uppercase tracking-[0.18em] text-[var(--muted-color)] mb-1.5 flex items-center gap-1.5">
+                      <GitBranch className="w-3 h-3" aria-hidden="true" />
+                      {t.projects.decisionLabel}
+                    </p>
+                    <p className="text-[var(--ink)] text-xs leading-relaxed font-medium">
+                      {project.keyDecision}
                     </p>
                   </div>
 
-                  {/* Bottom section: Tech Stack, Divider, Action Buttons */}
-                  <div>
-                    {/* Tech Stack Tags */}
-                    <div className="flex flex-wrap gap-1.5 mb-4">
-                      {project.tech.map((t, idx) => (
-                        <span 
-                          key={idx}
-                          className={`neo-tag rounded-none text-[10px] font-mono font-bold text-[var(--black-color)] shadow-[2px_2px_0px_var(--black-color)] ${
-                            techTagColors[idx % techTagColors.length]
-                          }`}
+                  <p className="font-mono text-[10px] text-[var(--muted-color)] uppercase tracking-wider mb-4 flex items-start gap-1.5">
+                    <UserCog className="w-3 h-3 mt-0.5 shrink-0" aria-hidden="true" />
+                    <span>
+                      <span className="font-black">{t.projects.roleLabel}:</span> {project.role}
+                    </span>
+                  </p>
+
+                  <div className="mt-auto">
+                    <ul className="flex flex-wrap gap-1.5 mb-4 list-none p-0">
+                      {project.tech.map((tech, index) => (
+                        <li
+                          key={tech}
+                          className="neo-tag on-accent text-[10px] font-bold shadow-[2px_2px_0px_var(--ink)]"
+                          style={{ backgroundColor: TECH_TAG_COLORS[index % TECH_TAG_COLORS.length] }}
                         >
-                          {t}
-                        </span>
+                          {tech}
+                        </li>
                       ))}
-                    </div>
+                    </ul>
 
-                    {/* Dashed Separator */}
-                    <div className="border-t-2 border-dashed border-[var(--black-color)] my-3" />
+                    <div className="border-t-2 border-dashed border-[var(--ink)] my-3" />
 
-                    {/* Action Buttons */}
                     <div className="flex items-center gap-2 pt-1">
                       {project.liveUrl && (
                         <a
                           href={project.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="neo-btn flex-1 bg-[#27f5a9] text-[var(--black-color)] text-xs py-2 px-3 border-2 border-[var(--black-color)] shadow-[3px_3px_0px_var(--black-color)] hover:bg-[#fde047]"
+                          className="neo-btn flex-1 bg-[var(--accent)] text-[var(--on-accent)] text-xs py-2 px-3 border-2 shadow-[3px_3px_0px_var(--ink)]"
                         >
                           <span>{t.projects.liveDemo}</span>
-                          <ExternalLink className="w-3.5 h-3.5" />
+                          <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
                         </a>
                       )}
 
@@ -205,23 +207,27 @@ export default function Projects() {
                         href={project.repoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`neo-btn bg-[var(--card-color)] text-[var(--black-color)] text-xs py-2 px-3 border-2 border-[var(--black-color)] shadow-[3px_3px_0px_var(--black-color)] hover:bg-[#27f5a9]/20 ${
-                          !project.liveUrl ? 'flex-1' : ''
-                        }`}
                         title={t.projects.viewCode}
+                        className={`neo-btn bg-[var(--card-color)] text-[var(--ink)] text-xs py-2 px-3 border-2 shadow-[3px_3px_0px_var(--ink)] ${
+                          project.liveUrl ? '' : 'flex-1'
+                        }`}
                       >
                         <Github className="w-3.5 h-3.5" />
                         <span>{t.projects.repo}</span>
                       </a>
                     </div>
                   </div>
-
                 </div>
-
-              </motion.div>
+              </motion.li>
             ))}
           </AnimatePresence>
-        </motion.div>
+        </motion.ul>
+
+        {visibleProjects.length === 0 && (
+          <p className="text-center text-[var(--muted-color)] font-mono text-sm mt-10">
+            {t.projects.empty}
+          </p>
+        )}
 
       </div>
     </section>

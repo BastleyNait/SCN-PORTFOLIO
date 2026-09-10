@@ -1,132 +1,148 @@
 import React, { useState } from 'react';
 import { Mail, Copy, Check, Send, MapPin, Sparkles } from 'lucide-react';
-import { useAppContext } from '../context/AppContext';
+import { Github, Linkedin, Whatsapp } from './Icons';
+import { useAppContext } from '../context/app-context';
+
+const INPUT_CLASS =
+  'w-full px-3.5 py-2.5 bg-[var(--bg-color)] border-[3px] border-[var(--ink)] font-mono text-xs sm:text-sm text-[var(--ink)] placeholder:text-[var(--muted-color)] focus:bg-[var(--card-color)] focus:shadow-[3px_3px_0px_var(--ink)] transition-all';
+
+const LABEL_CLASS =
+  'block font-mono text-xs font-bold text-[var(--ink)] uppercase mb-1';
 
 export default function ContactFooter() {
   const { t, data } = useAppContext();
   const personalData = data.personalData;
   const [copied, setCopied] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(personalData.email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(personalData.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      /* Clipboard access can be denied; the address is visible on the button. */
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setFormSubmitted(true);
-    setTimeout(() => setFormSubmitted(false), 4000);
+  /* No backend and no third-party form service: the visitor's own mail client
+     opens with the message prefilled, which is what the note under the form
+     promises. Nothing leaves the page on its own. */
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const name = String(form.get('name') || '').trim();
+    const email = String(form.get('email') || '').trim();
+    const message = String(form.get('message') || '').trim();
+
+    const subject = `Portfolio contact — ${name}`;
+    const body = `${message}\n\n—\n${name}\n${email}`;
+
+    window.location.href =
+      `mailto:${personalData.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   return (
-    <footer id="contact" className="pt-20 pb-8 relative z-10">
+    <footer id="contact" className="pt-20 pb-8 relative z-10 bg-[var(--bg-color)]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Main CTA Banner Card */}
-        <div className="bg-[#27f5a9] border-[3px] border-[var(--black-color)] shadow-[8px_8px_0px_var(--black-color)] p-8 sm:p-12 mb-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
-            {/* Left Info Column (7 cols on lg) */}
+
+        <div className="bg-[var(--accent)] border-[3px] border-[var(--ink)] shadow-[8px_8px_0px_var(--ink)] p-8 sm:p-12 mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+
             <div className="lg:col-span-7 flex flex-col items-start">
-              <div className="neo-section-label bg-[var(--card-color)] text-[var(--black-color)] mb-4">
-                <Sparkles className="w-4 h-4" />
+              <div className="neo-section-label bg-[var(--card-color)] text-[var(--ink)] mb-4">
+                <Sparkles className="w-4 h-4" aria-hidden="true" />
                 <span>{t.contact.label}</span>
               </div>
 
-              <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight text-[var(--black-color)] mb-4 leading-tight">
+              <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight text-[var(--on-accent)] mb-4 leading-tight text-balance">
                 {t.contact.title}
               </h2>
 
-              <p className="text-[var(--black-color)] font-medium text-sm sm:text-base leading-relaxed mb-8 max-w-lg">
+              <p className="text-[var(--on-accent)] font-medium text-sm sm:text-base leading-relaxed mb-8 max-w-lg">
                 {t.contact.description}
               </p>
 
-              {/* Copy Email Button */}
               <div className="flex flex-wrap items-center gap-3">
                 <button
                   type="button"
                   onClick={handleCopyEmail}
-                  className="neo-btn bg-[var(--card-color)] text-[var(--black-color)] hover:bg-stone-50 font-mono text-xs sm:text-sm normal-case tracking-normal py-3 px-5"
+                  className="neo-btn bg-[var(--card-color)] text-[var(--ink)] font-mono text-xs sm:text-sm normal-case tracking-normal py-3 px-5"
                 >
-                  <Mail className="w-4 h-4" />
+                  <Mail className="w-4 h-4" aria-hidden="true" />
                   <span>{personalData.email}</span>
-                  <div className="ml-2 pl-2 border-l-2 border-[var(--black-color)] flex items-center">
-                    {copied ? (
-                      <Check className="w-4 h-4 text-emerald-600" />
-                    ) : (
-                      <Copy className="w-4 h-4 text-[var(--black-color)]" />
-                    )}
-                  </div>
+                  <span className="ml-2 pl-2 border-l-2 border-[var(--ink)] flex items-center">
+                    {copied
+                      ? <Check className="w-4 h-4" aria-hidden="true" />
+                      : <Copy className="w-4 h-4" aria-hidden="true" />}
+                  </span>
                 </button>
 
-                {copied && (
-                  <span className="neo-tag bg-emerald-300 text-[var(--black-color)] font-mono text-xs font-bold animate-pulse">
-                    <span>{t.contact.copied}</span>
-                  </span>
-                )}
+                <span className="neo-tag on-accent bg-[var(--accent-lime)] font-bold" role="status" aria-live="polite">
+                  {copied ? t.contact.copied : ''}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-3 mt-8">
+                <SocialLink href={personalData.github} label="GitHub"><Github className="w-5 h-5" /></SocialLink>
+                <SocialLink href={personalData.linkedin} label="LinkedIn"><Linkedin className="w-5 h-5" /></SocialLink>
+                <SocialLink href={personalData.whatsapp} label="WhatsApp"><Whatsapp className="w-5 h-5" /></SocialLink>
               </div>
             </div>
 
-            {/* Right Form Column (5 cols on lg) */}
             <div className="lg:col-span-5">
-              <div className="neo-card p-6 sm:p-8 bg-[var(--card-color)]">
-                <div className="neo-section-label bg-[#a3e635] text-[var(--black-color)] mb-6">
-                  <Send className="w-4 h-4" />
+              <div className="neo-card-flat p-6 sm:p-8">
+                <div className="neo-section-label on-accent bg-[var(--accent-lime)] mb-6">
+                  <Send className="w-4 h-4" aria-hidden="true" />
                   <span>{t.contact.formTitle}</span>
                 </div>
-                
+
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label htmlFor="name" className="block font-mono text-xs font-bold text-[var(--black-color)] uppercase mb-1">
-                      {t.contact.nameLabel}
-                    </label>
+                    <label htmlFor="contact-name" className={LABEL_CLASS}>{t.contact.nameLabel}</label>
                     <input
+                      id="contact-name"
+                      name="name"
                       type="text"
                       required
-                      placeholder="Your Name / Company"
-                      className="w-full px-3.5 py-2.5 bg-[var(--bg-color)] border-[3px] border-[var(--black-color)] rounded-none font-mono text-xs sm:text-sm text-[var(--black-color)] placeholder:text-stone-400 focus:outline-none focus:bg-[var(--card-color)] focus:shadow-[3px_3px_0px_var(--black-color)] transition-all"
+                      autoComplete="name"
+                      placeholder={t.contact.namePlaceholder}
+                      className={INPUT_CLASS}
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block font-mono text-xs font-bold text-[var(--black-color)] uppercase mb-1">
-                      {t.contact.emailLabel}
-                    </label>
+                    <label htmlFor="contact-email" className={LABEL_CLASS}>{t.contact.emailLabel}</label>
                     <input
+                      id="contact-email"
+                      name="email"
                       type="email"
                       required
-                      placeholder="tuemail@ejemplo.com"
-                      className="w-full px-3.5 py-2.5 bg-[var(--bg-color)] border-[3px] border-[var(--black-color)] rounded-none font-mono text-xs sm:text-sm text-[var(--black-color)] placeholder:text-stone-400 focus:outline-none focus:bg-[var(--card-color)] focus:shadow-[3px_3px_0px_var(--black-color)] transition-all"
+                      autoComplete="email"
+                      placeholder={t.contact.emailPlaceholder}
+                      className={INPUT_CLASS}
                     />
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block font-mono text-xs font-bold text-[var(--black-color)] uppercase mb-1">
-                      {t.contact.messageLabel}
-                    </label>
+                    <label htmlFor="contact-message" className={LABEL_CLASS}>{t.contact.messageLabel}</label>
                     <textarea
+                      id="contact-message"
+                      name="message"
                       required
-                      rows={3}
+                      rows={4}
                       placeholder={t.contact.messagePlaceholder}
-                      className="w-full px-3.5 py-2.5 bg-[var(--bg-color)] border-[3px] border-[var(--black-color)] rounded-none font-mono text-xs sm:text-sm text-[var(--black-color)] placeholder:text-stone-400 focus:outline-none focus:bg-[var(--card-color)] focus:shadow-[3px_3px_0px_var(--black-color)] transition-all resize-none"
+                      className={`${INPUT_CLASS} resize-none`}
                     />
                   </div>
 
-                  <button
-                    type="submit"
-                    className="neo-btn bg-[var(--black-color)] text-white hover:bg-black hover:text-[#27f5a9] w-full mt-2"
-                  >
-                    <Send className="w-4 h-4" />
+                  <button type="submit" className="neo-btn bg-[var(--ink)] text-[var(--bg-color)] w-full mt-2">
+                    <Send className="w-4 h-4" aria-hidden="true" />
                     <span>{t.contact.sendBtn}</span>
                   </button>
 
-                  {formSubmitted && (
-                    <div className="neo-tag bg-emerald-300 text-[var(--black-color)] text-center font-bold text-xs py-2 px-3 justify-center">
-                      {t.contact.successMsg}
-                    </div>
-                  )}
+                  <p className="font-mono text-[10px] text-[var(--muted-color)] leading-relaxed pt-1">
+                    {t.contact.formNote}
+                  </p>
                 </form>
               </div>
             </div>
@@ -134,51 +150,56 @@ export default function ContactFooter() {
           </div>
         </div>
 
-        {/* Tagline separator */}
-        <div className="my-8 text-center">
-          <p className="font-mono font-bold text-sm sm:text-base text-[var(--black-color)] tracking-wider uppercase">
-            {t.contact.tagline}
-          </p>
-        </div>
+        <p className="my-8 text-center font-mono font-bold text-sm sm:text-base text-[var(--ink)] tracking-wider uppercase">
+          {t.contact.tagline}
+        </p>
 
-        {/* Footer Sub-bar */}
-        <div className="border-t-[3px] border-[var(--black-color)] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono font-medium text-[var(--black-color)]">
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-            <span className="font-bold">© 2026 {personalData.name}</span>
-            <span>•</span>
+        <div className="border-t-[3px] border-[var(--ink)] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono font-medium text-[var(--ink)]">
+          <p className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+            <span className="font-bold">© {new Date().getFullYear()} {personalData.name}</span>
+            <span aria-hidden="true">•</span>
             <span className="inline-flex items-center gap-1">
-              <MapPin className="w-3.5 h-3.5" />
-              {personalData.location || "Arequipa, Peru"}
+              <MapPin className="w-3.5 h-3.5" aria-hidden="true" />
+              {personalData.location}
             </span>
-          </div>
+          </p>
 
-          <div className="flex items-center gap-2 sm:gap-4">
-            <a 
-              href={personalData.linkedin} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="px-2.5 py-1 border-2 border-transparent hover:border-[var(--black-color)] hover:bg-[#27f5a9] transition-all font-bold"
-            >
-              LinkedIn
-            </a>
-            <a 
-              href={personalData.github} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="px-2.5 py-1 border-2 border-transparent hover:border-[var(--black-color)] hover:bg-[#27f5a9] transition-all font-bold"
-            >
-              GitHub
-            </a>
-            <a 
-              href={`mailto:${personalData.email}`} 
-              className="px-2.5 py-1 border-2 border-transparent hover:border-[var(--black-color)] hover:bg-[#27f5a9] transition-all font-bold"
-            >
-              Email
-            </a>
-          </div>
+          <nav className="flex items-center gap-2 sm:gap-4" aria-label="Footer">
+            <FooterLink href={personalData.linkedin}>LinkedIn</FooterLink>
+            <FooterLink href={personalData.github}>GitHub</FooterLink>
+            <FooterLink href={`mailto:${personalData.email}`}>Email</FooterLink>
+          </nav>
         </div>
 
       </div>
     </footer>
+  );
+}
+
+function SocialLink({ href, label, children }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className="p-2.5 bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0px_var(--ink)] transition-all flex items-center justify-center text-[var(--ink)]"
+    >
+      {children}
+    </a>
+  );
+}
+
+function FooterLink({ href, children }) {
+  const isExternal = href.startsWith('http');
+  return (
+    <a
+      href={href}
+      target={isExternal ? '_blank' : undefined}
+      rel={isExternal ? 'noopener noreferrer' : undefined}
+      className="px-2.5 py-1 border-2 border-transparent hover:border-[var(--ink)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] transition-all font-bold"
+    >
+      {children}
+    </a>
   );
 }

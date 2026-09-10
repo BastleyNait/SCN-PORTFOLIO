@@ -1,40 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { 
-  Terminal, 
-  MapPin, 
-  GraduationCap, 
-  ArrowRight, 
-  Mail, 
-  Code2, 
-  Layers, 
-  Cpu, 
-  UserCheck, 
-  Camera 
+import React, { useEffect, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import {
+  Terminal,
+  MapPin,
+  GraduationCap,
+  ArrowRight,
+  Download,
+  Rocket,
+  ScrollText,
+  Boxes,
+  Braces,
+  UserCheck
 } from 'lucide-react';
 import { Github, Linkedin, Whatsapp } from './Icons';
-import { useAppContext } from '../context/AppContext';
+import { useAppContext } from '../context/app-context';
 
 const STAT_COLORS = [
-  'bg-[#27f5a9]', // Yellow
-  'bg-[#a3e635]', // Lime
-  'bg-[#3cb371]', // Pink
-  'bg-[#38bdf8]', // Blue
+  'var(--accent)',
+  'var(--accent-blue)',
+  'var(--accent-pink)',
+  'var(--accent-lime)'
 ];
 
-export default function Hero() {
-  const { t, data } = useAppContext();
-  const personalData = data.personalData;
-  const [textIndex, setTextIndex] = useState(0);
+const STAT_ICONS = {
+  Rocket: Rocket,
+  ScrollText: ScrollText,
+  Boxes: Boxes,
+  Braces: Braces
+};
+
+const SOCIAL_LINK_CLASS =
+  'p-2.5 bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[4px_4px_0px_var(--ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_var(--ink)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center text-[var(--ink)]';
+
+/** Types the tagline out character by character, or shows it whole when the
+ *  visitor has asked the system to reduce motion. */
+function useTypedLine(lines, enabled) {
+  const [lineIndex, setLineIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const lines = personalData.typingLines;
-
   useEffect(() => {
-    const currentLine = lines[textIndex];
-    const typingSpeed = isDeleting ? 30 : 60;
+    if (!enabled) return undefined;
 
+    const currentLine = lines[lineIndex];
     const timeout = setTimeout(() => {
       if (!isDeleting) {
         setDisplayText(currentLine.substring(0, displayText.length + 1));
@@ -45,244 +53,213 @@ export default function Hero() {
         setDisplayText(currentLine.substring(0, displayText.length - 1));
         if (displayText.length === 0) {
           setIsDeleting(false);
-          setTextIndex((prev) => (prev + 1) % lines.length);
+          setLineIndex((prev) => (prev + 1) % lines.length);
         }
       }
-    }, typingSpeed);
+    }, isDeleting ? 30 : 60);
 
     return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, textIndex, lines]);
+  }, [displayText, isDeleting, lineIndex, lines, enabled]);
+
+  return enabled ? displayText : lines[0];
+}
+
+export default function Hero() {
+  const { t, data } = useAppContext();
+  const personalData = data.personalData;
+  const reduceMotion = useReducedMotion();
+  const [photoFailed, setPhotoFailed] = useState(false);
+
+  const displayText = useTypedLine(personalData.typingLines, !reduceMotion);
 
   return (
     <section id="hero" className="relative pt-28 pb-16 bg-[var(--bg-color)] bg-grid-neo overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Main Grid: 7 / 5 split on lg */}
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
-          {/* LEFT COLUMN (lg:col-span-7) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+
+          {/* LEFT: identity, position, calls to action */}
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="lg:col-span-7 flex flex-col items-start"
           >
-            {/* Status & Location Badges
             <div className="flex flex-wrap items-center gap-3 mb-6">
-              <span className="neo-tag bg-[#a3e635] text-[var(--black-color)] shadow-[2px_2px_0px_var(--black-color)]">
-                <span className="w-2 h-2 rounded-full bg-[var(--black-color)] animate-pulse" />
-                AVAILABLE FOR WORK
+              <span className="neo-tag on-accent bg-[var(--accent-lime)] shadow-[2px_2px_0px_var(--ink)] font-bold uppercase tracking-wider">
+                <span className="w-2 h-2 rounded-full bg-[var(--on-accent)] animate-pulse" aria-hidden="true" />
+                {t.hero.available}
               </span>
-              <span className="neo-tag bg-[var(--card-color)] text-[var(--black-color)] shadow-[2px_2px_0px_var(--black-color)]">
-                <MapPin className="w-3.5 h-3.5 text-[var(--black-color)]" />
+              <span className="neo-tag shadow-[2px_2px_0px_var(--ink)]">
+                <MapPin className="w-3.5 h-3.5" aria-hidden="true" />
                 {personalData.location}
               </span>
-            </div> */}
+            </div>
 
-            {/* Big Heading with Yellow Marker Highlight */}
-            <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.15] mb-5 text-[var(--black-color)]">
+            <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.15] mb-4 text-[var(--ink)]">
               {t.hero.greeting} <br />
-              <span className="bg-[#27f5a9] px-2.5 py-0.5 border-[3px] border-[var(--black-color)] shadow-[4px_4px_0px_var(--black-color)] inline-block mt-2">
+              <span className="bg-[var(--accent)] text-[var(--on-accent)] px-2.5 py-0.5 border-[3px] border-[var(--ink)] shadow-[4px_4px_0px_var(--ink)] inline-block mt-2">
                 {personalData.shortName}
               </span>
             </h1>
 
-            {/* Typing Effect Terminal Box */}
-            <div className="bg-[var(--card-color)] border-[3px] border-[var(--black-color)] shadow-[4px_4px_0px_var(--black-color)] px-4 py-3 flex items-center gap-2.5 w-full max-w-lg mb-6">
-              <div className="bg-[var(--black-color)] p-1 text-[#27f5a9]">
-                <Terminal className="w-4 h-4 shrink-0" />
-              </div>
-              <span className="font-mono text-xs sm:text-sm text-[var(--black-color)] font-bold tracking-wide break-words truncate">
+            {/* The positioning line — the single sentence this page is built around */}
+            <p className="font-heading font-extrabold text-xl sm:text-2xl text-[var(--ink)] leading-snug mb-6 max-w-xl text-balance">
+              {personalData.headline}
+            </p>
+
+            <div className="bg-[var(--card-color)] border-[3px] border-[var(--ink)] shadow-[4px_4px_0px_var(--ink)] px-4 py-3 flex items-center gap-2.5 w-full max-w-lg mb-6">
+              <span className="bg-[var(--ink)] p-1 text-[var(--accent)] shrink-0">
+                <Terminal className="w-4 h-4" aria-hidden="true" />
+              </span>
+              <span className="font-mono text-xs sm:text-sm text-[var(--ink)] font-bold tracking-wide truncate">
                 {displayText}
               </span>
-              <span className="w-2 h-4 bg-[var(--black-color)] inline-block shrink-0 animate-pulse" />
+              {!reduceMotion && (
+                <span className="w-2 h-4 bg-[var(--ink)] inline-block shrink-0 animate-pulse" aria-hidden="true" />
+              )}
             </div>
 
-            {/* University & Degree Badge */}
             <div className="neo-card-sm p-3.5 flex items-center gap-3 mb-6 max-w-xl w-full">
-              <div className="p-2 bg-[#27f5a9] border-2 border-[var(--black-color)] shrink-0">
-                <GraduationCap className="w-5 h-5 text-[var(--black-color)]" />
-              </div>
-              <div className="text-xs sm:text-sm text-[var(--black-color)] leading-tight">
+              <span className="p-2 bg-[var(--accent)] border-2 border-[var(--ink)] shrink-0 text-[var(--on-accent)]">
+                <GraduationCap className="w-5 h-5" aria-hidden="true" />
+              </span>
+              <span className="text-xs sm:text-sm text-[var(--ink)] leading-tight">
                 <span className="font-bold">{personalData.degree}</span>
-                <span className="text-[var(--black-color)]/80"> — {personalData.status}</span>
-              </div>
+                <span className="text-[var(--muted-color)]"> — {personalData.status}</span>
+              </span>
             </div>
 
-            {/* Bio Paragraph */}
-            <p className="text-[var(--black-color)] text-sm sm:text-base leading-relaxed font-normal mb-8 max-w-xl">
+            <p className="text-[var(--muted-color)] text-sm sm:text-base leading-relaxed mb-8 max-w-xl">
               {personalData.bio}
             </p>
 
-            {/* CTA Buttons & Social Links */}
             <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto">
-              <a
-                href="#projects"
-                className="neo-btn bg-[#27f5a9] text-[var(--black-color)] hover:bg-[#eab308]"
-              >
+              <a href="#decisions" className="neo-btn bg-[var(--accent)] text-[var(--on-accent)]">
                 <span>{t.hero.exploreBtn}</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </a>
 
               <a
-                href="./resume_2026.pdf"
-                download="resume_2026.pdf"
-                className="neo-btn bg-[var(--card-color)] text-[var(--black-color)] hover:bg-[#f3f4f6]"
+                href="/resume_2026.pdf"
+                download="sebastian-chirinos-cv.pdf"
+                className="neo-btn bg-[var(--card-color)] text-[var(--ink)]"
               >
+                <Download className="w-4 h-4" aria-hidden="true" />
                 <span>{t.hero.downloadCv}</span>
               </a>
-              {/* Social Icons with Neo-Brutalist Bordered Style */}
+
               <div className="flex items-center gap-3 ml-auto sm:ml-2 pt-2 sm:pt-0">
-                <a
-                  href={personalData.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2.5 bg-[var(--card-color)] border-2 border-[var(--black-color)] shadow-[4px_4px_0px_var(--black-color)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_var(--black-color)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center text-[var(--black-color)]"
-                  title="GitHub Profile"
-                >
+                <a href={personalData.github} target="_blank" rel="noopener noreferrer" className={SOCIAL_LINK_CLASS} aria-label="GitHub">
                   <Github className="w-5 h-5" />
                 </a>
-                <a
-                  href={personalData.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2.5 bg-[var(--card-color)] border-2 border-[var(--black-color)] shadow-[4px_4px_0px_var(--black-color)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_var(--black-color)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center text-[var(--black-color)]"
-                  title="LinkedIn Profile"
-                >
+                <a href={personalData.linkedin} target="_blank" rel="noopener noreferrer" className={SOCIAL_LINK_CLASS} aria-label="LinkedIn">
                   <Linkedin className="w-5 h-5" />
                 </a>
-                <a
-                  href={personalData.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2.5 bg-[var(--card-color)] border-2 border-[var(--black-color)] shadow-[4px_4px_0px_var(--black-color)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_var(--black-color)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center text-[var(--black-color)]"
-                  title="WhatsApp"
-                  aria-label="WhatsApp"
-                >
+                <a href={personalData.whatsapp} target="_blank" rel="noopener noreferrer" className={SOCIAL_LINK_CLASS} aria-label="WhatsApp">
                   <Whatsapp className="w-5 h-5" />
                 </a>
               </div>
             </div>
-
           </motion.div>
 
-          {/* RIGHT COLUMN: Photo Frame (lg:col-span-5) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+          {/* RIGHT: portrait */}
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
             className="lg:col-span-5 flex justify-center relative"
           >
             <div className="relative w-full max-w-[340px] sm:max-w-[380px]">
-              
-              {/* Floating Neo-Badges around Photo */}
-              <motion.div 
-                animate={{ y: [-5, 5, -5] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-4 -left-4 z-20 neo-tag bg-[#38bdf8] text-[var(--black-color)] shadow-[3px_3px_0px_var(--black-color)]"
-              >
-                <Code2 className="w-3.5 h-3.5" />
-                <span>React + Next.js</span>
-              </motion.div>
 
-              <motion.div 
-                animate={{ y: [5, -5, 5] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-1/2 -right-5 z-20 neo-tag bg-[#a3e635] text-[var(--black-color)] shadow-[3px_3px_0px_var(--black-color)]"
-              >
-                <Layers className="w-3.5 h-3.5" />
-                <span>FastAPI</span>
-              </motion.div>
+              <FloatingTag className="-top-4 -left-4" color="var(--accent-blue)" delay={0} reduceMotion={reduceMotion}>
+                Architecture
+              </FloatingTag>
+              <FloatingTag className="top-1/2 -right-5" color="var(--accent-lime)" delay={1} reduceMotion={reduceMotion}>
+                AI Orchestration
+              </FloatingTag>
+              <FloatingTag className="-bottom-4 left-4" color="var(--accent-pink)" delay={2} reduceMotion={reduceMotion}>
+                Edge ML
+              </FloatingTag>
 
-              <motion.div 
-                animate={{ y: [-4, 4, -4] }}
-                transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -bottom-4 left-4 z-20 neo-tag bg-[#f472b6] text-[var(--black-color)] shadow-[3px_3px_0px_var(--black-color)]"
-              >
-                <Cpu className="w-3.5 h-3.5" />
-                <span>Android & Edge AI</span>
-              </motion.div>
-              <motion.div 
-                animate={{ y: [-4, 4, -4] }}
-                transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-4 right-4 z-20 neo-tag bg-[#f472b6] text-[var(--black-color)] shadow-[3px_3px_0px_var(--black-color)]"
-              >
-                <Cpu className="w-3.5 h-3.5" />
-                <span>Node.js & Django</span>
-              </motion.div>
-
-              {/* Neo-card Photo Container */}
-              <div className="w-full bg-[var(--card-color)] border-[3px] border-[var(--black-color)] shadow-[8px_8px_0px_#27f5a9] p-4 flex flex-col items-center">
-                
-                {/* Photo Placeholder / Image Area */}
-                <div className="relative w-full h-[280px] sm:h-[320px] bg-[var(--bg-color)] border-2 border-[var(--black-color)] flex flex-col items-center justify-center p-6 text-center overflow-hidden">
-                  
-                  {/* Visual Placeholder when no image is present */}
-                  <div className="w-20 h-20 rounded-full bg-[#27f5a9] border-2 border-[var(--black-color)] flex items-center justify-center mb-3 shadow-[3px_3px_0px_var(--black-color)]">
-                    <UserCheck className="w-10 h-10 text-[var(--black-color)]" />
-                  </div>
-
-                  <div className="neo-tag bg-[#a3e635] text-[var(--black-color)] mb-2 shadow-[2px_2px_0px_var(--black-color)]">
-                    <Camera className="w-3.5 h-3.5" />
-                    <span>{t.hero.photoPlaceholder}</span>
-                  </div>
-
-                  <p className="text-[var(--black-color)] text-xs font-mono leading-tight max-w-[200px]">
-                    {t.hero.placeImage} <span className="bg-[#27f5a9] px-1 font-bold">/public/profile.jpg</span>
-                  </p>
-
-                  {/* Real Image Overlay */}
-                  <img 
-                    src="/profile.jpg" 
-                    alt={personalData.name}
-                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                    className="absolute inset-0 w-full h-full object-cover object-center z-10"
-                  />
+              <div className="w-full bg-[var(--card-color)] border-[3px] border-[var(--ink)] shadow-[8px_8px_0px_var(--accent)] p-4 flex flex-col items-center">
+                <div className="relative w-full h-[280px] sm:h-[320px] bg-[var(--bg-color)] border-2 border-[var(--ink)] overflow-hidden">
+                  {photoFailed ? (
+                    <span className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-[var(--muted-color)]">
+                      <UserCheck className="w-12 h-12" aria-hidden="true" />
+                      <span className="font-mono text-xs uppercase tracking-wider">{t.hero.photoPlaceholder}</span>
+                    </span>
+                  ) : (
+                    <img
+                      src="/profile.jpg"
+                      alt={`${personalData.name}, ${personalData.role}`}
+                      width={380}
+                      height={320}
+                      loading="eager"
+                      onError={() => setPhotoFailed(true)}
+                      className="absolute inset-0 w-full h-full object-cover object-center"
+                    />
+                  )}
                 </div>
 
-                {/* Below the Photo: Name & Tag */}
-                <div className="w-full mt-3.5 pt-3 border-t-2 border-dashed border-[var(--black-color)] flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#a3e635] border border-[var(--black-color)]" />
-                    <span className="font-heading font-extrabold text-xs sm:text-sm text-[var(--black-color)] tracking-tight">
+                <div className="w-full mt-3.5 pt-3 border-t-2 border-dashed border-[var(--ink)] flex items-center justify-between gap-2">
+                  <span className="flex items-center gap-2 min-w-0">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-lime)] border border-[var(--ink)] shrink-0" aria-hidden="true" />
+                    <span className="font-heading font-extrabold text-xs sm:text-sm text-[var(--ink)] tracking-tight truncate">
                       {personalData.shortName}
                     </span>
-                  </div>
-                  <span className="neo-tag bg-[#27f5a9] text-[10px] uppercase shadow-[2px_2px_0px_var(--black-color)]">
+                  </span>
+                  <span className="neo-tag on-accent bg-[var(--accent)] text-[10px] uppercase shadow-[2px_2px_0px_var(--ink)] shrink-0">
                     {t.hero.engineerBadge}
                   </span>
                 </div>
-
               </div>
-
             </div>
           </motion.div>
-
         </div>
 
-        {/* BOTTOM STATS BAR: Neo-card with 4 stat columns */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+        {/* Stat bar */}
+        <motion.dl
+          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-16 neo-card p-6 grid grid-cols-2 md:grid-cols-4 gap-6"
+          className="mt-16 neo-card-flat p-6 grid grid-cols-2 md:grid-cols-4 gap-6"
         >
           {personalData.stats.map((stat, index) => {
-            const colorBg = STAT_COLORS[index % STAT_COLORS.length];
+            const Icon = STAT_ICONS[stat.icon];
+            const color = STAT_COLORS[index % STAT_COLORS.length];
+
             return (
-              <div key={index} className="flex flex-col items-center text-center p-2">
-                <span className={`font-heading font-black text-2xl sm:text-3xl text-[var(--black-color)] px-3 py-0.5 border-2 border-[var(--black-color)] shadow-[3px_3px_0px_var(--black-color)] mb-2 ${colorBg}`}>
+              <div key={stat.label} className="flex flex-col items-center text-center p-2">
+                <dd
+                  className="font-heading font-black text-2xl sm:text-3xl text-[var(--on-accent)] px-3 py-0.5 border-2 border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] mb-2.5"
+                  style={{ backgroundColor: color }}
+                >
                   {stat.value}
-                </span>
-                <span className="font-mono text-xs text-[var(--black-color)] font-bold tracking-tight">
+                </dd>
+                <dt className="font-mono text-xs text-[var(--ink)] font-bold tracking-tight inline-flex items-center gap-1.5">
+                  {Icon && <Icon className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />}
                   {stat.label}
-                </span>
+                </dt>
               </div>
             );
           })}
-        </motion.div>
+        </motion.dl>
 
       </div>
     </section>
+  );
+}
+
+function FloatingTag({ children, className, color, delay, reduceMotion }) {
+  return (
+    <motion.span
+      animate={reduceMotion ? undefined : { y: [-5, 5, -5] }}
+      transition={{ duration: 3.6 + delay * 0.3, repeat: Infinity, ease: 'easeInOut', delay }}
+      className={`absolute z-20 neo-tag on-accent shadow-[3px_3px_0px_var(--ink)] font-bold uppercase tracking-wider ${className}`}
+      style={{ backgroundColor: color }}
+    >
+      {children}
+    </motion.span>
   );
 }

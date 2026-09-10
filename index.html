@@ -1,20 +1,93 @@
 <!doctype html>
-<html lang="en" class="dark scroll-smooth">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="https://api.iconify.design/lucide:code-xml.svg?color=%2338bdf8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Professional Portfolio of Sebastian Arley Chirinos Negrón - Systems Engineer (UNSA), Systems Engineer Developer (React, Next.js, FastAPI, Django) and AI/ML & Mobile Apps Specialist." />
+
+    <title>Sebastian Chirinos | Systems Engineer &amp; Software Architect</title>
+    <meta name="description" content="Sebastian Chirinos — Systems Engineer (UNSA) and software architect. I orchestrate AI agents and own every architecture decision behind five systems running in production: web platforms, point of sale, native Android and offline machine learning." />
     <meta name="author" content="Sebastian Arley Chirinos Negrón" />
-    <meta property="og:title" content="Sebastian Chirinos | Systems Engineer & AI/ML Enthusiast" />
-    <meta property="og:description" content="Cutting-edge interactive portfolio featuring production projects, computer vision, mobile development, and cloud architecture." />
-    <title>Sebastian Chirinos | Systems Engineer & AI/ML Enthusiast</title>
-    <!-- Google Fonts -->
+    <meta name="keywords" content="systems engineer, software architect, AI orchestration, architecture decision records, React, Next.js, FastAPI, PostgreSQL, TensorFlow Lite, Edge AI, Arequipa, Peru" />
+    <link rel="canonical" href="https://sebastian-cn-portfolio.vercel.app/" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#fffdf7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#12100e" media="(prefers-color-scheme: dark)" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://sebastian-cn-portfolio.vercel.app/" />
+    <meta property="og:title" content="Sebastian Chirinos | Systems Engineer &amp; Software Architect" />
+    <meta property="og:description" content="Everyone generates code. I own the decisions: architecture, trade-offs, and what never ships. Five systems in production across web, POS, Android and edge AI." />
+    <meta property="og:image" content="https://sebastian-cn-portfolio.vercel.app/profile.jpg" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="es_PE" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sebastian Chirinos | Systems Engineer &amp; Software Architect" />
+    <meta name="twitter:description" content="Everyone generates code. I own the decisions: architecture, trade-offs, and what never ships." />
+    <meta name="twitter:image" content="https://sebastian-cn-portfolio.vercel.app/profile.jpg" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Applies the stored theme before first paint so the page never flashes
+         the wrong palette. Kept inline and tiny on purpose. -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('portfolio-theme');
+          var theme = stored === 'light' || stored === 'dark'
+            ? stored
+            : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.classList.add(theme);
+          var lang = localStorage.getItem('portfolio-lang');
+          if (lang === 'en' || lang === 'es') document.documentElement.lang = lang;
+        } catch (e) {
+          document.documentElement.classList.add('light');
+        }
+      })();
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Sebastian Arley Chirinos Negrón",
+        "alternateName": "Sebastian Chirinos",
+        "jobTitle": "Systems Engineer & Software Architect",
+        "email": "mailto:schirinosne@gmail.com",
+        "url": "https://sebastian-cn-portfolio.vercel.app/",
+        "image": "https://sebastian-cn-portfolio.vercel.app/profile.jpg",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Arequipa",
+          "addressCountry": "PE"
+        },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Universidad Nacional de San Agustín de Arequipa"
+        },
+        "knowsAbout": [
+          "Software architecture",
+          "Architecture decision records",
+          "AI-assisted software delivery",
+          "React",
+          "Next.js",
+          "FastAPI",
+          "PostgreSQL",
+          "TensorFlow Lite",
+          "Edge AI",
+          "Android"
+        ],
+        "sameAs": [
+          "https://github.com/BastleyNait",
+          "https://www.linkedin.com/in/sebastian-chirinos-negron/"
+        ]
+      }
+    </script>
   </head>
-  <body class="bg-[var(--bg-color)] text-[var(--black-color)] font-body antialiased overflow-x-hidden">
+  <body class="antialiased overflow-x-hidden">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
