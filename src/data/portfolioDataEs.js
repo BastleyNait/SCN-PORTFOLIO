@@ -2,111 +2,249 @@ export const personalData = {
   name: "Sebastian Arley Chirinos Negrón",
   shortName: "Sebastian Chirinos",
   username: "BastleyNait",
-  title: "Systems Engineer Developer | React & FastAPI | Node JS & Django | AI/ML & Cloud Enthusiast",
-  degree: "Ingeniero de Sistemas",
-  status: "Último Ciclo - Universidad Nacional de San Agustín de Arequipa (UNSA)",
+  title: "Ingeniero de Sistemas · Arquitecto de Software · Entrega asistida por IA",
+  role: "Ingeniero de Sistemas y Arquitecto de Software",
+  headline: "Orquesto la IA. La arquitectura es mía.",
+  degree: "Ingeniería de Sistemas",
+  status: "Último semestre — Universidad Nacional de San Agustín de Arequipa (UNSA)",
   location: "Arequipa, Perú 🇵🇪",
   email: "schirinosne@gmail.com",
   linkedin: "https://www.linkedin.com/in/sebastian-chirinos-negron/",
-  whatsapp: "https://wa.me/51987545926", // Reemplaza con tu número de WhatsApp
+  whatsapp: "https://wa.me/51987545926",
   github: "https://github.com/BastleyNait",
-  portfolioUrl: "https://github.com/BastleyNait",
-  bio: "Systems Engineer / Software Engineer apasionado por la ingeniería de software moderna, la arquitectura de microservicios y la inteligencia artificial en el borde (Edge AI). Cuento con 5+ proyectos desplegados a producción en Vercel y Google Cloud. Graduando de Ingeniería de Sistemas de la UNSA con sólidos fundamentos en seguridad, networking, software testing y metodologías ágiles.",
+  portfolioUrl: "https://sebastian-cn-portfolio.vercel.app",
+  bio: "Escribir código dejó de ser lo difícil. Decidir qué construir, dónde vive el estado, qué corre en el dispositivo y qué rechazar antes de que se integre: ese es el trabajo. Dirijo agentes de IA con un proceso donde la especificación va primero, y respondo personalmente por cada decisión de arquitectura detrás de cinco sistemas en producción entre web, punto de venta, Android nativo y machine learning offline.",
+  shortBio: "Ingeniero de Sistemas por la UNSA. Diseño el sistema, dirijo a los agentes y defiendo cada línea que sale a producción.",
   stats: [
-    { label: "Proyectos en Producción", value: "4+", icon: "Rocket" },
-    { label: "Frontend", value: "React / Next.js / Vue.js", icon: "Layers" },
-    { label: "Backend", value: "Node.js / Django / FastAPI", icon: "Server" },
-    { label: "Enfoque Móvil", value: "React Native & Kotlin", icon: "Smartphone" },
+    { label: "Sistemas en producción", value: "5", icon: "Rocket" },
+    { label: "Decisiones documentadas", value: "6", icon: "ScrollText" },
+    { label: "Dominios entregados", value: "4", icon: "Boxes" },
+    { label: "Lenguajes en producción", value: "5", icon: "Braces" }
   ],
   typingLines: [
-    "Systems Engineer Developer | React + FastAPI",
-    "Cloud & Machine Learning Enthusiast",
-    "4+ Proyectos Desplegados a Producción",
-    "Ingeniero de Sistemas UNSA (Último Ciclo)",
-    "Abierto a nuevas oportunidades laborales 🚀"
+    "Orquesto la IA. La arquitectura es mía.",
+    "Primero la spec, después los agentes, siempre la revisión.",
+    "5 sistemas en producción — del diseño al deploy.",
+    "Edge AI que funciona con la red apagada.",
+    "Disponible para roles de Ingeniería de Software 🚀"
   ]
 };
+
+/* ------------------------------------------------------------------ *
+ * Cómo se hace realmente el trabajo: el ciclo de orquestación.
+ * Cada fase declara quién la posee — esa división es justamente el punto.
+ * ------------------------------------------------------------------ */
+export const orchestrationData = {
+  thesis: "Hoy todos tienen el mismo generador de código. Las diferencias que sobreviven al contacto con producción son las que un modelo no puede tomar por ti: qué construir, cómo acotarlo y qué rechazar.",
+  loop: [
+    {
+      step: "01",
+      phase: "Encuadrar",
+      owner: "human",
+      title: "Restricciones antes que código",
+      description: "Escribo la especificación primero: quién lo usa, carga esperada, presupuesto, techo de latencia y cómo se le permite fallar. Ningún agente arranca hasta que los criterios de aceptación no dejen nada a interpretación.",
+      artifacts: ["Especificación", "Criterios de aceptación", "No-objetivos"]
+    },
+    {
+      step: "02",
+      phase: "Decidir",
+      owner: "human",
+      title: "La decisión que un modelo no puede tomar por mí",
+      description: "Modelo de datos, fronteras entre servicios, síncrono o asíncrono, dónde vive el estado, qué corre en el dispositivo. Cada elección queda escrita junto al trade-off que acepté.",
+      artifacts: ["Registro de decisión", "Modelo de datos", "Fronteras"]
+    },
+    {
+      step: "03",
+      phase: "Orquestar",
+      owner: "shared",
+      title: "Tareas acotadas, interfaces congeladas",
+      description: "Cada agente recibe una sola tarea acotada contra una interfaz que yo ya fijé. Diffs pequeños, contratos explícitos y ningún agente autorizado a cruzar más de una capa.",
+      artifacts: ["Tareas acotadas", "Contratos tipados", "Diffs pequeños"]
+    },
+    {
+      step: "04",
+      phase: "Rechazar",
+      owner: "human",
+      title: "No sale nada que no pueda defender",
+      description: "Leo cada línea antes de integrarla. El código que se ve seguro pero esconde un N+1, una condición de carrera o una clave dentro del bundle se descarta, no se parcha.",
+      artifacts: ["Revisión línea por línea", "Pase de seguridad", "Presupuesto de performance"]
+    },
+    {
+      step: "05",
+      phase: "Comprobar",
+      owner: "human",
+      title: "Medido, nunca supuesto",
+      description: "Despliego detrás de verificaciones, observo tráfico real y devuelvo lo que enseña producción al siguiente registro de decisión, para que el mismo error no se pueda repetir.",
+      artifacts: ["CI/CD", "Monitoreo", "Notas post-deploy"]
+    }
+  ],
+  split: {
+    delegatedTitle: "Delegado a los agentes",
+    delegatedTag: "APALANCAMIENTO",
+    delegated: [
+      "Scaffolding, capas CRUD y migraciones",
+      "Casos de prueba derivados de una spec que ya escribí",
+      "Refactors mecánicos detrás de una interfaz fija",
+      "Primeros borradores de tipos, documentación y fixtures"
+    ],
+    ownedTitle: "Nunca delegado",
+    ownedTag: "CRITERIO",
+    owned: [
+      "Modelo de datos y fronteras entre servicios",
+      "Trade-offs entre costo, latencia y complejidad",
+      "Autenticación, secretos y todo lo que toque dinero o datos de salud",
+      "Si la funcionalidad merece existir siquiera"
+    ]
+  }
+};
+
+/* ------------------------------------------------------------------ *
+ * Registros de decisión de arquitectura.
+ * Contexto → opciones → decisión → trade-off.
+ * ------------------------------------------------------------------ */
+export const decisionLog = [
+  {
+    id: "adr-001",
+    project: "Boom POS & CRM",
+    tag: "Estado y fiabilidad",
+    title: "El carrito vive en el cliente, el libro contable en el servidor",
+    context: "Una venta no puede quedarse trabada porque el local perdió conexión a mitad del cobro.",
+    options: ["Carrito autoritativo en el servidor en cada pulsación", "Carrito local con el servidor como libro contable"],
+    decision: "Zustand mantiene el carrito de trabajo en el navegador. Flask y PostgreSQL son dueños del libro contable, y cada venta cerrada se registra como una única transacción idempotente.",
+    tradeoff: "Asumí lógica de reconciliación a cambio de un cobro que nunca se bloquea esperando a la red."
+  },
+  {
+    id: "adr-002",
+    project: "Anemivision",
+    tag: "Edge AI y privacidad",
+    title: "Inferencia en el dispositivo, nunca en la nube",
+    context: "El tamizaje de anemia ocurre en clínicas con conectividad poco fiable, usando imágenes de un paciente.",
+    options: ["API de inferencia alojada", "Modelo cuantizado embebido en la app Android"],
+    decision: "El modelo de PyTorch se cuantiza a TensorFlow Lite y corre dentro de la app. Ninguna imagen del paciente sale del teléfono.",
+    tradeoff: "Cedí tamaño de modelo y reentrenamiento cómodo a cambio de cero dependencia de red y ningún dato de salud en tránsito."
+  },
+  {
+    id: "adr-003",
+    project: "Lo Exacto y Calitop",
+    tag: "Estrategia de render",
+    title: "El render se elige por ruta, no por proyecto",
+    context: "Las páginas públicas las juzgan los rastreadores y el primer pintado. El área administrativa se juzga por qué tan fresco está el dato.",
+    options: ["Renderizar todo en servidor", "Generar todo estático", "Dividir la decisión por ruta"],
+    decision: "Las rutas públicas se generan estáticas y se revalidan. El panel renderiza en servidor. Una sola instancia de PostgreSQL sostiene a ambos.",
+    tradeoff: "Conviven dos modelos mentales en un mismo repositorio, y eso compra páginas rastreables y un panel que nunca está desactualizado."
+  },
+  {
+    id: "adr-004",
+    project: "Revolt Laptop",
+    tag: "Integridad de datos",
+    title: "Quien decide si hay stock es la base de datos, no la caché",
+    context: "Las unidades reacondicionadas son piezas únicas, así que vender dos veces la misma laptop es una falla real, no un redondeo.",
+    options: ["Confiar en el conteo cacheado del catálogo", "Forzar el descuento dentro de la transacción del pedido"],
+    decision: "El stock se descuenta dentro de la transacción del pedido y queda protegido por una restricción de base de datos. A la caché del catálogo se le permite explícitamente ir atrasada.",
+    tradeoff: "Un catálogo con unos segundos de retraso es aceptable. Una máquina vendida dos veces no lo es."
+  },
+  {
+    id: "adr-005",
+    project: "En todos los sistemas",
+    tag: "Superficie operativa",
+    title: "PostgreSQL hasta que una medición obligue a otra cosa",
+    context: "Cada proyecto llega con la sugerencia de sumar una cola, una caché y un almacén documental desde el primer día.",
+    options: ["Adoptar los almacenes especializados de entrada", "Postergar hasta que un benchmark los exija"],
+    decision: "Una sola instancia de PostgreSQL sostiene el sistema. Redis y la búsqueda vectorial entraron solo donde una medición justificó la pieza extra.",
+    tradeoff: "Cambio margen teórico de escalado por una superficie operativa que un solo ingeniero puede operar y razonar de verdad."
+  },
+  {
+    id: "adr-006",
+    project: "Entrega asistida por IA",
+    tag: "Orquestación",
+    title: "Las interfaces se escriben a mano antes de generar nada",
+    context: "Los agentes producen su trabajo más útil cuando el contrato que están completando ya está congelado.",
+    options: ["Dejar que el agente diseñe la API mientras implementa", "Fijar tipos, endpoints y formas de error primero"],
+    decision: "Escribo yo los tipos, los endpoints y las formas de error. Los agentes implementan contra un contrato que no tienen permitido cambiar.",
+    tradeoff: "Un arranque más lento, a cambio de revisiones acotadas y fallas de integración que dejan de ser una categoría de bug."
+  }
+];
 
 export const projectsData = [
   {
     id: "lo-exacto",
     title: "Lo Exacto",
-    category: "Full stack Web & Landing",
-    description: "Plataforma web de producción y landing corporativo para gestión y presencia digital.",
-    longDescription: "Plataforma web optimizada para producción con arquitectura Next.js y persistencia en PostgreSQL. Diseñada para alto rendimiento, SEO superior y navegación ultra fluida.",
+    category: "Plataformas Web",
+    role: "Arquitectura · Implementación · Despliegue",
+    description: "Plataforma web en producción y sitio corporativo construidos para visibilidad en buscadores y carga instantánea.",
+    longDescription: "Plataforma en producción sobre Next.js con persistencia en PostgreSQL, afinada para rastreabilidad, primer pintado y navegación sin saltos.",
+    keyDecision: "Generación estática en rutas públicas, render en servidor para el panel, una sola base de datos detrás de ambos.",
     tech: ["Next.js", "React", "PostgreSQL", "Tailwind CSS", "Vercel"],
     liveUrl: "https://www.lo-exacto.com/",
     repoUrl: "https://github.com/BastleyNait/LO-EXACTO.git",
     featured: true,
-    status: "Production",
-    gradient: "from-sky-500/20 via-blue-600/20 to-indigo-700/20",
+    status: "Producción",
     accentColor: "#38bdf8",
-    previewType: "iframe",
-    previewFallbackImage: "./lo-exacto.png"
+    previewFallbackImage: "/lo-exacto.png"
   },
   {
     id: "calitop-services",
     title: "Calitop Services",
-    category: "Full stack Web & Landing",
-    description: "Plataforma web corporativa en producción con catálogo interactivo y panel de administración.",
-    longDescription: "Sistema web integral que incluye catálogo dinámico de servicios, panel de control administrativo y backend robusto en PostgreSQL con soporte para gestión de inventarios y servicios.",
+    category: "Plataformas Web",
+    role: "Arquitectura · Implementación · Despliegue",
+    description: "Plataforma corporativa en producción con catálogo interactivo y panel administrativo.",
+    longDescription: "Sistema web que combina un catálogo dinámico de servicios, un panel de control administrativo y un backend PostgreSQL que cubre inventario y registro de servicios.",
+    keyDecision: "Las lecturas del catálogo se cachean y pueden ir atrasadas; toda escritura pasa por el camino transaccional.",
     tech: ["Next.js", "PostgreSQL", "React", "Tailwind CSS", "Vercel"],
     liveUrl: "https://www.calitop-services.com/",
     repoUrl: "https://github.com/BastleyNait/CALITOP-WEB",
     featured: true,
-    status: "Production",
-    gradient: "from-cyan-500/20 via-teal-600/20 to-emerald-700/20",
+    status: "Producción",
     accentColor: "#2dd4bf",
-    previewType: "iframe",
-    previewFallbackImage: "./calitop.png"
+    previewFallbackImage: "/calitop.png"
   },
   {
     id: "revolt-laptop",
     title: "Revolt Laptop",
-    category: "E-Commerce & POS",
-    description: "Plataforma de comercio electrónico propia para venta de laptops reacondicionadas con panel admin.",
-    longDescription: "E-commerce especializado en computadoras reacondicionadas. Incluye catálogo interactivo con filtros avanzados, gestión de stock en tiempo real y panel de administración de pedidos.",
+    category: "Comercio y POS",
+    role: "Arquitectura · Modelo de datos · Despliegue",
+    description: "Plataforma de comercio para laptops reacondicionadas donde cada unidad en stock es única.",
+    longDescription: "Tienda y panel administrativo para máquinas reacondicionadas irrepetibles: catálogo filtrable, control transaccional de stock y administración de pedidos.",
+    keyDecision: "El stock se descuenta dentro de la transacción del pedido bajo una restricción de base de datos, así una unidad no se puede vender dos veces.",
     tech: ["Next.js", "PostgreSQL", "React", "Tailwind CSS", "Vercel"],
     liveUrl: "https://revolt-laptops.vercel.app/",
     repoUrl: "https://github.com/BastleyNait/REVOLT-LAP",
     featured: true,
-    status: "Production",
-    gradient: "from-purple-500/20 via-violet-600/20 to-slate-800/20",
+    status: "Producción",
     accentColor: "#a855f7",
-    previewType: "iframe",
-    previewFallbackImage: "./revolt.png"
+    previewFallbackImage: "/revolt.png"
   },
   {
     id: "boom-pos",
     title: "Boom POS & CRM",
-    category: "E-Commerce & POS",
-    description: "Sistema completo de Punto de Venta (POS) y CRM con diseño UI/UX de alta calidad.",
-    longDescription: "Solución de nivel empresarial para gestión comercial en tiempo real. Integra interfaz reactiva para caja, módulo de CRM de clientes, estado centralizado con Zustand y backend de alta velocidad con Flask y PostgreSQL.",
+    category: "Comercio y POS",
+    role: "Arquitectura · Diseño de estado · Backend",
+    description: "Punto de venta y CRM construidos para seguir vendiendo cuando la conexión no coopera.",
+    longDescription: "Sistema de gestión que combina un cobro reactivo con un módulo CRM de clientes, estado de cliente centralizado en Zustand y un backend Flask con PostgreSQL dueño del libro contable.",
+    keyDecision: "El carrito pertenece al cliente; el servidor registra cada venta cerrada como una transacción idempotente.",
     tech: ["Next.js", "Zustand", "Flask", "PostgreSQL", "API Routes"],
     liveUrl: "https://boom-pos.vercel.app/",
     repoUrl: "https://github.com/BastleyNait/BOOM-POS",
     featured: true,
-    status: "Production",
-    gradient: "from-amber-500/20 via-orange-600/20 to-rose-700/20",
+    status: "Producción",
     accentColor: "#f59e0b",
-    previewType: "iframe",
-    previewFallbackImage: "./boom-pos.png"
+    previewFallbackImage: "/boom-pos.png"
   },
   {
     id: "anemivision",
-    title: "Anemivision (Edge AI Mobile)",
-    category: "AI & Edge ML",
-    description: "Sistema nativo Android para detección de anemia OFFLINE mediante Machine Learning en el dispositivo.",
-    longDescription: "Aplicación móvil médica con inferencia de inteligencia artificial sin conexión a internet (Edge Computing). Procesamiento de visión por computadora optimizado mediante TensorFlow Lite y PyTorch sobre Android nativo (Kotlin).",
+    title: "Anemivision",
+    category: "Edge AI y Móvil",
+    role: "Arquitectura · Pipeline del modelo · Android",
+    description: "App Android nativa que detecta anemia totalmente offline, con la inferencia dentro del dispositivo.",
+    longDescription: "Aplicación de tamizaje médico que ejecuta inferencia de visión por computadora cuantizada en el propio dispositivo mediante TensorFlow Lite, construida nativamente para Android en Kotlin.",
+    keyDecision: "El modelo viaja dentro de la app, así ninguna imagen del paciente se transmite a ningún lado.",
     tech: ["TensorFlow Lite", "PyTorch", "Android", "Kotlin", "Computer Vision"],
-    liveUrl: null, // Próximamente
+    liveUrl: null,
     repoUrl: "https://github.com/BastleyNait/ANEMIVISION",
     featured: true,
-    status: "Mobile Native / Edge AI",
-    gradient: "from-emerald-500/20 via-cyan-600/20 to-blue-700/20",
+    status: "Edge AI",
     accentColor: "#10b981",
-    previewType: "image",
-    previewFallbackImage: "./anemivision.png"
+    previewFallbackImage: "/anemivision.png"
   }
 ];
 
@@ -115,111 +253,111 @@ export const techStackData = [
     category: "Lenguajes",
     icon: "Code2",
     items: [
-      { name: "JavaScript", level: "Avanzado", logo: "https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" },
-      { name: "TypeScript", level: "Avanzado", logo: "https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" },
-      { name: "Python", level: "Avanzado", logo: "https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" },
-      { name: "Kotlin", level: "Intermedio/Avanzado", logo: "https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white" },
-      { name: "Java", level: "Intermedio", logo: "https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" }
+      { name: "JavaScript", level: "Avanzado" },
+      { name: "TypeScript", level: "Avanzado" },
+      { name: "Python", level: "Avanzado" },
+      { name: "Kotlin", level: "Intermedio/Avanzado" },
+      { name: "Java", level: "Intermedio" }
     ]
   },
   {
     category: "Frontend",
     icon: "Layout",
     items: [
-      { name: "React", level: "Avanzado", logo: "https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" },
-      { name: "Next.js", level: "Avanzado", logo: "https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white" },
-      { name: "Zustand", level: "Avanzado", logo: "https://img.shields.io/badge/Zustand-443E38?style=for-the-badge&logo=react&logoColor=white" },
-      { name: "Tailwind CSS", level: "Avanzado", logo: "https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" },
-      { name: "Bootstrap", level: "Intermedio", logo: "https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" }
+      { name: "React", level: "Avanzado" },
+      { name: "Next.js", level: "Avanzado" },
+      { name: "Zustand", level: "Avanzado" },
+      { name: "Tailwind CSS", level: "Avanzado" },
+      { name: "Bootstrap", level: "Intermedio" }
     ]
   },
   {
     category: "Backend",
     icon: "Server",
     items: [
-      { name: "FastAPI", level: "Avanzado", logo: "https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" },
-      { name: "Node.js", level: "Avanzado", logo: "https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" },
-      { name: "Django", level: "Intermedio", logo: "https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" },
-      { name: "Flask", level: "Intermedio", logo: "https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white" }
+      { name: "FastAPI", level: "Avanzado" },
+      { name: "Node.js", level: "Avanzado" },
+      { name: "Django", level: "Intermedio" },
+      { name: "Flask", level: "Intermedio" }
     ]
   },
   {
-    category: "Mobile",
+    category: "Móvil",
     icon: "Smartphone",
     items: [
-      { name: "React Native", level: "Avanzado", logo: "https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" },
-      { name: "Android Nativo", level: "Intermedio/Avanzado", logo: "https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" },
-      { name: "Kotlin Mobile", level: "Intermedio", logo: "https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white" }
+      { name: "React Native", level: "Avanzado" },
+      { name: "Android Nativo", level: "Intermedio/Avanzado" },
+      { name: "Kotlin Mobile", level: "Intermedio" }
     ]
   },
   {
-    category: "Cloud & DevOps",
+    category: "Cloud y DevOps",
     icon: "Cloud",
     items: [
-      { name: "Docker", level: "Intermedio/Avanzado", logo: "https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" },
-      { name: "Google Cloud", level: "Intermedio", logo: "https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white" },
-      { name: "AWS", level: "Intermedio", logo: "https://img.shields.io/badge/AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white" },
-      { name: "Vercel Deployment", level: "Avanzado", logo: "https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" }
+      { name: "Docker", level: "Intermedio/Avanzado" },
+      { name: "Google Cloud", level: "Intermedio" },
+      { name: "AWS", level: "Intermedio" },
+      { name: "Vercel", level: "Avanzado" }
     ]
   },
   {
-    category: "Bases de Datos & APIs",
+    category: "Datos y APIs",
     icon: "Database",
     items: [
-      { name: "PostgreSQL", level: "Avanzado", logo: "https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" },
-      { name: "Vector DB", level: "Intermedio", logo: "https://img.shields.io/badge/Vector_DB-0A7E8C?style=for-the-badge&logo=chromadb&logoColor=white" },
-      { name: "MongoDB", level: "Intermedio", logo: "https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" },
-      { name: "Redis", level: "Intermedio", logo: "https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white" },
-      { name: "REST API & GraphQL", level: "Avanzado", logo: "https://img.shields.io/badge/REST_API-005571?style=for-the-badge&logo=fastapi&logoColor=white" }
+      { name: "PostgreSQL", level: "Avanzado" },
+      { name: "Vector DB", level: "Intermedio" },
+      { name: "MongoDB", level: "Intermedio" },
+      { name: "Redis", level: "Intermedio" },
+      { name: "REST y GraphQL", level: "Avanzado" }
     ]
   },
   {
-    category: "AI / ML & Data",
+    category: "IA / ML",
     icon: "Brain",
     items: [
-      { name: "TensorFlow Lite", level: "Intermedio", logo: "https://img.shields.io/badge/TensorFlow_Lite-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white" },
-      { name: "PyTorch", level: "Intermedio", logo: "https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" },
-      { name: "Ollama / LLMs Local", level: "Intermedio", logo: "https://img.shields.io/badge/Ollama-000000?style=for-the-badge&logo=ollama&logoColor=white" },
-      { name: "Pandas & NumPy", level: "Intermedio", logo: "https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white" }
+      { name: "TensorFlow Lite", level: "Intermedio" },
+      { name: "PyTorch", level: "Intermedio" },
+      { name: "Ollama / LLMs locales", level: "Intermedio" },
+      { name: "Pandas y NumPy", level: "Intermedio" }
     ]
   }
 ];
 
 export const engineeringPrinciples = [
   {
-    title: "Arquitectura de Software y Diseño",
+    title: "Arquitectura y diseño de sistemas",
     icon: "Building2",
-    description: "Patrones de diseño, sistemas distribuidos, microservicios y código escalable con arquitectura limpia (Clean Architecture / Hexagonal).",
+    description: "Fronteras trazadas antes de que exista el código: capas limpias y hexagonales, servicios distribuidos y un modelo de datos que sobrevive al segundo requerimiento.",
     tag: "Arquitectura"
   },
   {
-    title: "Ingeniería de Requerimientos y Gestión",
+    title: "Requisitos y control de alcance",
     icon: "ClipboardCheck",
-    description: "Gestión rigurosa de proyectos de software, levantamiento de requerimientos y entregas estructuradas iterativas.",
-    tag: "Project Mgmt"
+    description: "Convertir un pedido difuso en criterios de aceptación, y después defender los no-objetivos que evitan que una entrega duplique su tamaño en silencio.",
+    tag: "Alcance"
   },
   {
-    title: "Seguridad y Redes",
+    title: "Seguridad y redes",
     icon: "ShieldCheck",
-    description: "Fundamentos de redes de computadoras, desarrollo seguro (OWASP Top 10) y auditoría de sistemas de información.",
-    tag: "Security"
+    description: "Fundamentos de redes, OWASP Top 10 aplicado en revisión, secretos fuera del bundle y auditoría sobre sistemas que manejan dinero o datos de salud.",
+    tag: "Seguridad"
   },
   {
-    title: "Testing y Calidad de Software",
+    title: "Pruebas y compuertas de revisión",
     icon: "TestTube2",
-    description: "Pruebas unitarias, de integración y end-to-end (E2E), manteniendo altos estándares de calidad y cobertura de código.",
-    tag: "Testing"
+    description: "Cobertura unitaria, de integración y end-to-end usada como la compuerta que el código generado debe pasar antes de acercarse a un merge.",
+    tag: "Calidad"
   },
   {
-    title: "Metodologías Ágiles",
+    title: "Entrega ágil",
     icon: "Kanban",
-    description: "Experiencia en marcos de trabajo iterativos como Scrum y Kanban para entregas continuas y trabajo en equipo eficiente.",
-    tag: "Agile"
+    description: "Scrum y Kanban ejecutados como incrementos pequeños y reversibles, para que una decisión equivocada cueste una iteración y no un release.",
+    tag: "Entrega"
   },
   {
-    title: "Cloud Deployment & DevOps",
+    title: "Cloud y DevOps",
     icon: "CloudCognitive",
-    description: "Contenedores Docker, canalizaciones CI/CD, configuración de servidores e infraestructura en Vercel, AWS y Google Cloud.",
+    description: "Contenedores, pipelines de CI/CD e infraestructura en Vercel, AWS y Google Cloud, dimensionados a lo que un ingeniero puede operar de verdad.",
     tag: "Cloud"
   }
 ];

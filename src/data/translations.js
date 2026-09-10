@@ -1,152 +1,196 @@
 export const translations = {
   en: {
+    meta: {
+      htmlLang: "en",
+      skipToContent: "Skip to content"
+    },
     nav: {
       home: "Home",
+      orchestration: "Process",
       projects: "Projects",
-      techStack: "Tech Stack",
+      decisions: "Decisions",
+      techStack: "Stack",
       engineering: "Engineering",
-      github: "GitHub Stats",
       contact: "Contact",
-      systemsEngineer: "Systems Engineer",
-      contactBtn: "CONTACT"
+      systemsEngineer: "Systems Engineer & Architect",
+      contactBtn: "CONTACT",
+      openMenu: "Open navigation menu",
+      closeMenu: "Close navigation menu",
+      toggleTheme: "Switch between light and dark theme",
+      toggleLanguage: "Switch language to Spanish"
     },
     hero: {
       greeting: "Hi 👋, I'm",
-      exploreBtn: "EXPLORE PROJECTS",
+      available: "AVAILABLE FOR WORK",
+      exploreBtn: "SEE THE DECISIONS",
       downloadCv: "Download CV",
-      photoPlaceholder: "YOUR PHOTO HERE",
+      photoPlaceholder: "PHOTO",
       placeImage: "Place your image in",
       engineerBadge: "UNSA ENGINEER"
     },
+    orchestration: {
+      label: "OPERATING MODEL",
+      title: "Everyone generates code. Few own the decisions.",
+      loopLabel: "The loop",
+      splitLabel: "The split",
+      ownerHuman: "MINE",
+      ownerShared: "SHARED",
+      artifactsLabel: "Output"
+    },
     projects: {
-      portfolio: "PORTFOLIO",
-      featured: "Featured Projects",
-      description: "Explore production web platforms and mobile apps with artificial intelligence integrated in the cloud. Click any tile to navigate directly to the live demo.",
-      categories: {
-        "All": "All",
-        "Systems Engineer / Web": "Systems Engineer / Web",
-        "E-Commerce & POS": "E-Commerce & POS",
-        "AI & Edge ML": "AI & Edge ML"
-      },
-      viewProject: "VIEW PROJECT",
-      liveDemo: "LIVE DEMO",
-      repo: "REPO",
-      viewCode: "View Code on GitHub"
+      portfolio: "WORK",
+      featured: "Systems in Production",
+      description: "Five systems people actually use. Each card names the decision that shaped it, not just the framework it was built with.",
+      allCategories: "All",
+      roleLabel: "MY ROLE",
+      decisionLabel: "KEY DECISION",
+      viewProject: "OPEN SITE",
+      liveDemo: "LIVE",
+      repo: "CODE",
+      viewCode: "View source on GitHub",
+      empty: "No projects in this category yet."
+    },
+    decisions: {
+      label: "DECISION LOG",
+      title: "Architecture Decision Records",
+      description: "The trade-offs behind the systems above. Context, the options I weighed, the call I made, and what it cost me.",
+      contextLabel: "CONTEXT",
+      optionsLabel: "OPTIONS ON THE TABLE",
+      decisionLabel: "DECISION",
+      tradeoffLabel: "TRADE-OFF ACCEPTED",
+      expand: "Read the trade-off",
+      collapse: "Collapse"
     },
     techStack: {
-      label: "TECH STACK",
+      label: "TOOLING",
       title: "Technologies & Tools",
-      description: "Mastery of state-of-the-art Systems Engineering technologies, cloud architectures, and Artificial Intelligence inference.",
-      frontendTitle: "Frontend Excellence",
-      frontendDesc: "React 19, Next.js (App Router), Zustand for reactive global state, Tailwind CSS v4 for ultra-fast interfaces.",
-      backendTitle: "Backend Architecture",
-      backendDesc: "FastAPI for ultra-low latency asynchronous APIs, Flask and Django for complex logic, Node.js and microservices.",
-      aiTitle: "AI & Edge Computing",
-      aiDesc: "Quantized Machine Learning models with TensorFlow Lite and PyTorch for offline inference in Android and Vector DBs."
+      description: "Tools are the cheapest part of the job. These are the ones I have taken to production and would defend in a design review.",
+      frontendTitle: "Frontend",
+      frontendDesc: "React 19 and Next.js App Router, Zustand for state that belongs on the client, Tailwind CSS v4 for interfaces that stay fast.",
+      backendTitle: "Backend",
+      backendDesc: "FastAPI for low-latency async APIs, Flask and Django where the logic is heavier, Node.js and service boundaries that hold.",
+      aiTitle: "AI & Edge",
+      aiDesc: "Quantized models on TensorFlow Lite and PyTorch for offline Android inference, plus vector stores where retrieval earns its cost."
     },
     engineering: {
-      label: "ENGINEERING",
-      title: "Software Engineering",
-      description: "Beyond writing code, I bring structured engineering knowledge to build robust, secure, and maintainable products.",
-      production: "Production Standards"
-    },
-    github: {
-      label: "OPEN SOURCE",
-      title: "GitHub Statistics",
-      description: "Constant development activity, open source repositories, and continuous contributions at",
-      activity: "ACTIVITY OVERVIEW",
-      languages: "TOP LANGUAGES",
-      streak: "CONTRIBUTION STREAK",
-      viewProfile: "VIEW GITHUB PROFILE"
+      label: "FOUNDATIONS",
+      title: "The Engineering Underneath",
+      description: "A generator can write the function. These are the fundamentals that decide whether the function belongs in the system at all.",
+      production: "Applied in production"
     },
     contact: {
       label: "LET'S TALK",
-      title: "Let's build something extraordinary.",
-      description: "I am available to join innovative teams, lead Systems Engineering development, or collaborate on high-performance solutions with Artificial Intelligence.",
-      copied: "Email copied to clipboard!",
-      formTitle: "Send Direct Message",
-      nameLabel: "Your Name / Company",
-      emailLabel: "Email Address",
+      title: "Bring me the decision nobody wants to make.",
+      description: "Open to Systems and Software Engineering roles, architecture ownership, and teams that want AI leverage without losing control of their codebase.",
+      copied: "Email copied",
+      formTitle: "Send a direct message",
+      nameLabel: "Your name / company",
+      namePlaceholder: "Ada Lovelace — Acme Inc.",
+      emailLabel: "Email address",
+      emailPlaceholder: "you@company.com",
       messageLabel: "Message",
-      messagePlaceholder: "How can I help you?",
-      sendBtn: "SEND MESSAGE",
-      successMsg: "Thanks for your message! I'll get in touch very soon.",
-      tagline: "✦ Always learning, always building. ✦"
+      messagePlaceholder: "What are you trying to build?",
+      sendBtn: "OPEN IN MY EMAIL APP",
+      formNote: "This opens your own mail client with the message prefilled. Nothing is sent from this page.",
+      tagline: "✦ Decide well, then build fast. ✦",
+      rights: "All rights reserved."
     }
   },
   es: {
+    meta: {
+      htmlLang: "es",
+      skipToContent: "Saltar al contenido"
+    },
     nav: {
       home: "Inicio",
+      orchestration: "Proceso",
       projects: "Proyectos",
-      techStack: "Tech Stack",
+      decisions: "Decisiones",
+      techStack: "Stack",
       engineering: "Ingeniería",
-      github: "GitHub Stats",
       contact: "Contacto",
-      systemsEngineer: "Systems Engineer",
-      contactBtn: "CONTACTAR"
+      systemsEngineer: "Ingeniero de Sistemas y Arquitecto",
+      contactBtn: "CONTACTAR",
+      openMenu: "Abrir menú de navegación",
+      closeMenu: "Cerrar menú de navegación",
+      toggleTheme: "Cambiar entre tema claro y oscuro",
+      toggleLanguage: "Cambiar idioma a inglés"
     },
     hero: {
       greeting: "Hola 👋, soy",
-      exploreBtn: "EXPLORAR PROYECTOS",
+      available: "DISPONIBLE PARA TRABAJAR",
+      exploreBtn: "VER LAS DECISIONES",
       downloadCv: "Descargar CV",
-      photoPlaceholder: "TU FOTO AQUÍ",
+      photoPlaceholder: "FOTO",
       placeImage: "Coloca tu imagen en",
       engineerBadge: "INGENIERO UNSA"
     },
+    orchestration: {
+      label: "MODELO DE TRABAJO",
+      title: "Todos generan código. Pocos son dueños de las decisiones.",
+      loopLabel: "El ciclo",
+      splitLabel: "El reparto",
+      ownerHuman: "MÍO",
+      ownerShared: "COMPARTIDO",
+      artifactsLabel: "Salida"
+    },
     projects: {
-      portfolio: "PORTAFOLIO",
-      featured: "Proyectos Destacados",
-      description: "Explora plataformas web en producción y aplicaciones móviles con inteligencia artificial integradas en la nube. Haz clic en cualquier mosaico para navegar directamente a la demo en vivo.",
-      categories: {
-        "All": "Todos",
-        "Systems Engineer / Web": "Systems Engineer / Web",
-        "E-Commerce & POS": "E-Commerce & POS",
-        "AI & Edge ML": "AI & Edge ML"
-      },
-      viewProject: "ABRIR PÁGINA",
-      liveDemo: "LIVE DEMO",
-      repo: "REPO",
-      viewCode: "Ver Código en GitHub"
+      portfolio: "TRABAJO",
+      featured: "Sistemas en Producción",
+      description: "Cinco sistemas que la gente usa de verdad. Cada tarjeta nombra la decisión que le dio forma, no solo el framework con el que se construyó.",
+      allCategories: "Todos",
+      roleLabel: "MI ROL",
+      decisionLabel: "DECISIÓN CLAVE",
+      viewProject: "ABRIR SITIO",
+      liveDemo: "EN VIVO",
+      repo: "CÓDIGO",
+      viewCode: "Ver código en GitHub",
+      empty: "Todavía no hay proyectos en esta categoría."
+    },
+    decisions: {
+      label: "REGISTRO DE DECISIONES",
+      title: "Registros de Decisión de Arquitectura",
+      description: "Los trade-offs detrás de los sistemas de arriba. Contexto, las opciones que evalué, la decisión que tomé y lo que me costó.",
+      contextLabel: "CONTEXTO",
+      optionsLabel: "OPCIONES SOBRE LA MESA",
+      decisionLabel: "DECISIÓN",
+      tradeoffLabel: "TRADE-OFF ACEPTADO",
+      expand: "Ver el trade-off",
+      collapse: "Contraer"
     },
     techStack: {
-      label: "STACK TECNOLÓGICO",
-      title: "Tecnologías & Herramientas",
-      description: "Dominio de tecnologías Systems Engineer de última generación, arquitecturas en la nube e inferencia de Inteligencia Artificial.",
-      frontendTitle: "Excelencia Frontend",
-      frontendDesc: "React 19, Next.js (App Router), Zustand para estado global reactivo, Tailwind CSS v4 para interfaces ultrarrápidas.",
-      backendTitle: "Arquitectura Backend",
-      backendDesc: "FastAPI para APIs asíncronas de ultra baja latencia, Flask y Django para lógica compleja, Node.js y microservicios.",
-      aiTitle: "IA & Edge Computing",
-      aiDesc: "Modelos de Machine Learning cuantizados con TensorFlow Lite y PyTorch para inferencia offline en Android y Vector DBs."
+      label: "HERRAMIENTAS",
+      title: "Tecnologías y Herramientas",
+      description: "Las herramientas son la parte más barata del trabajo. Estas son las que llevé a producción y defendería en una revisión de diseño.",
+      frontendTitle: "Frontend",
+      frontendDesc: "React 19 y Next.js App Router, Zustand para el estado que corresponde al cliente, Tailwind CSS v4 para interfaces que siguen siendo rápidas.",
+      backendTitle: "Backend",
+      backendDesc: "FastAPI para APIs asíncronas de baja latencia, Flask y Django donde la lógica pesa más, Node.js y fronteras de servicio que aguantan.",
+      aiTitle: "IA y Edge",
+      aiDesc: "Modelos cuantizados con TensorFlow Lite y PyTorch para inferencia offline en Android, más almacenes vectoriales donde la recuperación justifica su costo."
     },
     engineering: {
-      label: "INGENIERÍA",
-      title: "Ingeniería de Software",
-      description: "Más allá de escribir código, aporto conocimiento estructurado de ingeniería para construir productos robustos, seguros y mantenibles.",
-      production: "Estándares de Producción"
-    },
-    github: {
-      label: "OPEN SOURCE",
-      title: "Estadísticas de GitHub",
-      description: "Actividad constante en desarrollo, repositorios de código abierto y contribuciones continuas en",
-      activity: "RESUMEN DE ACTIVIDAD",
-      languages: "LENGUAJES MÁS USADOS",
-      streak: "RACHA DE CONTRIBUCIONES",
-      viewProfile: "VER PERFIL EN GITHUB"
+      label: "FUNDAMENTOS",
+      title: "La Ingeniería que Sostiene Todo",
+      description: "Un generador puede escribir la función. Estos son los fundamentos que deciden si esa función corresponde al sistema en primer lugar.",
+      production: "Aplicado en producción"
     },
     contact: {
       label: "¿HABLAMOS?",
-      title: "Construyamos algo extraordinario.",
-      description: "Estoy disponible para incorporarme a equipos innovadores, liderar desarrollo Systems Engineer o colaborar en soluciones de alto rendimiento con Inteligencia Artificial.",
-      copied: "¡Email copiado al portapapeles!",
-      formTitle: "Enviar Mensaje Directo",
-      nameLabel: "Tu Nombre / Empresa",
-      emailLabel: "Correo Electrónico",
+      title: "Tráeme la decisión que nadie quiere tomar.",
+      description: "Disponible para roles de Ingeniería de Software, para hacerme cargo de la arquitectura y para equipos que quieren el apalancamiento de la IA sin perder el control de su código.",
+      copied: "Email copiado",
+      formTitle: "Enviar mensaje directo",
+      nameLabel: "Tu nombre / empresa",
+      namePlaceholder: "Ada Lovelace — Acme S.A.",
+      emailLabel: "Correo electrónico",
+      emailPlaceholder: "tu@empresa.com",
       messageLabel: "Mensaje",
-      messagePlaceholder: "¿En qué te puedo ayudar?",
-      sendBtn: "ENVIAR MENSAJE",
-      successMsg: "¡Gracias por tu mensaje! Me pondré en contacto muy pronto.",
-      tagline: "✦ Siempre aprendiendo, siempre construyendo. ✦"
+      messagePlaceholder: "¿Qué estás intentando construir?",
+      sendBtn: "ABRIR EN MI APP DE CORREO",
+      formNote: "Esto abre tu propio cliente de correo con el mensaje ya escrito. Desde esta página no se envía nada.",
+      tagline: "✦ Decidir bien, después construir rápido. ✦",
+      rights: "Todos los derechos reservados."
     }
   }
 };
