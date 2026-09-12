@@ -2,27 +2,27 @@ export const personalData = {
   name: "Sebastian Arley Chirinos Negrón",
   shortName: "Sebastian Chirinos",
   username: "BastleyNait",
-  title: "Ingeniero Full-Stack · Arquitecto de Software · Entrega asistida por IA",
+  title: "Ingeniero Full-Stack · Arquitecto de Software · React, Next.js y Python",
   role: "Ingeniero Full-Stack y Arquitecto de Software",
-  headline: "Orquesto la IA. La arquitectura es mía.",
+  headline: "Seis sistemas en producción. Puedo defender cada decisión que hay dentro.",
   location: "Arequipa, Perú",
   email: "schirinosne@gmail.com",
   linkedin: "https://www.linkedin.com/in/sebastian-chirinos-negron/",
   whatsapp: "https://wa.me/51987545926",
   github: "https://github.com/BastleyNait",
   portfolioUrl: "https://sebastian-cn-portfolio.vercel.app",
-  bio: "Escribir código dejó de ser lo difícil. Decidir qué construir, dónde vive el estado, qué corre en el dispositivo y qué rechazar antes de que se integre: ese es el trabajo. Dirijo agentes de IA con un proceso donde la especificación va primero, y respondo personalmente por cada decisión de arquitectura detrás de seis sistemas en producción entre web, punto de venta, entrega de documentos en la nube, Android nativo y machine learning offline.",
-  shortBio: "Diseño el sistema, dirijo a los agentes y defiendo cada línea que sale a producción.",
+  bio: "Seis sistemas en producción entre web, punto de venta, entrega de documentos en la nube y machine learning en el dispositivo. En cada uno tracé las fronteras de servicio, diseñé el modelo de datos y elegí qué rechazar. Cada decisión de abajo está escrita con el concepto que la sostiene, el trade-off que acepté y dónde se rompe a diez veces el tamaño.",
+  shortBio: "Diseño el sistema y defiendo cada decisión que hay dentro.",
   stats: [
     { label: "Sistemas en producción", value: "6", icon: "Rocket" },
-    { label: "Decisiones documentadas", value: "6", icon: "ScrollText" },
+    { label: "Decisiones documentadas", value: "7", icon: "ScrollText" },
     { label: "Dominios entregados", value: "4", icon: "Boxes" },
     { label: "Lenguajes en producción", value: "5", icon: "Braces" }
   ],
   typingLines: [
-    "Orquesto la IA. La arquitectura es mía.",
-    "Primero la spec, después los agentes, siempre la revisión.",
-    "6 sistemas en producción — del diseño al deploy.",
+    "Seis sistemas en producción — del diseño al deploy.",
+    "Un cobro idempotente que sobrevive a una conexión caída.",
+    "Invariantes en la base de datos, no en una función auxiliar.",
     "Edge AI que funciona con la red apagada.",
     "Disponible para roles Full-Stack e Ingeniería de Software"
   ]
@@ -103,6 +103,21 @@ export const orchestrationData = {
 export const decisionLog = [
   {
     id: "adr-001",
+    project: "GEOTOP Certificados",
+    tag: "Camino de lectura",
+    title: "El identificador vive en el instrumento, no en un catálogo",
+    context: "Un técnico parado en campo con un instrumento en las manos necesita saber si su calibración sigue vigente, desde un teléfono y quizá sin buena señal.",
+    options: ["Una app móvil con catálogo y login", "Una búsqueda web por número de serie", "Un QR impreso en el instrumento que resuelve al documento"],
+    decision: "Un QR impreso en el equipo físico resuelve directo al certificado de ese instrumento en almacenamiento de objetos en la nube. Sin app que instalar, sin cuenta, sin número de serie que escribir.",
+    tradeoff: "Cualquiera que tenga el instrumento en la mano puede leer su certificado. Para un documento cuyo propósito es mostrarse a quien lo pida, eso es la funcionalidad y no la filtración.",
+    concept: "Diseño del camino de lectura y el costo de cada salto",
+    theory: "Cada paso entre el escaneo y el PDF es un lugar donde la red puede fallar: un login es un viaje de ida y vuelta, una búsqueda en catálogo es una consulta, instalar una app es una descarga sobre una conexión que ya es débil. El camino de lectura más barato es el que tiene menos saltos que puedan fallar por separado, así que el identificador se movió al objeto mismo y lo único que queda por entregar es un archivo.",
+    atScale: "Público por URL deja de ser aceptable en cuanto un certificado contenga algo que un competidor no debería ver. El diseño asume que el documento está hecho para mostrarse; uno privado necesitaría un enlace firmado con expiración, lo que devuelve un salto y obliga a pensar el desfase de reloj.",
+    verified: "Escaneado desde el equipo con un teléfono, sobre una conexión limitada a propósito, sin nada instalado y sin cuenta.",
+    caseStudy: "geotop-certificates"
+  },
+  {
+    id: "adr-002",
     project: "Boom POS & CRM",
     tag: "Estado y fiabilidad",
     title: "El carrito vive en el cliente, el libro contable en el servidor",
@@ -113,10 +128,11 @@ export const decisionLog = [
     concept: "Idempotencia",
     theory: "Una escritura idempotente se puede aplicar dos veces y deja el mismo estado que aplicarla una. Un checkout reintentado sobre una conexión que se cae no debe producir dos ventas, así que el cliente genera la clave y el servidor trata la repetición de esa clave como la misma transacción, no como una nueva.",
     atScale: "La reconciliación es el punto débil. Con muchas terminales vendiendo a la vez, un carrito que vive en el cliente necesita una regla explícita de conflicto para el mismo artículo, y hoy esa regla está en código de aplicación y no en el modelo de datos.",
-    verified: "Envié la misma venta cerrada varias veces y tras desconexiones forzadas; el libro contable tiene que mostrar exactamente una."
+    verified: "Envié la misma venta cerrada varias veces y tras desconexiones forzadas; el libro contable tiene que mostrar exactamente una.",
+    caseStudy: "boom-pos"
   },
   {
-    id: "adr-002",
+    id: "adr-003",
     project: "Anemivision",
     tag: "Edge AI y privacidad",
     title: "Inferencia en el dispositivo, nunca en la nube",
@@ -127,10 +143,11 @@ export const decisionLog = [
     concept: "Cuantización post-entrenamiento",
     theory: "Convertir pesos float32 a int8 reduce el modelo unas cuatro veces y lo hace correr en la CPU de un teléfono, a cambio de algo de precisión. La pregunta real nunca fue el tamaño: era si ese costo de precisión es menor que el costo de exigir red en una clínica que no siempre la tiene.",
     atScale: "Un modelo que viaja dentro del binario no se puede corregir sin publicar. Mejorarlo es una actualización de app y una revisión de tienda, no un deploy, así que el ciclo de reentrenamiento es más lento que con un modelo hospedado.",
-    verified: "Comparé la precisión del modelo float contra el cuantizado antes de publicar, y corrí la inferencia en el dispositivo con la red apagada."
+    verified: "Comparé la precisión del modelo float contra el cuantizado antes de publicar, y corrí la inferencia en el dispositivo con la red apagada.",
+    caseStudy: "anemivision"
   },
   {
-    id: "adr-003",
+    id: "adr-004",
     project: "Lo Exacto y Calitop",
     tag: "Estrategia de render",
     title: "El render se elige por ruta, no por proyecto",
@@ -144,7 +161,7 @@ export const decisionLog = [
     verified: "Verifiqué rastreabilidad y primer pintado en las rutas públicas, y confirmé que las lecturas del panel llegan a la base y no a una página cacheada."
   },
   {
-    id: "adr-004",
+    id: "adr-005",
     project: "Revolt Laptop",
     tag: "Integridad de datos",
     title: "Quien decide si hay stock es la base de datos, no la caché",
@@ -158,7 +175,7 @@ export const decisionLog = [
     verified: "Lancé intentos de pedido concurrentes contra la misma unidad única; solo uno puede tener éxito."
   },
   {
-    id: "adr-005",
+    id: "adr-006",
     project: "En todos los sistemas",
     tag: "Superficie operativa",
     title: "PostgreSQL hasta que una medición obligue a otra cosa",
@@ -172,7 +189,7 @@ export const decisionLog = [
     verified: "Redis y la búsqueda vectorial entraron solo después de que una medición mostrara a PostgreSQL como cuello de botella en ese camino puntual, no porque la arquitectura se viera incompleta sin ellos."
   },
   {
-    id: "adr-006",
+    id: "adr-007",
     project: "Entrega asistida por IA",
     tag: "Orquestación",
     title: "Las interfaces se escriben a mano antes de generar nada",
@@ -367,7 +384,7 @@ export const engineeringPrinciples = [
     description: "Dónde trazar una frontera es la decisión que todo lo demás hereda. Capas, bordes de servicio y un modelo de datos que sobrevive al segundo pedido de funcionalidad.",
     concepts: ["Acoplamiento y cohesión", "Contextos acotados", "Arquitectura hexagonal", "Trade-offs de CAP"],
     evidence: "El render se dividió por ruta y no por proyecto, con una sola instancia de PostgreSQL detrás de las páginas públicas y del panel.",
-    adr: "adr-003",
+    adr: "adr-004",
     tag: "Arquitectura"
   },
   {
@@ -376,7 +393,7 @@ export const engineeringPrinciples = [
     description: "Convertir un pedido vago en criterios de aceptación, nombrar las reglas que nunca pueden romperse, y defender los no-objetivos que evitan que una entrega se duplique.",
     concepts: ["Invariantes", "Criterios de aceptación", "No-objetivos", "Modos de falla"],
     evidence: "\"El stock nunca baja de cero\" se escribió como invariante antes de que existiera el flujo de pedido, y por eso terminó en una restricción y no en una función auxiliar.",
-    adr: "adr-004",
+    adr: "adr-005",
     tag: "Alcance"
   },
   {
@@ -385,7 +402,7 @@ export const engineeringPrinciples = [
     description: "Modelado de amenazas antes que funcionalidad, el OWASP Top 10 aplicado en revisión y no citado, y secretos que nunca llegan al bundle.",
     concepts: ["Modelado de amenazas", "OWASP Top 10", "Datos en tránsito y en reposo", "Terminación TLS", "RBAC"],
     evidence: "Ninguna imagen de paciente sale del dispositivo en Anemivision, porque la forma más barata de proteger datos en tránsito es no tenerlos. El servicio de certificados termina el tráfico público en Nginx.",
-    adr: "adr-002",
+    adr: "adr-003",
     tag: "Seguridad"
   },
   {
@@ -394,7 +411,7 @@ export const engineeringPrinciples = [
     description: "Los bugs que sobreviven a una revisión de código son los que necesitan que dos cosas pasen a la vez. Las pruebas existen para volverlos reproducibles.",
     concepts: ["Condiciones de carrera", "Idempotencia", "Aislamiento transaccional", "Pirámide de pruebas"],
     evidence: "Dos casos que cada release tiene que sobrevivir: el mismo cobro enviado dos veces sobre una conexión que se cae, y dos pedidos compitiendo por una única unidad de stock.",
-    adr: "adr-001",
+    adr: "adr-002",
     tag: "Correctitud"
   },
   {
@@ -403,7 +420,7 @@ export const engineeringPrinciples = [
     description: "Incrementos chicos y reversibles, para que una decisión equivocada cueste una iteración y no un release, y para que lo que se rompió sea lo que acaba de cambiar.",
     concepts: ["Radio de impacto", "Reversibilidad", "Presupuestos de desactualización", "Revisión post-deploy"],
     evidence: "A las rutas públicas se les permite estar segundos desactualizadas y al panel no, que es un presupuesto deliberado y no un efecto secundario de la caché.",
-    adr: "adr-003",
+    adr: "adr-004",
     tag: "Entrega"
   },
   {
@@ -412,7 +429,7 @@ export const engineeringPrinciples = [
     description: "Infraestructura del tamaño que un ingeniero puede operar de verdad a las tres de la mañana, no del tamaño que se ve completo en un diagrama.",
     concepts: ["Proxy inverso", "Almacenamiento de objetos frente a base de datos", "Superficie operativa", "CI/CD"],
     evidence: "Los certificados viven en almacenamiento de objetos y no en la base de datos, así que servir un documento nunca pasa por lógica de aplicación ni compite con una escritura.",
-    adr: "adr-005",
+    adr: "adr-001",
     tag: "Operación"
   }
 ];

@@ -41,7 +41,7 @@ export default function App() {
             <Hero />
             <Projects onOpenCaseStudy={openCaseStudy} />
             <hr className="neo-divider max-w-6xl mx-auto" />
-            <DecisionLog />
+            <DecisionLog onOpenCaseStudy={openCaseStudy} />
             <hr className="neo-divider max-w-6xl mx-auto" />
             <TechStack />
             <hr className="neo-divider max-w-6xl mx-auto" />

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { ScrollText, GitBranch, Scale, ChevronDown, BookOpen, TrendingUp, CheckCircle2 } from 'lucide-react';
+import { ScrollText, GitBranch, Scale, ChevronDown, BookOpen, TrendingUp, CheckCircle2, FileText } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
+import { CASE_STUDY_PREFIX } from '../lib/router';
 
-export default function DecisionLog() {
+export default function DecisionLog({ onOpenCaseStudy }) {
   const { t, data } = useAppContext();
   const records = data.decisionLog;
   const reduceMotion = useReducedMotion();
@@ -174,6 +175,23 @@ export default function DecisionLog() {
                               {record.atScale}
                             </p>
                           </Field>
+                        )}
+
+                        {record.caseStudy && (
+                          <div className="lg:col-span-2 pt-4">
+                            <a
+                              href={`${CASE_STUDY_PREFIX}${record.caseStudy}`}
+                              onClick={(event) => {
+                                if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+                                event.preventDefault();
+                                onOpenCaseStudy?.(record.caseStudy);
+                              }}
+                              className="neo-btn bg-[var(--ink)] text-[var(--bg-color)] text-xs py-2 px-4"
+                            >
+                              <FileText className="w-3.5 h-3.5" aria-hidden="true" />
+                              <span>{t.projects.caseStudyLink}</span>
+                            </a>
+                          </div>
                         )}
 
                         {record.verified && (

@@ -34,7 +34,7 @@ export default function TechStack() {
   const activeCategory = techStackData[activeIndex] ?? techStackData[0];
 
   return (
-    <section id="stack" className="py-14 relative bg-[var(--bg-color)]" aria-labelledby="stack-title">
+    <section id="engineering" className="py-14 relative bg-[var(--bg-color)]" aria-labelledby="engineering-title">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* The fundamentals lead the section and give it its heading. A tool
@@ -48,7 +48,7 @@ export default function TechStack() {
           </div>
 
           <h2
-            id="stack-title"
+            id="engineering-title"
             className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-[var(--ink)] tracking-tight mb-4 text-balance"
           >
             {t.engineering.title}
@@ -59,11 +59,9 @@ export default function TechStack() {
           </p>
         </div>
 
-        <div id="engineering" className="scroll-mt-24">
-          <EngineeringSkills />
-        </div>
+        <EngineeringSkills />
 
-        <div className="mt-14">
+        <div id="stack" className="mt-14 scroll-mt-24">
           <div className="mb-6 flex items-center gap-3">
             <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--muted-color)]">
               <Terminal className="w-3.5 h-3.5 inline mr-1.5 -mt-0.5" aria-hidden="true" />

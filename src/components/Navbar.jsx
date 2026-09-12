@@ -33,14 +33,32 @@ export default function Navbar() {
       frame = 0;
       const probe = window.scrollY + window.innerHeight * 0.3;
 
-      for (let i = SECTIONS.length - 1; i >= 0; i -= 1) {
-        const element = document.getElementById(SECTIONS[i].id);
-        if (element && element.offsetTop <= probe) {
-          setActiveSection(SECTIONS[i].id);
-          return;
+      /* getBoundingClientRect is measured against the viewport, so adding
+         scrollY gives a position in the document. offsetTop cannot be used
+         here: it is relative to the nearest positioned ancestor, so any
+         anchor nested inside another one reports a small number and the
+         section is never matched. */
+      let current = SECTIONS[0].id;
+      let best = -Infinity;
+
+      for (const section of SECTIONS) {
+        const element = document.getElementById(section.id);
+        if (!element) continue;
+
+        const top = element.getBoundingClientRect().top + window.scrollY;
+        if (top <= probe && top > best) {
+          best = top;
+          current = section.id;
         }
       }
-      setActiveSection(SECTIONS[0].id);
+
+      /* The last section can be shorter than the probe offset, so a page
+         scrolled to the bottom would otherwise never highlight it. */
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+        current = SECTIONS[SECTIONS.length - 1].id;
+      }
+
+      setActiveSection(current);
     };
 
     const onScroll = () => {
@@ -117,7 +135,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={toggleTheme}
-              className={`${ICON_BTN_CLASS} hover:bg-[var(--accent-lime)] hover:text-[var(--on-accent)]`}
+              className={`${ICON_BTN_CLASS} hover:bg-[var(--accent)] hover:text-[var(--on-accent)]`}
               aria-label={t.nav.toggleTheme}
               title={t.nav.toggleTheme}
             >
@@ -129,7 +147,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={toggleLanguage}
-              className={`${ICON_BTN_CLASS} gap-1 w-auto px-2.5 hover:bg-[var(--accent-pink)] hover:text-[var(--on-accent)] font-mono font-bold text-xs`}
+              className={`${ICON_BTN_CLASS} gap-1 w-auto px-2.5 hover:bg-[var(--accent)] hover:text-[var(--on-accent)] font-mono font-bold text-xs`}
               aria-label={`${language === 'en' ? 'ES' : 'EN'} — ${t.nav.toggleLanguage}`}
               title={t.nav.toggleLanguage}
             >

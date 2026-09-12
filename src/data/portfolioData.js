@@ -2,27 +2,27 @@ export const personalData = {
   name: "Sebastian Arley Chirinos Negrón",
   shortName: "Sebastian Chirinos",
   username: "BastleyNait",
-  title: "Full-Stack Engineer · Software Architect · AI-Augmented Delivery",
+  title: "Full-Stack Engineer · Software Architect · React, Next.js & Python",
   role: "Full-Stack Engineer & Software Architect",
-  headline: "I orchestrate AI. I own the architecture.",
+  headline: "Six systems in production. I can defend every decision in them.",
   location: "Arequipa, Peru",
   email: "schirinosne@gmail.com",
   linkedin: "https://www.linkedin.com/in/sebastian-chirinos-negron/",
   whatsapp: "https://wa.me/51987545926",
   github: "https://github.com/BastleyNait",
   portfolioUrl: "https://sebastian-cn-portfolio.vercel.app",
-  bio: "Writing code stopped being the hard part. Deciding what to build, where state lives, what runs on-device, and what to reject before it merges — that is the job. I direct AI agents through a spec-first pipeline and personally own every architectural call behind six systems running in production across web, point of sale, cloud document delivery, native Android and offline machine learning.",
-  shortBio: "I design the system, direct the agents, and defend every line that ships.",
+  bio: "Six systems in production across web, point of sale, cloud document delivery and on-device machine learning. On each one I drew the service boundaries, designed the data model and chose what to reject. Every decision below is written down with the concept underneath it, the trade-off I accepted, and where it breaks at ten times the size.",
+  shortBio: "I design the system and defend every decision inside it.",
   stats: [
     { label: "Systems in production", value: "6", icon: "Rocket" },
-    { label: "Decisions on record", value: "6", icon: "ScrollText" },
+    { label: "Decisions on record", value: "7", icon: "ScrollText" },
     { label: "Product domains shipped", value: "4", icon: "Boxes" },
     { label: "Languages in production", value: "5", icon: "Braces" }
   ],
   typingLines: [
-    "I orchestrate AI. I own the architecture.",
-    "Spec first, agents second, review always.",
-    "6 systems in production — design to deploy.",
+    "Six systems in production — design to deploy.",
+    "An idempotent checkout that survives a dropped connection.",
+    "Invariants in the database, not in a helper function.",
     "Edge AI that runs with the network off.",
     "Open to Full-Stack & Software Engineering roles"
   ]
@@ -103,6 +103,21 @@ export const orchestrationData = {
 export const decisionLog = [
   {
     id: "adr-001",
+    project: "GEOTOP Certificates",
+    tag: "Read Path",
+    title: "The identifier lives on the instrument, not in a catalog",
+    context: "A technician standing in a field with an instrument in their hands needs to know whether its calibration is still valid, on a phone, possibly without much signal.",
+    options: ["A mobile app with a catalog and a login", "A web search by serial number", "A printed QR on the instrument that resolves to the document"],
+    decision: "A QR printed on the physical equipment resolves straight to that instrument's certificate in cloud object storage. No app to install, no account, no serial number to type.",
+    tradeoff: "Anyone holding the instrument can read its certificate. For a document whose purpose is to be shown to whoever asks, that is the feature, not the leak.",
+    concept: "Read-path design and the cost of a hop",
+    theory: "Every step between the scan and the PDF is somewhere the network can fail: a login is a round trip, a catalog lookup is a query, an app install is a download on a connection that is already weak. The cheapest read path is the one with the fewest hops that can fail independently, so the identifier was moved onto the object itself and the only thing left to deliver is one file.",
+    atScale: "Public-by-URL stops being acceptable the moment a certificate contains anything a competitor should not see. The design assumes the document is meant to be shown; a private one would need a signed, expiring link, which puts a hop back and needs the clock skew thought through.",
+    verified: "Scanned from the equipment on a phone, on a connection deliberately throttled, with nothing installed and no account.",
+    caseStudy: "geotop-certificates"
+  },
+  {
+    id: "adr-002",
     project: "Boom POS & CRM",
     tag: "State & Reliability",
     title: "Cart lives on the client, the ledger lives on the server",
@@ -113,10 +128,11 @@ export const decisionLog = [
     concept: "Idempotency",
     theory: "An idempotent write can be applied twice and leave the same state as applying it once. A checkout retried over a dropping connection must not produce two sales, so the client generates the key and the server treats a repeat of that key as the same transaction rather than a new one.",
     atScale: "Reconciliation is the weak point. With many terminals selling at once, a client-owned cart needs an explicit conflict rule for the same stock item, and today that rule lives in application code rather than in the data model.",
-    verified: "Submitted the same completed sale repeatedly and after forced disconnections; the ledger has to show exactly one."
+    verified: "Submitted the same completed sale repeatedly and after forced disconnections; the ledger has to show exactly one.",
+    caseStudy: "boom-pos"
   },
   {
-    id: "adr-002",
+    id: "adr-003",
     project: "Anemivision",
     tag: "Edge AI & Privacy",
     title: "Inference on the device, never in the cloud",
@@ -127,10 +143,11 @@ export const decisionLog = [
     concept: "Post-training quantization",
     theory: "Converting float32 weights to int8 shrinks a model by roughly four times and makes it run on a phone CPU, in exchange for some accuracy. The real question was never model size: it was whether that accuracy cost is smaller than the cost of requiring a network in a clinic that does not reliably have one.",
     atScale: "A model that ships inside the binary cannot be corrected without a release. Improving it is an app update and a store review, not a deploy, so the retraining loop is slower than a hosted model would be.",
-    verified: "Accuracy compared between the float and the quantized model before shipping, and inference run on the device with the network switched off."
+    verified: "Accuracy compared between the float and the quantized model before shipping, and inference run on the device with the network switched off.",
+    caseStudy: "anemivision"
   },
   {
-    id: "adr-003",
+    id: "adr-004",
     project: "Lo Exacto & Calitop",
     tag: "Rendering Strategy",
     title: "Rendering chosen per route, not per project",
@@ -144,7 +161,7 @@ export const decisionLog = [
     verified: "Public routes checked for crawlability and first paint; dashboard reads confirmed to reach the database instead of a cached page."
   },
   {
-    id: "adr-004",
+    id: "adr-005",
     project: "Revolt Laptop",
     tag: "Data Integrity",
     title: "The database, not the cache, decides whether stock exists",
@@ -158,7 +175,7 @@ export const decisionLog = [
     verified: "Concurrent order attempts fired at the same one-of-a-kind unit; exactly one is allowed to succeed."
   },
   {
-    id: "adr-005",
+    id: "adr-006",
     project: "Across all systems",
     tag: "Operational Surface",
     title: "PostgreSQL until something measured forces otherwise",
@@ -172,7 +189,7 @@ export const decisionLog = [
     verified: "Redis and vector search were added only after a measurement showed PostgreSQL was the bottleneck on that specific path, not because the architecture looked incomplete without them."
   },
   {
-    id: "adr-006",
+    id: "adr-007",
     project: "AI-assisted delivery",
     tag: "Orchestration",
     title: "Interfaces are written by hand before generation starts",
@@ -367,7 +384,7 @@ export const engineeringPrinciples = [
     description: "Where to draw a boundary is the decision everything else inherits. Layering, service edges and a data model that survives the second feature request.",
     concepts: ["Coupling and cohesion", "Bounded contexts", "Hexagonal layering", "CAP trade-offs"],
     evidence: "Rendering split per route rather than per project, with one PostgreSQL instance behind both the public pages and the dashboard.",
-    adr: "adr-003",
+    adr: "adr-004",
     tag: "Architecture"
   },
   {
@@ -376,7 +393,7 @@ export const engineeringPrinciples = [
     description: "Turning a vague ask into acceptance criteria, naming the rules that must never break, and defending the non-goals that stop a delivery doubling.",
     concepts: ["Invariants", "Acceptance criteria", "Non-goals", "Failure modes"],
     evidence: "\"Stock never goes below zero\" was written as an invariant before the order flow existed, which is why it ended up in a constraint and not a helper function.",
-    adr: "adr-004",
+    adr: "adr-005",
     tag: "Scope"
   },
   {
@@ -385,7 +402,7 @@ export const engineeringPrinciples = [
     description: "Threat modelling before feature work, the OWASP Top 10 applied during review rather than quoted, and secrets that never reach a bundle.",
     concepts: ["Threat modelling", "OWASP Top 10", "Data in transit vs at rest", "TLS termination", "RBAC"],
     evidence: "No patient image leaves the device on Anemivision, because the cheapest way to secure data in transit is to have none. The certificate service terminates public traffic at Nginx.",
-    adr: "adr-002",
+    adr: "adr-003",
     tag: "Security"
   },
   {
@@ -394,7 +411,7 @@ export const engineeringPrinciples = [
     description: "The bugs that survive code review are the ones that need two things to happen at once. Tests exist to make those reproducible.",
     concepts: ["Race conditions", "Idempotency", "Transaction isolation", "Test pyramid"],
     evidence: "Two cases every release has to survive: the same checkout submitted twice over a dropping connection, and two orders racing for one unit of stock.",
-    adr: "adr-001",
+    adr: "adr-002",
     tag: "Correctness"
   },
   {
@@ -403,7 +420,7 @@ export const engineeringPrinciples = [
     description: "Small reversible increments, so a wrong decision costs one iteration instead of one release, and so the thing that broke is the thing that just changed.",
     concepts: ["Blast radius", "Reversibility", "Staleness budgets", "Post-ship review"],
     evidence: "Public routes are allowed to be seconds stale and the dashboard is not, which is a deliberate budget rather than a side effect of the cache.",
-    adr: "adr-003",
+    adr: "adr-004",
     tag: "Delivery"
   },
   {
@@ -412,7 +429,7 @@ export const engineeringPrinciples = [
     description: "Infrastructure sized to what one engineer can actually run at three in the morning, not to what looks complete on a diagram.",
     concepts: ["Reverse proxy", "Object storage vs database", "Operational surface", "CI/CD"],
     evidence: "Certificates live in object storage rather than in the database, so serving a document never touches application logic and never competes with a write.",
-    adr: "adr-005",
+    adr: "adr-001",
     tag: "Operations"
   }
 ];
