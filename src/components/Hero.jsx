@@ -30,7 +30,7 @@ const STAT_ICONS = {
 };
 
 const SOCIAL_LINK_CLASS =
-  'p-2.5 bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[4px_4px_0px_var(--ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_var(--ink)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center text-[var(--ink)]';
+  'p-2.5 bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_var(--ink)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center text-[var(--ink)]';
 
 /** Types the tagline out character by character, or shows it whole when the
  *  visitor has asked the system to reduce motion. */
@@ -98,7 +98,7 @@ export default function Hero() {
 
             <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.15] mb-4 text-[var(--ink)]">
               {t.hero.greeting} <br />
-              <span className="bg-[var(--accent)] text-[var(--on-accent)] px-2.5 py-0.5 border-[3px] border-[var(--ink)] shadow-[4px_4px_0px_var(--ink)] inline-block mt-2">
+              <span className="bg-[var(--accent)] text-[var(--on-accent)] px-2.5 py-0.5 border-2 border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] inline-block mt-2">
                 {personalData.shortName}
               </span>
             </h1>
@@ -108,7 +108,7 @@ export default function Hero() {
               {personalData.headline}
             </p>
 
-            <div className="bg-[var(--card-color)] border-[3px] border-[var(--ink)] shadow-[4px_4px_0px_var(--ink)] px-4 py-3 flex items-center gap-2.5 w-full max-w-lg mb-6">
+            <div className="bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] px-4 py-3 flex items-center gap-2.5 w-full max-w-lg mb-6">
               <span className="bg-[var(--ink)] p-1 text-[var(--accent)] shrink-0">
                 <Terminal className="w-4 h-4" aria-hidden="true" />
               </span>
@@ -172,7 +172,7 @@ export default function Hero() {
                 Edge ML
               </FloatingTag>
 
-              <div className="w-full bg-[var(--card-color)] border-[3px] border-[var(--ink)] shadow-[8px_8px_0px_var(--accent)] p-4 flex flex-col items-center">
+              <div className="w-full bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[5px_5px_0px_var(--ink)] p-4 flex flex-col items-center">
                 <div className="relative w-full h-[280px] sm:h-[320px] bg-[var(--bg-color)] border-2 border-[var(--ink)] overflow-hidden">
                   {photoFailed ? (
                     <span className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-[var(--muted-color)]">
@@ -203,7 +203,7 @@ export default function Hero() {
                       {personalData.shortName}
                     </span>
                   </span>
-                  <span className="neo-tag on-accent bg-[var(--accent)] text-[10px] uppercase shadow-[2px_2px_0px_var(--ink)] shrink-0">
+                  <span className="neo-tag text-[10px] uppercase font-bold shrink-0">
                     {t.hero.engineerBadge}
                   </span>
                 </div>
@@ -226,7 +226,7 @@ export default function Hero() {
             return (
               <div key={stat.label} className="flex flex-col items-center text-center p-2">
                 <dd
-                  className="font-heading font-black text-2xl sm:text-3xl text-[var(--on-accent)] px-3 py-0.5 border-2 border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] mb-2.5"
+                  className="font-heading font-black text-2xl sm:text-3xl text-[var(--on-accent)] px-3 py-0.5 border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] mb-2.5"
                   style={{ backgroundColor: color }}
                 >
                   {stat.value}
@@ -250,7 +250,7 @@ function FloatingTag({ children, className, color, delay, reduceMotion }) {
     <motion.span
       animate={reduceMotion ? undefined : { y: [-5, 5, -5] }}
       transition={{ duration: 3.6 + delay * 0.3, repeat: Infinity, ease: 'easeInOut', delay }}
-      className={`absolute z-20 neo-tag on-accent shadow-[3px_3px_0px_var(--ink)] font-bold uppercase tracking-wider ${className}`}
+      className={`absolute z-20 neo-tag on-accent shadow-[2px_2px_0px_var(--ink)] font-bold uppercase tracking-wider ${className}`}
       style={{ backgroundColor: color }}
     >
       {children}

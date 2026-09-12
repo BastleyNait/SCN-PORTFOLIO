@@ -91,7 +91,7 @@ export default function Projects({ onOpenCaseStudy }) {
                   aria-pressed={isActive}
                   className={`px-4 py-2 text-xs sm:text-sm font-heading font-bold uppercase tracking-wider transition-all duration-150 cursor-pointer border-2 border-[var(--ink)] ${
                     isActive
-                      ? 'bg-[var(--accent)] text-[var(--on-accent)] shadow-[4px_4px_0px_var(--ink)] -translate-x-px -translate-y-px'
+                      ? 'bg-[var(--accent)] text-[var(--on-accent)] shadow-[3px_3px_0px_var(--ink)] -translate-x-px -translate-y-px'
                       : 'bg-[var(--card-color)] text-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] hover:shadow-[3px_3px_0px_var(--ink)] hover:-translate-x-px hover:-translate-y-px'
                   }`}
                 >
@@ -212,7 +212,7 @@ export default function Projects({ onOpenCaseStudy }) {
                           event.preventDefault();
                           onOpenCaseStudy(project.caseStudy);
                         }}
-                        className="neo-btn w-full bg-[var(--ink)] text-[var(--bg-color)] text-xs py-2 px-3 border-2 shadow-[3px_3px_0px_var(--ink)] mb-2"
+                        className="neo-btn w-full bg-[var(--ink)] text-[var(--bg-color)] text-xs py-2 px-3 border-2 shadow-[2px_2px_0px_var(--ink)] mb-2"
                       >
                         <FileText className="w-3.5 h-3.5" aria-hidden="true" />
                         <span>{t.projects.caseStudyLink}</span>
@@ -228,7 +228,7 @@ export default function Projects({ onOpenCaseStudy }) {
                           href={project.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="neo-btn flex-1 bg-[var(--accent)] text-[var(--on-accent)] text-xs py-2 px-3 border-2 shadow-[3px_3px_0px_var(--ink)]"
+                          className="neo-btn flex-1 bg-[var(--accent)] text-[var(--on-accent)] text-xs py-2 px-3 border-2 shadow-[2px_2px_0px_var(--ink)]"
                         >
                           <span>{t.projects.liveDemo}</span>
                           <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
@@ -241,7 +241,7 @@ export default function Projects({ onOpenCaseStudy }) {
                         target="_blank"
                         rel="noopener noreferrer"
                         title={t.projects.viewCode}
-                        className={`neo-btn bg-[var(--card-color)] text-[var(--ink)] text-xs py-2 px-3 border-2 shadow-[3px_3px_0px_var(--ink)] ${
+                        className={`neo-btn bg-[var(--card-color)] text-[var(--ink)] text-xs py-2 px-3 border-2 shadow-[2px_2px_0px_var(--ink)] ${
                           project.liveUrl ? '' : 'flex-1'
                         }`}
                       >

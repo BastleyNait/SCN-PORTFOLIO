@@ -5,7 +5,7 @@ import { useAppContext } from '../context/app-context';
 import { CV_PATH, CV_DOWNLOAD_NAME } from '../lib/cv';
 
 const INPUT_CLASS =
-  'w-full px-3.5 py-2.5 bg-[var(--bg-color)] border-[3px] border-[var(--ink)] font-mono text-xs sm:text-sm text-[var(--ink)] placeholder:text-[var(--muted-color)] focus:bg-[var(--card-color)] focus:shadow-[3px_3px_0px_var(--ink)] transition-all';
+  'w-full px-3.5 py-2.5 bg-[var(--bg-color)] border-2 border-[var(--ink)] font-mono text-xs sm:text-sm text-[var(--ink)] placeholder:text-[var(--muted-color)] focus:bg-[var(--card-color)] focus:shadow-[2px_2px_0px_var(--ink)] transition-all';
 
 const LABEL_CLASS =
   'block font-mono text-xs font-bold text-[var(--ink)] uppercase mb-1';
@@ -46,7 +46,7 @@ export default function ContactFooter() {
     <footer id="contact" className="pt-14 pb-8 relative z-10 bg-[var(--bg-color)]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div className="bg-[var(--accent)] border-[3px] border-[var(--ink)] shadow-[8px_8px_0px_var(--ink)] p-8 sm:p-10 mb-10">
+        <div className="bg-[var(--accent)] border-2 border-[var(--ink)] shadow-[5px_5px_0px_var(--ink)] p-8 sm:p-10 mb-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
             <div className="lg:col-span-7 flex flex-col items-start">
@@ -72,7 +72,7 @@ export default function ContactFooter() {
                   wants to paste it into their own client should not have to
                   trust a clipboard API that a locked-down browser may refuse. */}
               <div className="flex flex-wrap items-center gap-3">
-                <div className="bg-[var(--card-color)] border-[3px] border-[var(--ink)] shadow-[4px_4px_0px_var(--ink)] flex items-stretch">
+                <div className="bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] flex items-stretch">
                   <span className="flex items-center gap-2 px-4 py-3 font-mono text-xs sm:text-sm text-[var(--ink)] select-all">
                     <Mail className="w-4 h-4 shrink-0" aria-hidden="true" />
                     {personalData.email}
@@ -102,7 +102,7 @@ export default function ContactFooter() {
                 <a
                   href={CV_PATH}
                   download={CV_DOWNLOAD_NAME}
-                  className="neo-btn bg-[var(--ink)] text-[var(--bg-color)] text-xs py-2.5 px-4 border-2 shadow-[3px_3px_0px_var(--ink)]"
+                  className="neo-btn bg-[var(--ink)] text-[var(--bg-color)] text-xs py-2.5 px-4 border-2 shadow-[2px_2px_0px_var(--ink)]"
                 >
                   <Download className="w-4 h-4" aria-hidden="true" />
                   <span>{t.hero.downloadCv}</span>
@@ -204,7 +204,7 @@ function SocialLink({ href, label, children }) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="p-2.5 bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0px_var(--ink)] transition-all flex items-center justify-center text-[var(--ink)]"
+      className="p-2.5 bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_var(--ink)] transition-all flex items-center justify-center text-[var(--ink)]"
     >
       {children}
     </a>

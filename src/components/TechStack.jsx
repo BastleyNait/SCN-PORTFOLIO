@@ -45,7 +45,7 @@ export default function TechStack() {
 
   return (
     <section id="stack" className="py-14 relative bg-[var(--bg-color)]" aria-labelledby="stack-title">
-      <div className="absolute inset-0 bg-stripes pointer-events-none opacity-40" aria-hidden="true" />
+      <div className="absolute inset-0 bg-stripes pointer-events-none opacity-25" aria-hidden="true" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
@@ -85,7 +85,7 @@ export default function TechStack() {
                 onClick={() => setActiveIndex(index)}
                 className={`neo-tag cursor-pointer text-xs sm:text-sm font-bold px-4 py-2 transition-all duration-150 ${
                   isActive
-                    ? 'on-accent shadow-[4px_4px_0px_var(--ink)] -translate-x-0.5 -translate-y-0.5'
+                    ? 'on-accent shadow-[3px_3px_0px_var(--ink)] -translate-x-0.5 -translate-y-0.5'
                     : 'shadow-[2px_2px_0px_var(--ink)] hover:-translate-x-px hover:-translate-y-px hover:shadow-[3px_3px_0px_var(--ink)]'
                 }`}
                 style={isActive ? { backgroundColor: color } : undefined}

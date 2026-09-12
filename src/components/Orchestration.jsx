@@ -29,7 +29,7 @@ export default function Orchestration() {
       className="py-14 relative bg-[var(--bg-color)] border-b-[3px] border-[var(--ink)]"
       aria-labelledby="orchestration-title"
     >
-      <div className="absolute inset-0 bg-stripes pointer-events-none opacity-60" aria-hidden="true" />
+      <div className="absolute inset-0 bg-stripes pointer-events-none opacity-30" aria-hidden="true" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
@@ -165,7 +165,7 @@ function SplitCard({ icon, tag, title, items, color, marker, ...motionProps }) {
     <motion.div {...motionProps} className="neo-card-flat p-6 sm:p-8">
       <div className="flex items-center gap-3 mb-5">
         <span
-          className="w-11 h-11 border-2 border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] flex items-center justify-center text-[var(--on-accent)] shrink-0"
+          className="w-11 h-11 border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] flex items-center justify-center text-[var(--on-accent)] shrink-0"
           style={{ backgroundColor: color }}
         >
           {icon}

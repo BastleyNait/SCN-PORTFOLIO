@@ -16,7 +16,7 @@ const SECTIONS = [
 ];
 
 const ICON_BTN_CLASS =
-  'w-9 h-9 flex items-center justify-center bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_var(--ink)] transition-all text-[var(--ink)] cursor-pointer';
+  'w-9 h-9 flex items-center justify-center bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_var(--ink)] transition-all text-[var(--ink)] cursor-pointer';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -75,7 +75,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-[72px]">
 
           <a href="#hero" className="flex items-center gap-3 group">
-            <span className="w-10 h-10 bg-[var(--accent)] border-[3px] border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] flex items-center justify-center font-mono font-black text-base text-[var(--on-accent)] uppercase group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:shadow-[5px_5px_0px_var(--ink)] transition-all">
+            <span className="w-10 h-10 bg-[var(--accent)] border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] flex items-center justify-center font-mono font-black text-base text-[var(--on-accent)] uppercase group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:shadow-[4px_4px_0px_var(--ink)] transition-all">
               SC
             </span>
             <span className="flex flex-col">
@@ -96,7 +96,7 @@ export default function Navbar() {
                   key={section.id}
                   href={`#${section.id}`}
                   aria-current={isActive ? 'true' : undefined}
-                  className="relative px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_var(--ink)] transition-all bg-[var(--card-color)] overflow-hidden"
+                  className="relative px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_var(--ink)] transition-all bg-[var(--card-color)] overflow-hidden"
                 >
                   {isActive && (
                     <motion.span
@@ -149,7 +149,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen((open) => !open)}
-            className="xl:hidden w-10 h-10 flex items-center justify-center bg-[var(--card-color)] border-[3px] border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all text-[var(--ink)] cursor-pointer"
+            className="xl:hidden w-10 h-10 flex items-center justify-center bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all text-[var(--ink)] cursor-pointer"
             aria-label={mobileMenuOpen ? t.nav.closeMenu : t.nav.openMenu}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-menu"
@@ -180,7 +180,7 @@ export default function Navbar() {
                     href={`#${section.id}`}
                     onClick={closeMenu}
                     aria-current={isActive ? 'true' : undefined}
-                    className={`px-4 py-2.5 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider border-2 border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] transition-all flex items-center justify-between ${
+                    className={`px-4 py-2.5 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] transition-all flex items-center justify-between ${
                       isActive
                         ? 'bg-[var(--accent)] text-[var(--on-accent)]'
                         : 'bg-[var(--card-color)] text-[var(--ink)]'

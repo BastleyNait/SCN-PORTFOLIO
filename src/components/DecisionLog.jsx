@@ -74,7 +74,7 @@ export default function DecisionLog() {
                     className="w-full text-left p-5 sm:p-6 flex items-start gap-4 cursor-pointer hover:bg-[var(--bg-color)] transition-colors"
                   >
                     <span
-                      className="hidden sm:flex w-11 h-11 shrink-0 items-center justify-center border-2 border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] text-[var(--on-accent)]"
+                      className="hidden sm:flex w-11 h-11 shrink-0 items-center justify-center border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] text-[var(--on-accent)]"
                       style={{ backgroundColor: color }}
                     >
                       <GitBranch className="w-5 h-5" aria-hidden="true" />
