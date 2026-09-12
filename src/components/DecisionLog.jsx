@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { ScrollText, GitBranch, Scale, ChevronDown } from 'lucide-react';
+import { ScrollText, GitBranch, Scale, ChevronDown, BookOpen, TrendingUp, CheckCircle2 } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
 
 export default function DecisionLog() {
@@ -39,7 +39,7 @@ export default function DecisionLog() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
+        <div className="space-y-5">
           {records.map((record, index) => {
             const color = 'var(--ink)';
             const isOpen = openId === record.id;
@@ -83,9 +83,16 @@ export default function DecisionLog() {
                         </span>
                       </span>
 
-                      <span className="block font-heading font-extrabold text-lg sm:text-xl text-[var(--ink)] leading-snug">
+                      <span className="block font-heading font-extrabold text-lg sm:text-xl text-[var(--ink)] leading-snug mb-2">
                         {record.title}
                       </span>
+
+                      {record.concept && (
+                        <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold text-[var(--muted-color)]">
+                          <BookOpen className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                          {record.concept}
+                        </span>
+                      )}
                     </span>
 
                     <span className="shrink-0 flex items-center gap-2 pt-1">
@@ -142,6 +149,40 @@ export default function DecisionLog() {
                             {record.tradeoff}
                           </p>
                         </Field>
+
+                        {/* The theory layer. A decision anyone can repeat is worth
+                            less than the reasoning that produced it, so the named
+                            concept, the limit and the check all say so out loud. */}
+                        {record.concept && (
+                          <div className="lg:col-span-2 pt-5 border-t border-[var(--ink)]">
+                            <p className="font-mono text-[10px] font-black uppercase tracking-[0.2em] text-[var(--muted-color)] mb-2 flex items-center gap-1.5">
+                              <BookOpen className="w-3.5 h-3.5" aria-hidden="true" />
+                              {t.decisions.conceptLabel}
+                            </p>
+                            <p className="font-heading font-extrabold text-base text-[var(--ink)] mb-1.5">
+                              {record.concept}
+                            </p>
+                            <p className="text-sm text-[var(--ink)] leading-relaxed">
+                              {record.theory}
+                            </p>
+                          </div>
+                        )}
+
+                        {record.atScale && (
+                          <Field label={t.decisions.atScaleLabel} icon={<TrendingUp className="w-3.5 h-3.5" aria-hidden="true" />}>
+                            <p className="text-sm text-[var(--muted-color)] leading-relaxed">
+                              {record.atScale}
+                            </p>
+                          </Field>
+                        )}
+
+                        {record.verified && (
+                          <Field label={t.decisions.verifiedLabel} icon={<CheckCircle2 className="w-3.5 h-3.5" aria-hidden="true" />}>
+                            <p className="text-sm text-[var(--muted-color)] leading-relaxed">
+                              {record.verified}
+                            </p>
+                          </Field>
+                        )}
 
                       </div>
                     </motion.div>

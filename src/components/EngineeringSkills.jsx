@@ -56,16 +56,42 @@ export default function EngineeringSkills() {
               {principle.title}
             </h3>
 
-            <p className="text-[var(--muted-color)] text-xs sm:text-sm leading-relaxed mb-4 flex-1">
+            <p className="text-[var(--muted-color)] text-xs sm:text-sm leading-relaxed mb-4">
               {principle.description}
             </p>
 
-            <div className="pt-2.5 border-t-2 border-dashed border-[var(--ink)] flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 shrink-0" style={{ color }} aria-hidden="true" />
-              <span className="font-mono font-bold text-xs text-[var(--ink)]">
-                {t.engineering.production}
-              </span>
-            </div>
+            {/* The named concepts. A reader who knows the field can tell in one
+                glance whether this is vocabulary or understanding. */}
+            {principle.concepts && (
+              <ul className="flex flex-wrap gap-1.5 mb-4 list-none p-0">
+                {principle.concepts.map((concept) => (
+                  <li key={concept} className="neo-tag text-[10px] font-semibold">
+                    {concept}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {/* And where it was actually applied, so none of it is a claim. */}
+            {principle.evidence && (
+              <div className="mt-auto pt-3 border-t border-[var(--ink)]">
+                <p className="font-mono text-[10px] font-black uppercase tracking-[0.18em] text-[var(--muted-color)] mb-1.5 flex items-center gap-1.5">
+                  <CheckCircle className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                  {t.engineering.evidenceLabel}
+                </p>
+                <p className="text-[var(--ink)] text-xs leading-relaxed">
+                  {principle.evidence}
+                </p>
+                {principle.adr && (
+                  <a
+                    href="#decisions"
+                    className="mt-2 inline-block font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--muted-color)] hover:text-[var(--ink)] underline underline-offset-2"
+                  >
+                    {principle.adr}
+                  </a>
+                )}
+              </div>
+            )}
           </motion.li>
         );
       })}

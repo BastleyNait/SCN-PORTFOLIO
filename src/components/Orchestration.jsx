@@ -57,57 +57,35 @@ export default function Orchestration() {
           <span className="h-[2px] flex-1 bg-[var(--ink)] opacity-30" aria-hidden="true" />
         </div>
 
-        <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 mb-12">
+        <ol className="border border-[var(--ink)] mb-10 list-none p-0">
           {loop.map((phase, index) => {
             const isShared = phase.owner === 'shared';
 
             return (
               <motion.li
                 key={phase.step}
-                {...rise(index * 0.06)}
-                className="neo-card-flat p-5 flex flex-col"
+                {...rise(index * 0.04)}
+                className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 px-4 py-3 border-b border-[var(--ink)] last:border-b-0"
               >
-                {/* Step number + ownership badge */}
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-mono font-black text-2xl text-[var(--muted-color)] leading-none">
-                    {phase.step}
-                  </span>
-                  <span
-                    className="neo-tag text-[10px] font-bold uppercase tracking-wider"
-                    style={{ backgroundColor: isShared ? 'var(--card-color)' : 'var(--ink)', color: isShared ? 'var(--ink)' : 'var(--bg-color)' }}
-                  >
-                    {isShared ? <Bot className="w-3 h-3" aria-hidden="true" /> : <UserCog className="w-3 h-3" aria-hidden="true" />}
-                    {isShared ? t.orchestration.ownerShared : t.orchestration.ownerHuman}
-                  </span>
-                </div>
+                <span className="font-mono font-black text-sm text-[var(--muted-color)] shrink-0 w-6">
+                  {phase.step}
+                </span>
 
-                <p className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--muted-color)] mb-1.5">
+                <span className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--muted-color)] shrink-0 w-28">
                   {phase.phase}
-                </p>
+                </span>
 
-                <h3 className="font-heading font-extrabold text-base text-[var(--ink)] leading-snug mb-2.5">
+                <span className="font-heading font-bold text-sm text-[var(--ink)] flex-1 leading-snug">
                   {phase.title}
-                </h3>
+                </span>
 
-                <p className="text-[var(--muted-color)] text-xs leading-relaxed mb-5 flex-1">
-                  {phase.description}
-                </p>
-
-                <div className="pt-3 border-t-2 border-dashed border-[var(--ink)]">
-                  <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-[var(--muted-color)] mb-2">
-                    {t.orchestration.artifactsLabel}
-                  </p>
-                  <ul className="flex flex-wrap gap-1.5">
-                    {phase.artifacts.map((artifact) => (
-                      <li
-                        key={artifact}
-                        className="font-mono text-[10px] font-semibold text-[var(--ink)] border border-[var(--ink)] px-1.5 py-0.5"
-                      >
-                        {artifact}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <span
+                  className="neo-tag text-[10px] font-bold uppercase tracking-wider shrink-0 self-start"
+                  style={{ backgroundColor: isShared ? 'var(--card-color)' : 'var(--ink)', color: isShared ? 'var(--ink)' : 'var(--bg-color)' }}
+                >
+                  {isShared ? <Bot className="w-3 h-3" aria-hidden="true" /> : <UserCog className="w-3 h-3" aria-hidden="true" />}
+                  {isShared ? t.orchestration.ownerShared : t.orchestration.ownerHuman}
+                </span>
               </motion.li>
             );
           })}

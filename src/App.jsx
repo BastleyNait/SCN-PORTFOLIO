@@ -11,8 +11,9 @@ import CaseStudy from './components/CaseStudy';
 import { useAppContext } from './context/app-context';
 import { CASE_STUDY_PREFIX, useRoute } from './lib/router';
 
-/* Narrative order: who I am, how I work, what that produced,
-   the decisions behind it, the tools and fundamentals, then contact.
+/* Narrative order: who I am, what I shipped, the reasoning behind it, the
+   fundamentals under that reasoning, the tools, and only then how AI fits in.
+   Evidence first, method last: the method is a claim, the rest is proof.
    A case study takes over the whole view; it is a document, not a section. */
 export default function App() {
   const { t } = useAppContext();
@@ -36,12 +37,13 @@ export default function App() {
 
           <main id="main" className="relative z-10">
             <Hero />
-            <Orchestration />
             <Projects onOpenCaseStudy={openCaseStudy} />
             <hr className="neo-divider max-w-6xl mx-auto" />
             <DecisionLog />
             <hr className="neo-divider max-w-6xl mx-auto" />
             <TechStack />
+            <hr className="neo-divider max-w-6xl mx-auto" />
+            <Orchestration />
           </main>
 
           <ContactFooter />

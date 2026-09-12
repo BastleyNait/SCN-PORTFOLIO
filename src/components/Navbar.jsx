@@ -7,11 +7,11 @@ import { useAppContext } from '../context/app-context';
 /** Section ids are structural, so they live outside the translation layer. */
 const SECTIONS = [
   { id: 'hero', labelKey: 'home' },
-  { id: 'orchestration', labelKey: 'orchestration' },
   { id: 'projects', labelKey: 'projects' },
   { id: 'decisions', labelKey: 'decisions' },
-  { id: 'stack', labelKey: 'techStack' },
   { id: 'engineering', labelKey: 'engineering' },
+  { id: 'stack', labelKey: 'techStack' },
+  { id: 'orchestration', labelKey: 'orchestration' },
   { id: 'contact', labelKey: 'contact' }
 ];
 

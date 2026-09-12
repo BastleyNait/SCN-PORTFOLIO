@@ -111,7 +111,11 @@ export const decisionLog = [
     context: "Una venta no puede quedarse trabada porque el local perdió conexión a mitad del cobro.",
     options: ["Carrito autoritativo en el servidor en cada pulsación", "Carrito local con el servidor como libro contable"],
     decision: "Zustand mantiene el carrito de trabajo en el navegador. Flask y PostgreSQL son dueños del libro contable, y cada venta cerrada se registra como una única transacción idempotente.",
-    tradeoff: "Asumí lógica de reconciliación a cambio de un cobro que nunca se bloquea esperando a la red."
+    tradeoff: "Asumí lógica de reconciliación a cambio de un cobro que nunca se bloquea esperando a la red.",
+    concept: "Idempotencia",
+    theory: "Una escritura idempotente se puede aplicar dos veces y deja el mismo estado que aplicarla una. Un checkout reintentado sobre una conexión que se cae no debe producir dos ventas, así que el cliente genera la clave y el servidor trata la repetición de esa clave como la misma transacción, no como una nueva.",
+    atScale: "La reconciliación es el punto débil. Con muchas terminales vendiendo a la vez, un carrito que vive en el cliente necesita una regla explícita de conflicto para el mismo artículo, y hoy esa regla está en código de aplicación y no en el modelo de datos.",
+    verified: "Envié la misma venta cerrada varias veces y tras desconexiones forzadas; el libro contable tiene que mostrar exactamente una."
   },
   {
     id: "adr-002",
@@ -121,7 +125,11 @@ export const decisionLog = [
     context: "El tamizaje de anemia ocurre en clínicas con conectividad poco fiable, usando imágenes de un paciente.",
     options: ["API de inferencia alojada", "Modelo cuantizado embebido en la app Android"],
     decision: "El modelo de PyTorch se cuantiza a TensorFlow Lite y corre dentro de la app. Ninguna imagen del paciente sale del teléfono.",
-    tradeoff: "Cedí tamaño de modelo y reentrenamiento cómodo a cambio de cero dependencia de red y ningún dato de salud en tránsito."
+    tradeoff: "Cedí tamaño de modelo y reentrenamiento cómodo a cambio de cero dependencia de red y ningún dato de salud en tránsito.",
+    concept: "Cuantización post-entrenamiento",
+    theory: "Convertir pesos float32 a int8 reduce el modelo unas cuatro veces y lo hace correr en la CPU de un teléfono, a cambio de algo de precisión. La pregunta real nunca fue el tamaño: era si ese costo de precisión es menor que el costo de exigir red en una clínica que no siempre la tiene.",
+    atScale: "Un modelo que viaja dentro del binario no se puede corregir sin publicar. Mejorarlo es una actualización de app y una revisión de tienda, no un deploy, así que el ciclo de reentrenamiento es más lento que con un modelo hospedado.",
+    verified: "Comparé la precisión del modelo float contra el cuantizado antes de publicar, y corrí la inferencia en el dispositivo con la red apagada."
   },
   {
     id: "adr-003",
@@ -131,7 +139,11 @@ export const decisionLog = [
     context: "Las páginas públicas las juzgan los rastreadores y el primer pintado. El área administrativa se juzga por qué tan fresco está el dato.",
     options: ["Renderizar todo en servidor", "Generar todo estático", "Dividir la decisión por ruta"],
     decision: "Las rutas públicas se generan estáticas y se revalidan. El panel renderiza en servidor. Una sola instancia de PostgreSQL sostiene a ambos.",
-    tradeoff: "Conviven dos modelos mentales en un mismo repositorio, y eso compra páginas rastreables y un panel que nunca está desactualizado."
+    tradeoff: "Conviven dos modelos mentales en un mismo repositorio, y eso compra páginas rastreables y un panel que nunca está desactualizado.",
+    concept: "Presupuesto de desactualización",
+    theory: "La generación estática compra primer pintado y rastreabilidad sirviendo algo que era cierto hace un momento. La pregunta útil no es qué modo de render es mejor, sino cuánto se le permite envejecer a cada ruta: el texto comercial tolera minutos, un panel de inventario no tolera nada.",
+    atScale: "Dos modelos de render en un mismo código es un costo de comprensión que crece con el equipo. Con más gente editando hay que documentar la ventana de revalidación por ruta, o alguien va a asumir la equivocada y publicar un precio viejo.",
+    verified: "Verifiqué rastreabilidad y primer pintado en las rutas públicas, y confirmé que las lecturas del panel llegan a la base y no a una página cacheada."
   },
   {
     id: "adr-004",
@@ -141,7 +153,11 @@ export const decisionLog = [
     context: "Las unidades reacondicionadas son piezas únicas, así que vender dos veces la misma laptop es una falla real, no un redondeo.",
     options: ["Confiar en el conteo cacheado del catálogo", "Forzar el descuento dentro de la transacción del pedido"],
     decision: "El stock se descuenta dentro de la transacción del pedido y queda protegido por una restricción de base de datos. A la caché del catálogo se le permite explícitamente ir atrasada.",
-    tradeoff: "Un catálogo con unos segundos de retraso es aceptable. Una máquina vendida dos veces no lo es."
+    tradeoff: "Un catálogo con unos segundos de retraso es aceptable. Una máquina vendida dos veces no lo es.",
+    concept: "Invariantes y niveles de aislamiento",
+    theory: "\"El stock nunca baja de cero\" es un invariante, y un invariante que se hace cumplir en código de aplicación vale lo que valga el camino concurrente más débil. Bajo read-committed, dos pedidos pueden leer la misma fila de stock antes de que cualquiera escriba. La restricción dentro de la transacción es lo que hace fallar al segundo en vez de vender de más.",
+    atScale: "Subir el nivel de aislamiento eliminaría la carrera en teoría y costaría throughput en la práctica. La restricción es la respuesta más barata acá porque el catálogo es chico; uno más grande exigiría medir la contención antes de elegir.",
+    verified: "Lancé intentos de pedido concurrentes contra la misma unidad única; solo uno puede tener éxito."
   },
   {
     id: "adr-005",
@@ -151,7 +167,11 @@ export const decisionLog = [
     context: "Cada proyecto llega con la sugerencia de sumar una cola, una caché y un almacén documental desde el primer día.",
     options: ["Adoptar los almacenes especializados de entrada", "Postergar hasta que un benchmark los exija"],
     decision: "Una sola instancia de PostgreSQL sostiene el sistema. Redis y la búsqueda vectorial entraron solo donde una medición justificó la pieza extra.",
-    tradeoff: "Cambio margen teórico de escalado por una superficie operativa que un solo ingeniero puede operar y razonar de verdad."
+    tradeoff: "Cambio margen teórico de escalado por una superficie operativa que un solo ingeniero puede operar y razonar de verdad.",
+    concept: "Superficie operativa",
+    theory: "El costo de un componente no es la tarde que toma agregarlo. Es la suma de sus modos de falla, sus backups, su monitoreo y sus actualizaciones, pagada a las tres de la mañana por quien esté de guardia. Cada almacén que se suma multiplica esa superficie antes de sumar capacidad.",
+    atScale: "Una sola instancia es un punto único de falla, y ese es el límite honesto de esta decisión. Es aceptable mientras un ingeniero opere el sistema y es lo primero que cambia cuando deje de serlo.",
+    verified: "Redis y la búsqueda vectorial entraron solo después de que una medición mostrara a PostgreSQL como cuello de botella en ese camino puntual, no porque la arquitectura se viera incompleta sin ellos."
   },
   {
     id: "adr-006",
@@ -161,7 +181,11 @@ export const decisionLog = [
     context: "Los agentes producen su trabajo más útil cuando el contrato que están completando ya está congelado.",
     options: ["Dejar que el agente diseñe la API mientras implementa", "Fijar tipos, endpoints y formas de error primero"],
     decision: "Escribo yo los tipos, los endpoints y las formas de error. Los agentes implementan contra un contrato que no tienen permitido cambiar.",
-    tradeoff: "Un arranque más lento, a cambio de revisiones acotadas y fallas de integración que dejan de ser una categoría de bug."
+    tradeoff: "Un arranque más lento, a cambio de revisiones acotadas y fallas de integración que dejan de ser una categoría de bug.",
+    concept: "Diseño por contrato primero",
+    theory: "Fijar tipos, endpoints y formas de error antes de implementar convierte la integración de un problema de descubrimiento en uno de verificación. Es la misma razón por la que existen schema-first y OpenAPI-first: el contrato pasa a ser la unidad de revisión, así que un diff se juzga contra algo y no por su propio mérito.",
+    atScale: "Un contrato congelado a veces es el contrato equivocado. El precio es disciplina de versionado, porque cambiar uno cuando ya hay consumidores es una migración con ventana de deprecación, no una edición.",
+    verified: "Cada implementación se revisa contra el contrato que recibió, que es lo que hace que las fallas de integración dejen de ser una categoría de bug."
   }
 ];
 
@@ -340,37 +364,55 @@ export const engineeringPrinciples = [
   {
     title: "Arquitectura y diseño de sistemas",
     icon: "Building2",
-    description: "Fronteras trazadas antes de que exista el código: capas limpias y hexagonales, servicios distribuidos y un modelo de datos que sobrevive al segundo requerimiento.",
+    description: "Dónde trazar una frontera es la decisión que todo lo demás hereda. Capas, bordes de servicio y un modelo de datos que sobrevive al segundo pedido de funcionalidad.",
+    concepts: ["Acoplamiento y cohesión", "Contextos acotados", "Arquitectura hexagonal", "Trade-offs de CAP"],
+    evidence: "El render se dividió por ruta y no por proyecto, con una sola instancia de PostgreSQL detrás de las páginas públicas y del panel.",
+    adr: "adr-003",
     tag: "Arquitectura"
   },
   {
-    title: "Requisitos y control de alcance",
+    title: "Requisitos e invariantes",
     icon: "ClipboardCheck",
-    description: "Convertir un pedido difuso en criterios de aceptación, y después defender los no-objetivos que evitan que una entrega duplique su tamaño en silencio.",
+    description: "Convertir un pedido vago en criterios de aceptación, nombrar las reglas que nunca pueden romperse, y defender los no-objetivos que evitan que una entrega se duplique.",
+    concepts: ["Invariantes", "Criterios de aceptación", "No-objetivos", "Modos de falla"],
+    evidence: "\"El stock nunca baja de cero\" se escribió como invariante antes de que existiera el flujo de pedido, y por eso terminó en una restricción y no en una función auxiliar.",
+    adr: "adr-004",
     tag: "Alcance"
   },
   {
     title: "Seguridad y redes",
     icon: "ShieldCheck",
-    description: "Fundamentos de redes, OWASP Top 10 aplicado en revisión, secretos fuera del bundle y auditoría sobre sistemas que manejan dinero o datos de salud.",
+    description: "Modelado de amenazas antes que funcionalidad, el OWASP Top 10 aplicado en revisión y no citado, y secretos que nunca llegan al bundle.",
+    concepts: ["Modelado de amenazas", "OWASP Top 10", "Datos en tránsito y en reposo", "Terminación TLS", "RBAC"],
+    evidence: "Ninguna imagen de paciente sale del dispositivo en Anemivision, porque la forma más barata de proteger datos en tránsito es no tenerlos. El servicio de certificados termina el tráfico público en Nginx.",
+    adr: "adr-002",
     tag: "Seguridad"
   },
   {
-    title: "Pruebas y compuertas de revisión",
+    title: "Concurrencia y correctitud",
     icon: "TestTube2",
-    description: "Cobertura unitaria, de integración y end-to-end usada como la compuerta que el código generado debe pasar antes de acercarse a un merge.",
-    tag: "Calidad"
+    description: "Los bugs que sobreviven a una revisión de código son los que necesitan que dos cosas pasen a la vez. Las pruebas existen para volverlos reproducibles.",
+    concepts: ["Condiciones de carrera", "Idempotencia", "Aislamiento transaccional", "Pirámide de pruebas"],
+    evidence: "Dos casos que cada release tiene que sobrevivir: el mismo cobro enviado dos veces sobre una conexión que se cae, y dos pedidos compitiendo por una única unidad de stock.",
+    adr: "adr-001",
+    tag: "Correctitud"
   },
   {
-    title: "Entrega ágil",
+    title: "Entrega y radio de impacto",
     icon: "Kanban",
-    description: "Scrum y Kanban ejecutados como incrementos pequeños y reversibles, para que una decisión equivocada cueste una iteración y no un release.",
+    description: "Incrementos chicos y reversibles, para que una decisión equivocada cueste una iteración y no un release, y para que lo que se rompió sea lo que acaba de cambiar.",
+    concepts: ["Radio de impacto", "Reversibilidad", "Presupuestos de desactualización", "Revisión post-deploy"],
+    evidence: "A las rutas públicas se les permite estar segundos desactualizadas y al panel no, que es un presupuesto deliberado y no un efecto secundario de la caché.",
+    adr: "adr-003",
     tag: "Entrega"
   },
   {
-    title: "Cloud y DevOps",
+    title: "Cloud y operación",
     icon: "CloudCognitive",
-    description: "Contenedores, pipelines de CI/CD e infraestructura en Vercel, AWS y Google Cloud, dimensionados a lo que un ingeniero puede operar de verdad.",
-    tag: "Cloud"
+    description: "Infraestructura del tamaño que un ingeniero puede operar de verdad a las tres de la mañana, no del tamaño que se ve completo en un diagrama.",
+    concepts: ["Proxy inverso", "Almacenamiento de objetos frente a base de datos", "Superficie operativa", "CI/CD"],
+    evidence: "Los certificados viven en almacenamiento de objetos y no en la base de datos, así que servir un documento nunca pasa por lógica de aplicación ni compite con una escritura.",
+    adr: "adr-005",
+    tag: "Operación"
   }
 ];

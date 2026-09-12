@@ -9,7 +9,8 @@ import {
   Database,
   Brain,
   CheckCircle2,
-  Terminal
+  Terminal,
+  Cpu
 } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
 import EngineeringSkills from './EngineeringSkills';
@@ -36,23 +37,44 @@ export default function TechStack() {
     <section id="stack" className="py-14 relative bg-[var(--bg-color)]" aria-labelledby="stack-title">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
+        {/* The fundamentals lead the section and give it its heading. A tool
+            list answers "what did you use"; this answers "what do you know",
+            which is the question a reader who has seen a hundred stack lists
+            is actually asking. */}
         <div className="flex flex-col items-center text-center mb-10">
           <div className="neo-section-label mb-4">
-            <Terminal className="w-4 h-4" aria-hidden="true" />
-            <span>{t.techStack.label}</span>
+            <Cpu className="w-4 h-4" aria-hidden="true" />
+            <span>{t.engineering.label}</span>
           </div>
 
           <h2
             id="stack-title"
             className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-[var(--ink)] tracking-tight mb-4 text-balance"
           >
-            {t.techStack.title}
+            {t.engineering.title}
           </h2>
 
           <p className="text-[var(--muted-color)] text-sm sm:text-base max-w-2xl leading-relaxed">
-            {t.techStack.description}
+            {t.engineering.description}
           </p>
         </div>
+
+        <div id="engineering" className="scroll-mt-24">
+          <EngineeringSkills />
+        </div>
+
+        <div className="mt-14">
+          <div className="mb-6 flex items-center gap-3">
+            <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--muted-color)]">
+              <Terminal className="w-3.5 h-3.5 inline mr-1.5 -mt-0.5" aria-hidden="true" />
+              {t.techStack.label}
+            </span>
+            <span className="h-px flex-1 bg-[var(--ink)] opacity-30" aria-hidden="true" />
+          </div>
+
+          <p className="text-[var(--muted-color)] text-sm leading-relaxed max-w-2xl mb-7">
+            {t.techStack.description}
+          </p>
 
         {/* Category tabs */}
         <div className="flex flex-wrap items-center justify-center gap-2.5 mb-10 max-w-4xl mx-auto" role="tablist" aria-label={t.techStack.title}>
@@ -105,30 +127,6 @@ export default function TechStack() {
           ))}
         </ul>
         </motion.div>
-
-        {/* Second half of the same section: the fundamentals behind the tools.
-            The three layer-summary cards that used to sit here repeated what
-            the tabs above already list, so they are gone rather than merged. */}
-        <div id="engineering" className="mt-14 scroll-mt-24">
-          <div className="mb-6 flex items-center gap-3">
-            <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--muted-color)]">
-              {t.engineering.label}
-            </span>
-            <span className="h-[2px] flex-1 bg-[var(--ink)] opacity-30" aria-hidden="true" />
-          </div>
-
-          <h3
-            id="engineering-title"
-            className="font-heading font-black text-2xl sm:text-3xl text-[var(--ink)] tracking-tight mb-3 text-balance"
-          >
-            {t.engineering.title}
-          </h3>
-
-          <p className="text-[var(--muted-color)] text-sm sm:text-base leading-relaxed max-w-2xl mb-8">
-            {t.engineering.description}
-          </p>
-
-          <EngineeringSkills />
         </div>
 
       </div>

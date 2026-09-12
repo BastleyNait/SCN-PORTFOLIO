@@ -65,6 +65,9 @@ export const translations = {
       optionsLabel: "OPTIONS ON THE TABLE",
       decisionLabel: "DECISION",
       tradeoffLabel: "TRADE-OFF ACCEPTED",
+      conceptLabel: "The concept underneath",
+      atScaleLabel: "Where this breaks",
+      verifiedLabel: "How I checked it",
       expand: "Read the trade-off",
       collapse: "Collapse"
     },
@@ -82,8 +85,9 @@ export const translations = {
     engineering: {
       label: "FOUNDATIONS",
       title: "The Engineering Underneath",
-      description: "A generator can write the function. These are the fundamentals that decide whether the function belongs in the system at all.",
-      production: "Applied in production"
+      description: "A generator can write the function. Deciding whether that function belongs in the system, and what breaks when it does, is the part that is still mine. Each area below names the concepts it rests on and the decision where I actually used them.",
+      production: "Applied in production",
+      evidenceLabel: "Where I applied it"
     },
     contact: {
       label: "LET'S TALK",
@@ -171,6 +175,9 @@ export const translations = {
       optionsLabel: "OPCIONES SOBRE LA MESA",
       decisionLabel: "DECISIÓN",
       tradeoffLabel: "TRADE-OFF ACEPTADO",
+      conceptLabel: "El concepto de fondo",
+      atScaleLabel: "Dónde se rompe",
+      verifiedLabel: "Cómo lo verifiqué",
       expand: "Ver el trade-off",
       collapse: "Contraer"
     },
@@ -188,8 +195,9 @@ export const translations = {
     engineering: {
       label: "FUNDAMENTOS",
       title: "La Ingeniería que Sostiene Todo",
-      description: "Un generador puede escribir la función. Estos son los fundamentos que deciden si esa función corresponde al sistema en primer lugar.",
-      production: "Aplicado en producción"
+      description: "Un generador puede escribir la función. Decidir si esa función corresponde al sistema, y qué se rompe cuando entra, sigue siendo mi parte. Cada área de abajo nombra los conceptos en los que se apoya y la decisión donde realmente los usé.",
+      production: "Aplicado en producción",
+      evidenceLabel: "Dónde lo apliqué"
     },
     contact: {
       label: "¿HABLAMOS?",
