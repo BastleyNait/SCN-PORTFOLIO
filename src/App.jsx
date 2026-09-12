@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Orchestration from './components/Orchestration';
@@ -46,6 +47,10 @@ export default function App() {
           <ContactFooter />
         </>
       )}
+
+      {/* Page views only, no cookie and no cross-site identifier. Inert
+          outside a Vercel deployment, so local runs report nothing. */}
+      <Analytics />
     </div>
   );
 }
