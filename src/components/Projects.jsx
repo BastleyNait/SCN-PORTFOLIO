@@ -3,6 +3,15 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { ExternalLink, Sparkles, Eye, GitBranch, UserCog } from 'lucide-react';
 import { Github } from './Icons';
 import { useAppContext } from '../context/app-context';
+import imageManifest from '../data/imageManifest.json';
+
+/* Widths emitted by scripts/optimize-images.mjs. Keep the two in step. */
+const PREVIEW_WIDTHS = [640, 1280];
+
+/* A card is full width on a phone and roughly half the 1152px content column
+   on a desktop, so the browser has what it needs to skip the 1280 variant on
+   small screens instead of downloading it and throwing the pixels away. */
+const PREVIEW_SIZES = '(max-width: 767px) 100vw, 560px';
 
 const TECH_TAG_COLORS = [
   'var(--accent)',
@@ -114,13 +123,7 @@ export default function Projects() {
                   </div>
 
                   <div className="relative w-full h-48 bg-[var(--bg-color)] overflow-hidden">
-                    <img
-                      src={project.previewFallbackImage}
-                      alt={`${project.title} preview`}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
-                    />
+                    <ProjectPreview project={project} />
 
                     <span
                       className="absolute bottom-3 right-3 z-10 neo-tag on-accent shadow-[2px_2px_0px_var(--ink)] text-[10px] font-bold uppercase tracking-wider"
@@ -231,5 +234,28 @@ export default function Projects() {
 
       </div>
     </section>
+  );
+}
+
+/* Serves the narrow variant to phones and the wide one to desktops, and states
+   the intrinsic box so the card never resizes once the file arrives. */
+function ProjectPreview({ project }) {
+  const base = project.previewImage;
+  const intrinsic = imageManifest[base];
+
+  if (!base || !intrinsic) return null;
+
+  return (
+    <img
+      src={`/projects/${base}-${PREVIEW_WIDTHS.at(-1)}.webp`}
+      srcSet={PREVIEW_WIDTHS.map((w) => `/projects/${base}-${w}.webp ${w}w`).join(', ')}
+      sizes={PREVIEW_SIZES}
+      width={intrinsic.width}
+      height={intrinsic.height}
+      alt={`${project.title} preview`}
+      loading="lazy"
+      decoding="async"
+      className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+    />
   );
 }

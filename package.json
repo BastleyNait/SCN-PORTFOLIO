@@ -8,7 +8,9 @@
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "og": "node scripts/generate-og.mjs"
+    "og": "node scripts/generate-og.mjs",
+    "images": "node scripts/optimize-images.mjs",
+    "assets": "npm run og && npm run images"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",

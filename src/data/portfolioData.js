@@ -178,7 +178,7 @@ export const projectsData = [
     featured: true,
     status: "Production",
     accentColor: "#38bdf8",
-    previewFallbackImage: "/lo-exacto.png"
+    previewImage: "lo-exacto"
   },
   {
     id: "calitop-services",
@@ -194,7 +194,7 @@ export const projectsData = [
     featured: true,
     status: "Production",
     accentColor: "#2dd4bf",
-    previewFallbackImage: "/calitop.png"
+    previewImage: "calitop-services"
   },
   {
     id: "revolt-laptop",
@@ -210,7 +210,7 @@ export const projectsData = [
     featured: true,
     status: "Production",
     accentColor: "#a855f7",
-    previewFallbackImage: "/revolt.png"
+    previewImage: "revolt-laptop"
   },
   {
     id: "boom-pos",
@@ -226,7 +226,7 @@ export const projectsData = [
     featured: true,
     status: "Production",
     accentColor: "#f59e0b",
-    previewFallbackImage: "/boom-pos.png"
+    previewImage: "boom-pos"
   },
   {
     id: "anemivision",
@@ -242,7 +242,7 @@ export const projectsData = [
     featured: true,
     status: "Edge AI",
     accentColor: "#10b981",
-    previewFallbackImage: "/anemivision.png"
+    previewImage: "anemivision"
   }
 ];
 

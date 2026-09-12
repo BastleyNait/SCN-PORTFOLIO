@@ -180,11 +180,15 @@ export default function Hero() {
                     </span>
                   ) : (
                     <img
-                      src="/profile.jpg"
+                      src="/profile-800.webp"
+                      srcSet="/profile-400.webp 400w, /profile-800.webp 800w"
+                      sizes="(max-width: 639px) 340px, 380px"
                       alt={`${personalData.name}, ${personalData.role}`}
-                      width={380}
-                      height={320}
+                      width={800}
+                      height={800}
                       loading="eager"
+                      fetchPriority="high"
+                      decoding="async"
                       onError={() => setPhotoFailed(true)}
                       className="absolute inset-0 w-full h-full object-cover object-center"
                     />
