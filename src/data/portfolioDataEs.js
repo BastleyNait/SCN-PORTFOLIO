@@ -13,10 +13,10 @@ export const personalData = {
   whatsapp: "https://wa.me/51987545926",
   github: "https://github.com/BastleyNait",
   portfolioUrl: "https://sebastian-cn-portfolio.vercel.app",
-  bio: "Escribir código dejó de ser lo difícil. Decidir qué construir, dónde vive el estado, qué corre en el dispositivo y qué rechazar antes de que se integre: ese es el trabajo. Dirijo agentes de IA con un proceso donde la especificación va primero, y respondo personalmente por cada decisión de arquitectura detrás de seis sistemas en producción entre web, punto de venta, entrega de documentos en la nube, Android nativo y machine learning offline.",
+  bio: "Escribir código dejó de ser lo difícil. Decidir qué construir, dónde vive el estado, qué corre en el dispositivo y qué rechazar antes de que se integre: ese es el trabajo. Dirijo agentes de IA con un proceso donde la especificación va primero, y respondo personalmente por cada decisión de arquitectura detrás de siete sistemas en producción entre web, punto de venta, entrega de documentos en la nube, APIs autenticadas, Android nativo y machine learning offline.",
   shortBio: "Diseño el sistema, dirijo a los agentes y defiendo cada línea que sale a producción.",
   stats: [
-    { label: "Sistemas en producción", value: "6", icon: "Rocket" },
+    { label: "Sistemas en producción", value: "7", icon: "Rocket" },
     { label: "Decisiones documentadas", value: "6", icon: "ScrollText" },
     { label: "Dominios entregados", value: "4", icon: "Boxes" },
     { label: "Lenguajes en producción", value: "5", icon: "Braces" }
@@ -24,7 +24,7 @@ export const personalData = {
   typingLines: [
     "Orquesto la IA. La arquitectura es mía.",
     "Primero la spec, después los agentes, siempre la revisión.",
-    "6 sistemas en producción — del diseño al deploy.",
+    "7 sistemas en producción — del diseño al deploy.",
     "Edge AI que funciona con la red apagada.",
     "Disponible para roles Full-Stack e Ingeniería de Software 🚀"
   ]
@@ -263,6 +263,23 @@ export const projectsData = [
     previewImage: null,
     previewLabel: "certificate.pdf",
     caseStudy: "geotop-certificates"
+  },
+  {
+    id: "ssp-api",
+    title: "SSP",
+    category: "APIs y Backend",
+    role: "Arquitectura · Diseño de API · Autenticación",
+    description: "API de seguimiento de prácticas construida para reemplazar la capa de datos simulada detrás de un front end React que ya existía.",
+    longDescription: "Servicio FastAPI y SQLAlchemy 2 sobre PostgreSQL con autenticación JWT, hashing de contraseñas con bcrypt y control de acceso por roles, documentado con OpenAPI y desplegado con Docker Compose.",
+    keyDecision: "El front end ya existía, así que su forma de datos era el contrato; la API se escribió para calzar con él y no al revés.",
+    tech: ["FastAPI", "SQLAlchemy 2", "PostgreSQL", "JWT", "RBAC", "Docker Compose"],
+    liveUrl: null,
+    repoUrl: "https://github.com/BastleyNait/BACK-CS-DE-LA-COM",
+    featured: true,
+    status: "Producción",
+    accentColor: "#818cf8",
+    previewImage: null,
+    previewLabel: "openapi.json"
   }
 ];
 
