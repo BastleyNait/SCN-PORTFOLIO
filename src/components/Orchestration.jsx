@@ -17,7 +17,7 @@ export default function Orchestration() {
   const reduceMotion = useReducedMotion();
 
   const rise = (delay = 0) => ({
-    initial: reduceMotion ? false : { opacity: 0, y: 18 },
+    initial: reduceMotion ? false : { opacity: 1, y: 18 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, margin: '-60px' },
     transition: { duration: 0.4, delay: reduceMotion ? 0 : delay }

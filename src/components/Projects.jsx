@@ -100,7 +100,7 @@ export default function Projects() {
               <motion.li
                 key={project.id}
                 layout
-                initial={reduceMotion ? false : { opacity: 0, scale: 0.94 }}
+                initial={false}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.94 }}
                 transition={{ duration: 0.3 }}
