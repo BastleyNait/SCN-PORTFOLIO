@@ -2,8 +2,8 @@ export const personalData = {
   name: "Sebastian Arley Chirinos Negrón",
   shortName: "Sebastian Chirinos",
   username: "BastleyNait",
-  title: "Systems Engineer · Software Architect · AI-Augmented Delivery",
-  role: "Systems Engineer & Software Architect",
+  title: "Full-Stack Engineer · Software Architect · AI-Augmented Delivery",
+  role: "Full-Stack Engineer & Software Architect",
   headline: "I orchestrate AI. I own the architecture.",
   location: "Arequipa, Peru 🇵🇪",
   email: "schirinosne@gmail.com",
@@ -24,7 +24,7 @@ export const personalData = {
     "Spec first, agents second, review always.",
     "5 systems in production — design to deploy.",
     "Edge AI that runs with the network off.",
-    "Open to Systems & Software Engineering roles 🚀"
+    "Open to Full-Stack & Software Engineering roles 🚀"
   ]
 };
 

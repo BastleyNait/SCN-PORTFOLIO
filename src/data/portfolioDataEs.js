@@ -2,8 +2,8 @@ export const personalData = {
   name: "Sebastian Arley Chirinos Negrón",
   shortName: "Sebastian Chirinos",
   username: "BastleyNait",
-  title: "Ingeniero de Sistemas · Arquitecto de Software · Entrega asistida por IA",
-  role: "Ingeniero de Sistemas y Arquitecto de Software",
+  title: "Ingeniero Full-Stack · Arquitecto de Software · Entrega asistida por IA",
+  role: "Ingeniero Full-Stack y Arquitecto de Software",
   headline: "Orquesto la IA. La arquitectura es mía.",
   location: "Arequipa, Perú 🇵🇪",
   email: "schirinosne@gmail.com",
@@ -24,7 +24,7 @@ export const personalData = {
     "Primero la spec, después los agentes, siempre la revisión.",
     "5 sistemas en producción — del diseño al deploy.",
     "Edge AI que funciona con la red apagada.",
-    "Disponible para roles de Ingeniería de Software 🚀"
+    "Disponible para roles Full-Stack e Ingeniería de Software 🚀"
   ]
 };
 
