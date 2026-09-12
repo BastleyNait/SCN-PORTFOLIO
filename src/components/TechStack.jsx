@@ -12,6 +12,7 @@ import {
   Terminal
 } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
+import EngineeringSkills from './EngineeringSkills';
 
 const CATEGORY_COLORS = [
   'var(--accent)',
@@ -43,12 +44,12 @@ export default function TechStack() {
   const activeColor = CATEGORY_COLORS[activeIndex % CATEGORY_COLORS.length];
 
   return (
-    <section id="stack" className="py-20 relative bg-[var(--bg-color)]" aria-labelledby="stack-title">
+    <section id="stack" className="py-14 relative bg-[var(--bg-color)]" aria-labelledby="stack-title">
       <div className="absolute inset-0 bg-stripes pointer-events-none opacity-40" aria-hidden="true" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-        <div className="flex flex-col items-center text-center mb-12">
+        <div className="flex flex-col items-center text-center mb-10">
           <div className="neo-section-label mb-4">
             <Terminal className="w-4 h-4" aria-hidden="true" />
             <span>{t.techStack.label}</span>
@@ -127,44 +128,32 @@ export default function TechStack() {
           ))}
         </motion.ul>
 
-        {/* Layer summaries */}
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          <SummaryCard
-            icon={<Layout className="w-6 h-6" aria-hidden="true" />}
-            color="var(--accent-blue)"
-            title={t.techStack.frontendTitle}
-            description={t.techStack.frontendDesc}
-          />
-          <SummaryCard
-            icon={<Server className="w-6 h-6" aria-hidden="true" />}
-            color="var(--accent-lime)"
-            title={t.techStack.backendTitle}
-            description={t.techStack.backendDesc}
-          />
-          <SummaryCard
-            icon={<Brain className="w-6 h-6" aria-hidden="true" />}
-            color="var(--accent-pink)"
-            title={t.techStack.aiTitle}
-            description={t.techStack.aiDesc}
-          />
+        {/* Second half of the same section: the fundamentals behind the tools.
+            The three layer-summary cards that used to sit here repeated what
+            the tabs above already list, so they are gone rather than merged. */}
+        <div id="engineering" className="mt-14 scroll-mt-24">
+          <div className="mb-6 flex items-center gap-3">
+            <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--muted-color)]">
+              {t.engineering.label}
+            </span>
+            <span className="h-[2px] flex-1 bg-[var(--ink)] opacity-30" aria-hidden="true" />
+          </div>
+
+          <h3
+            id="engineering-title"
+            className="font-heading font-black text-2xl sm:text-3xl text-[var(--ink)] tracking-tight mb-3 text-balance"
+          >
+            {t.engineering.title}
+          </h3>
+
+          <p className="text-[var(--muted-color)] text-sm sm:text-base leading-relaxed max-w-2xl mb-8">
+            {t.engineering.description}
+          </p>
+
+          <EngineeringSkills />
         </div>
 
       </div>
     </section>
-  );
-}
-
-function SummaryCard({ icon, color, title, description }) {
-  return (
-    <div className="neo-card-flat p-6" style={{ borderTop: `6px solid ${color}` }}>
-      <span
-        className="w-12 h-12 border-2 border-[var(--ink)] flex items-center justify-center mb-4 shadow-[3px_3px_0px_var(--ink)] text-[var(--on-accent)]"
-        style={{ backgroundColor: color }}
-      >
-        {icon}
-      </span>
-      <h3 className="font-heading font-extrabold text-lg text-[var(--ink)] mb-2">{title}</h3>
-      <p className="text-[var(--muted-color)] text-xs sm:text-sm leading-relaxed">{description}</p>
-    </div>
   );
 }

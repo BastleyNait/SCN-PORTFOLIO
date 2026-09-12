@@ -72,10 +72,10 @@ export default function Hero() {
   const displayText = useTypedLine(personalData.typingLines, !reduceMotion);
 
   return (
-    <section id="hero" className="relative pt-28 pb-16 bg-[var(--bg-color)] bg-grid-neo overflow-hidden">
+    <section id="hero" className="relative pt-24 pb-10 bg-[var(--bg-color)] bg-grid-neo overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
 
           {/* LEFT: identity, position, calls to action */}
           <motion.div
@@ -216,7 +216,7 @@ export default function Hero() {
           initial={reduceMotion ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-16 neo-card-flat p-6 grid grid-cols-2 md:grid-cols-4 gap-6"
+          className="mt-10 neo-card-flat p-6 grid grid-cols-2 md:grid-cols-4 gap-6"
         >
           {personalData.stats.map((stat, index) => {
             const Icon = STAT_ICONS[stat.icon];

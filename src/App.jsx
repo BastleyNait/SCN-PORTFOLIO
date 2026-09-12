@@ -5,7 +5,6 @@ import Orchestration from './components/Orchestration';
 import Projects from './components/Projects';
 import DecisionLog from './components/DecisionLog';
 import TechStack from './components/TechStack';
-import EngineeringSkills from './components/EngineeringSkills';
 import ContactFooter from './components/ContactFooter';
 import { useAppContext } from './context/app-context';
 
@@ -28,8 +27,6 @@ export default function App() {
         <DecisionLog />
         <hr className="neo-divider max-w-6xl mx-auto" />
         <TechStack />
-        <hr className="neo-divider max-w-6xl mx-auto" />
-        <EngineeringSkills />
       </main>
 
       <ContactFooter />

@@ -42,10 +42,10 @@ export default function ContactFooter() {
   };
 
   return (
-    <footer id="contact" className="pt-20 pb-8 relative z-10 bg-[var(--bg-color)]">
+    <footer id="contact" className="pt-14 pb-8 relative z-10 bg-[var(--bg-color)]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div className="bg-[var(--accent)] border-[3px] border-[var(--ink)] shadow-[8px_8px_0px_var(--ink)] p-8 sm:p-12 mb-16">
+        <div className="bg-[var(--accent)] border-[3px] border-[var(--ink)] shadow-[8px_8px_0px_var(--ink)] p-8 sm:p-10 mb-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
             <div className="lg:col-span-7 flex flex-col items-start">
@@ -150,7 +150,7 @@ export default function ContactFooter() {
           </div>
         </div>
 
-        <p className="my-8 text-center font-mono font-bold text-sm sm:text-base text-[var(--ink)] tracking-wider uppercase">
+        <p className="my-6 text-center font-mono font-bold text-sm sm:text-base text-[var(--ink)] tracking-wider uppercase">
           {t.contact.tagline}
         </p>
 

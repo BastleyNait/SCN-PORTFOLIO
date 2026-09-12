@@ -50,10 +50,10 @@ export default function Projects() {
     : projectsData.filter((project) => project.category === activeCategory);
 
   return (
-    <section id="projects" className="py-20 relative z-10 bg-[var(--bg-color)]" aria-labelledby="projects-title">
+    <section id="projects" className="py-14 relative z-10 bg-[var(--bg-color)]" aria-labelledby="projects-title">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div className="flex flex-col items-center text-center mb-14">
+        <div className="flex flex-col items-center text-center mb-10">
           <div className="neo-section-label mb-4">
             <Sparkles className="w-4 h-4" aria-hidden="true" />
             <span>{t.projects.portfolio}</span>
@@ -94,7 +94,7 @@ export default function Projects() {
           </div>
         </div>
 
-        <motion.ul layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 list-none p-0">
+        <motion.ul layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 list-none p-0">
           <AnimatePresence mode="popLayout">
             {visibleProjects.map((project) => (
               <motion.li
@@ -122,7 +122,7 @@ export default function Projects() {
                     <span className="w-4 shrink-0" aria-hidden="true" />
                   </div>
 
-                  <div className="relative w-full h-48 bg-[var(--bg-color)] overflow-hidden">
+                  <div className="relative w-full h-40 bg-[var(--bg-color)] overflow-hidden">
                     <ProjectPreview project={project} />
 
                     <span

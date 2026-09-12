@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Workflow, Bot, UserCog, Quote, ArrowDown } from 'lucide-react';
+import { Workflow, Bot, UserCog, Quote } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
 
 const PHASE_COLORS = [
@@ -26,7 +26,7 @@ export default function Orchestration() {
   return (
     <section
       id="orchestration"
-      className="py-20 relative bg-[var(--bg-color)] border-b-[3px] border-[var(--ink)]"
+      className="py-14 relative bg-[var(--bg-color)] border-b-[3px] border-[var(--ink)]"
       aria-labelledby="orchestration-title"
     >
       <div className="absolute inset-0 bg-stripes pointer-events-none opacity-60" aria-hidden="true" />
@@ -34,7 +34,7 @@ export default function Orchestration() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Section header */}
-        <div className="flex flex-col items-center text-center mb-14">
+        <div className="flex flex-col items-center text-center mb-10">
           <div className="neo-section-label mb-4">
             <Workflow className="w-4 h-4" aria-hidden="true" />
             <span>{t.orchestration.label}</span>
@@ -67,7 +67,7 @@ export default function Orchestration() {
           <span className="h-[2px] flex-1 bg-[var(--ink)] opacity-30" aria-hidden="true" />
         </div>
 
-        <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 mb-20">
+        <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 mb-12">
           {loop.map((phase, index) => {
             const color = PHASE_COLORS[index % PHASE_COLORS.length];
             const isShared = phase.owner === 'shared';
@@ -154,9 +154,6 @@ export default function Orchestration() {
           />
         </div>
 
-        <div className="flex justify-center mt-12" aria-hidden="true">
-          <ArrowDown className="w-6 h-6 text-[var(--ink)] opacity-40" />
-        </div>
 
       </div>
     </section>

@@ -25,7 +25,7 @@ export default function DecisionLog() {
   return (
     <section
       id="decisions"
-      className="py-20 relative bg-[var(--bg-color)]"
+      className="py-14 relative bg-[var(--bg-color)]"
       aria-labelledby="decisions-title"
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -48,7 +48,7 @@ export default function DecisionLog() {
           </p>
         </div>
 
-        <div className="space-y-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
           {records.map((record, index) => {
             const color = RECORD_COLORS[index % RECORD_COLORS.length];
             const isOpen = openId === record.id;
