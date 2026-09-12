@@ -248,7 +248,8 @@ export const projectsData = [
     repoUrl: "https://github.com/BastleyNait/BOOM-POS",
     featured: true,
     status: "Production",
-    previewImage: "boom-pos"
+    previewImage: "boom-pos",
+    caseStudy: "boom-pos"
   },
   {
     id: "anemivision",
@@ -264,7 +265,8 @@ export const projectsData = [
     featured: true,
     previewLabel: "anemivision.apk",
     status: "Edge AI",
-    previewImage: "anemivision"
+    previewImage: "anemivision",
+    caseStudy: "anemivision"
   },
   {
     id: "geotop-certificates",
