@@ -98,7 +98,7 @@ export default function TechStack() {
         </div>
 
         {/* Active category items */}
-        <motion.ul
+        <motion.div
           key={activeCategory.category}
           id="stack-panel"
           role="tabpanel"
@@ -106,8 +106,9 @@ export default function TechStack() {
           initial={reduceMotion ? false : { opacity: 1, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto list-none p-0"
+          className="max-w-5xl mx-auto"
         >
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 list-none p-0">
           {activeCategory.items.map((item) => (
             <li key={item.name} className="neo-card-sm p-4 flex items-center gap-3">
               <span
@@ -121,7 +122,8 @@ export default function TechStack() {
               </span>
             </li>
           ))}
-        </motion.ul>
+        </ul>
+        </motion.div>
 
         {/* Second half of the same section: the fundamentals behind the tools.
             The three layer-summary cards that used to sit here repeated what

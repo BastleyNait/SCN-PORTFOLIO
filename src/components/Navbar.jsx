@@ -130,7 +130,7 @@ export default function Navbar() {
               type="button"
               onClick={toggleLanguage}
               className={`${ICON_BTN_CLASS} gap-1 w-auto px-2.5 hover:bg-[var(--accent-pink)] hover:text-[var(--on-accent)] font-mono font-bold text-xs`}
-              aria-label={t.nav.toggleLanguage}
+              aria-label={`${language === 'en' ? 'ES' : 'EN'} — ${t.nav.toggleLanguage}`}
               title={t.nav.toggleLanguage}
             >
               <Languages className="w-3.5 h-3.5" aria-hidden="true" />
@@ -210,7 +210,7 @@ export default function Navbar() {
                   type="button"
                   onClick={toggleLanguage}
                   className={`${ICON_BTN_CLASS} w-auto px-2.5 font-mono font-bold text-xs`}
-                  aria-label={t.nav.toggleLanguage}
+                  aria-label={`${language === 'en' ? 'ES' : 'EN'} — ${t.nav.toggleLanguage}`}
                 >
                   {language === 'en' ? 'ES' : 'EN'}
                 </button>

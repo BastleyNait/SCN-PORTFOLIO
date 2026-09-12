@@ -81,7 +81,7 @@ export default function Orchestration() {
               >
                 {/* Step number + ownership badge */}
                 <div className="flex items-center justify-between mb-4">
-                  <span className="font-mono font-black text-2xl text-[var(--ink)] opacity-35 leading-none">
+                  <span className="font-mono font-black text-2xl text-[var(--muted-color)] leading-none">
                     {phase.step}
                   </span>
                   <span
