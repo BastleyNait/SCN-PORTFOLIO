@@ -256,7 +256,7 @@ export const projectsData = [
     keyDecision: "El QR resuelve directo al PDF, así que un técnico en campo no necesita app, ni login, ni número de serie.",
     tech: ["Flask", "Google Compute Engine", "Nginx", "Almacenamiento compatible con S3", "QR"],
     liveUrl: null,
-    repoUrl: null,
+    repoUrl: "https://github.com/BastleyNait/GEOTOP-PDF",
     featured: true,
     status: "Producción",
     accentColor: "#fb923c",
