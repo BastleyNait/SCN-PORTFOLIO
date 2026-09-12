@@ -251,72 +251,72 @@ export const techStackData = [
     category: "Languages",
     icon: "Code2",
     items: [
-      { name: "JavaScript", level: "Advanced" },
-      { name: "TypeScript", level: "Advanced" },
-      { name: "Python", level: "Advanced" },
-      { name: "Kotlin", level: "Intermediate/Advanced" },
-      { name: "Java", level: "Intermediate" }
+      { name: "JavaScript" },
+      { name: "TypeScript" },
+      { name: "Python" },
+      { name: "Kotlin" },
+      { name: "Java" }
     ]
   },
   {
     category: "Frontend",
     icon: "Layout",
     items: [
-      { name: "React", level: "Advanced" },
-      { name: "Next.js", level: "Advanced" },
-      { name: "Zustand", level: "Advanced" },
-      { name: "Tailwind CSS", level: "Advanced" },
-      { name: "Bootstrap", level: "Intermediate" }
+      { name: "React" },
+      { name: "Next.js" },
+      { name: "Zustand" },
+      { name: "Tailwind CSS" },
+      { name: "Bootstrap" }
     ]
   },
   {
     category: "Backend",
     icon: "Server",
     items: [
-      { name: "FastAPI", level: "Advanced" },
-      { name: "Node.js", level: "Advanced" },
-      { name: "Django", level: "Intermediate" },
-      { name: "Flask", level: "Intermediate" }
+      { name: "FastAPI" },
+      { name: "Node.js" },
+      { name: "Django" },
+      { name: "Flask" }
     ]
   },
   {
     category: "Mobile",
     icon: "Smartphone",
     items: [
-      { name: "React Native", level: "Advanced" },
-      { name: "Native Android", level: "Intermediate/Advanced" },
-      { name: "Kotlin Mobile", level: "Intermediate" }
+      { name: "React Native" },
+      { name: "Native Android" },
+      { name: "Kotlin Mobile" }
     ]
   },
   {
     category: "Cloud & DevOps",
     icon: "Cloud",
     items: [
-      { name: "Docker", level: "Intermediate/Advanced" },
-      { name: "Google Cloud", level: "Intermediate" },
-      { name: "AWS", level: "Intermediate" },
-      { name: "Vercel", level: "Advanced" }
+      { name: "Docker" },
+      { name: "Google Cloud" },
+      { name: "AWS" },
+      { name: "Vercel" }
     ]
   },
   {
     category: "Data & APIs",
     icon: "Database",
     items: [
-      { name: "PostgreSQL", level: "Advanced" },
-      { name: "Vector DB", level: "Intermediate" },
-      { name: "MongoDB", level: "Intermediate" },
-      { name: "Redis", level: "Intermediate" },
-      { name: "REST & GraphQL", level: "Advanced" }
+      { name: "PostgreSQL" },
+      { name: "Vector DB" },
+      { name: "MongoDB" },
+      { name: "Redis" },
+      { name: "REST & GraphQL" }
     ]
   },
   {
     category: "AI / ML",
     icon: "Brain",
     items: [
-      { name: "TensorFlow Lite", level: "Intermediate" },
-      { name: "PyTorch", level: "Intermediate" },
-      { name: "Ollama / Local LLMs", level: "Intermediate" },
-      { name: "Pandas & NumPy", level: "Intermediate" }
+      { name: "TensorFlow Lite" },
+      { name: "PyTorch" },
+      { name: "Ollama / Local LLMs" },
+      { name: "Pandas & NumPy" }
     ]
   }
 ];

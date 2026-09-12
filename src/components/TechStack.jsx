@@ -116,13 +116,8 @@ export default function TechStack() {
               >
                 <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
               </span>
-              <span className="flex flex-col min-w-0">
-                <span className="font-heading font-bold text-sm text-[var(--ink)] truncate">
-                  {item.name}
-                </span>
-                <span className="text-[11px] font-mono font-semibold text-[var(--muted-color)]">
-                  {item.level}
-                </span>
+              <span className="font-heading font-bold text-sm text-[var(--ink)] truncate min-w-0">
+                {item.name}
               </span>
             </li>
           ))}

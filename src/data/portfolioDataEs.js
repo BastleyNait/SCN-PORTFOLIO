@@ -251,72 +251,72 @@ export const techStackData = [
     category: "Lenguajes",
     icon: "Code2",
     items: [
-      { name: "JavaScript", level: "Avanzado" },
-      { name: "TypeScript", level: "Avanzado" },
-      { name: "Python", level: "Avanzado" },
-      { name: "Kotlin", level: "Intermedio/Avanzado" },
-      { name: "Java", level: "Intermedio" }
+      { name: "JavaScript" },
+      { name: "TypeScript" },
+      { name: "Python" },
+      { name: "Kotlin" },
+      { name: "Java" }
     ]
   },
   {
     category: "Frontend",
     icon: "Layout",
     items: [
-      { name: "React", level: "Avanzado" },
-      { name: "Next.js", level: "Avanzado" },
-      { name: "Zustand", level: "Avanzado" },
-      { name: "Tailwind CSS", level: "Avanzado" },
-      { name: "Bootstrap", level: "Intermedio" }
+      { name: "React" },
+      { name: "Next.js" },
+      { name: "Zustand" },
+      { name: "Tailwind CSS" },
+      { name: "Bootstrap" }
     ]
   },
   {
     category: "Backend",
     icon: "Server",
     items: [
-      { name: "FastAPI", level: "Avanzado" },
-      { name: "Node.js", level: "Avanzado" },
-      { name: "Django", level: "Intermedio" },
-      { name: "Flask", level: "Intermedio" }
+      { name: "FastAPI" },
+      { name: "Node.js" },
+      { name: "Django" },
+      { name: "Flask" }
     ]
   },
   {
     category: "Móvil",
     icon: "Smartphone",
     items: [
-      { name: "React Native", level: "Avanzado" },
-      { name: "Android Nativo", level: "Intermedio/Avanzado" },
-      { name: "Kotlin Mobile", level: "Intermedio" }
+      { name: "React Native" },
+      { name: "Android Nativo" },
+      { name: "Kotlin Mobile" }
     ]
   },
   {
     category: "Cloud y DevOps",
     icon: "Cloud",
     items: [
-      { name: "Docker", level: "Intermedio/Avanzado" },
-      { name: "Google Cloud", level: "Intermedio" },
-      { name: "AWS", level: "Intermedio" },
-      { name: "Vercel", level: "Avanzado" }
+      { name: "Docker" },
+      { name: "Google Cloud" },
+      { name: "AWS" },
+      { name: "Vercel" }
     ]
   },
   {
     category: "Datos y APIs",
     icon: "Database",
     items: [
-      { name: "PostgreSQL", level: "Avanzado" },
-      { name: "Vector DB", level: "Intermedio" },
-      { name: "MongoDB", level: "Intermedio" },
-      { name: "Redis", level: "Intermedio" },
-      { name: "REST y GraphQL", level: "Avanzado" }
+      { name: "PostgreSQL" },
+      { name: "Vector DB" },
+      { name: "MongoDB" },
+      { name: "Redis" },
+      { name: "REST y GraphQL" }
     ]
   },
   {
     category: "IA / ML",
     icon: "Brain",
     items: [
-      { name: "TensorFlow Lite", level: "Intermedio" },
-      { name: "PyTorch", level: "Intermedio" },
-      { name: "Ollama / LLMs locales", level: "Intermedio" },
-      { name: "Pandas y NumPy", level: "Intermedio" }
+      { name: "TensorFlow Lite" },
+      { name: "PyTorch" },
+      { name: "Ollama / LLMs locales" },
+      { name: "Pandas y NumPy" }
     ]
   }
 ];
