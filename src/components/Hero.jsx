@@ -3,7 +3,6 @@ import { motion, useReducedMotion } from 'framer-motion';
 import {
   Terminal,
   MapPin,
-  GraduationCap,
   ArrowRight,
   Download,
   Rocket,
@@ -118,16 +117,6 @@ export default function Hero() {
               {!reduceMotion && (
                 <span className="w-2 h-4 bg-[var(--ink)] inline-block shrink-0 animate-pulse" aria-hidden="true" />
               )}
-            </div>
-
-            <div className="neo-card-sm p-3.5 flex items-center gap-3 mb-6 max-w-xl w-full">
-              <span className="p-2 bg-[var(--accent)] border-2 border-[var(--ink)] shrink-0 text-[var(--on-accent)]">
-                <GraduationCap className="w-5 h-5" aria-hidden="true" />
-              </span>
-              <span className="text-xs sm:text-sm text-[var(--ink)] leading-tight">
-                <span className="font-bold">{personalData.degree}</span>
-                <span className="text-[var(--muted-color)]"> — {personalData.status}</span>
-              </span>
             </div>
 
             <p className="text-[var(--muted-color)] text-sm sm:text-base leading-relaxed mb-8 max-w-xl">

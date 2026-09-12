@@ -5,8 +5,6 @@ export const personalData = {
   title: "Systems Engineer · Software Architect · AI-Augmented Delivery",
   role: "Systems Engineer & Software Architect",
   headline: "I orchestrate AI. I own the architecture.",
-  degree: "Systems Engineer",
-  status: "Final Semester — National University of San Agustín de Arequipa (UNSA)",
   location: "Arequipa, Peru 🇵🇪",
   email: "schirinosne@gmail.com",
   linkedin: "https://www.linkedin.com/in/sebastian-chirinos-negron/",
@@ -14,7 +12,7 @@ export const personalData = {
   github: "https://github.com/BastleyNait",
   portfolioUrl: "https://sebastian-cn-portfolio.vercel.app",
   bio: "Writing code stopped being the hard part. Deciding what to build, where state lives, what runs on-device, and what to reject before it merges — that is the job. I direct AI agents through a spec-first pipeline and personally own every architectural call behind five systems running in production across web, point of sale, native Android and offline machine learning.",
-  shortBio: "Systems Engineer from UNSA. I design the system, direct the agents, and defend every line that ships.",
+  shortBio: "I design the system, direct the agents, and defend every line that ships.",
   stats: [
     { label: "Systems in production", value: "5", icon: "Rocket" },
     { label: "Decisions on record", value: "6", icon: "ScrollText" },

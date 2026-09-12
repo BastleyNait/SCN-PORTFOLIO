@@ -5,8 +5,6 @@ export const personalData = {
   title: "Ingeniero de Sistemas · Arquitecto de Software · Entrega asistida por IA",
   role: "Ingeniero de Sistemas y Arquitecto de Software",
   headline: "Orquesto la IA. La arquitectura es mía.",
-  degree: "Ingeniería de Sistemas",
-  status: "Último semestre — Universidad Nacional de San Agustín de Arequipa (UNSA)",
   location: "Arequipa, Perú 🇵🇪",
   email: "schirinosne@gmail.com",
   linkedin: "https://www.linkedin.com/in/sebastian-chirinos-negron/",
@@ -14,7 +12,7 @@ export const personalData = {
   github: "https://github.com/BastleyNait",
   portfolioUrl: "https://sebastian-cn-portfolio.vercel.app",
   bio: "Escribir código dejó de ser lo difícil. Decidir qué construir, dónde vive el estado, qué corre en el dispositivo y qué rechazar antes de que se integre: ese es el trabajo. Dirijo agentes de IA con un proceso donde la especificación va primero, y respondo personalmente por cada decisión de arquitectura detrás de cinco sistemas en producción entre web, punto de venta, Android nativo y machine learning offline.",
-  shortBio: "Ingeniero de Sistemas por la UNSA. Diseño el sistema, dirijo a los agentes y defiendo cada línea que sale a producción.",
+  shortBio: "Diseño el sistema, dirijo a los agentes y defiendo cada línea que sale a producción.",
   stats: [
     { label: "Sistemas en producción", value: "5", icon: "Rocket" },
     { label: "Decisiones documentadas", value: "6", icon: "ScrollText" },
