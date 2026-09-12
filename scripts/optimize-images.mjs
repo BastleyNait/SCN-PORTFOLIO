@@ -30,7 +30,8 @@ const PROJECTS = {
   'calitop.png': 'calitop-services',
   'revolt.png': 'revolt-laptop',
   'boom-pos.png': 'boom-pos',
-  'anemivision.png': 'anemivision'
+  'anemivision.png': 'anemivision',
+  'geotop.png': 'geotop-certificates'
 };
 
 const kb = (bytes) => `${(bytes / 1024).toFixed(0)} kB`;

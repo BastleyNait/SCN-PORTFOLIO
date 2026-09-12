@@ -35,7 +35,7 @@ const esc = (value) =>
 
 const NAME = 'Sebastian Chirinos';
 const ROLE = 'Full-Stack Engineer · React, Next.js & Python';
-const FACTS = '7 systems in production · Arequipa, Peru · UTC-5';
+const FACTS = '6 systems in production · Arequipa, Peru · UTC-5';
 
 /* Segoe UI is the Windows default and Arial is the universal fallback, so the
    card renders identically whether it is built locally or on a Linux runner. */

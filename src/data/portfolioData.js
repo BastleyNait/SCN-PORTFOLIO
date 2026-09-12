@@ -13,10 +13,10 @@ export const personalData = {
   whatsapp: "https://wa.me/51987545926",
   github: "https://github.com/BastleyNait",
   portfolioUrl: "https://sebastian-cn-portfolio.vercel.app",
-  bio: "Writing code stopped being the hard part. Deciding what to build, where state lives, what runs on-device, and what to reject before it merges — that is the job. I direct AI agents through a spec-first pipeline and personally own every architectural call behind seven systems running in production across web, point of sale, cloud document delivery, authenticated APIs, native Android and offline machine learning.",
+  bio: "Writing code stopped being the hard part. Deciding what to build, where state lives, what runs on-device, and what to reject before it merges — that is the job. I direct AI agents through a spec-first pipeline and personally own every architectural call behind six systems running in production across web, point of sale, cloud document delivery, native Android and offline machine learning.",
   shortBio: "I design the system, direct the agents, and defend every line that ships.",
   stats: [
-    { label: "Systems in production", value: "7", icon: "Rocket" },
+    { label: "Systems in production", value: "6", icon: "Rocket" },
     { label: "Decisions on record", value: "6", icon: "ScrollText" },
     { label: "Product domains shipped", value: "4", icon: "Boxes" },
     { label: "Languages in production", value: "5", icon: "Braces" }
@@ -24,7 +24,7 @@ export const personalData = {
   typingLines: [
     "I orchestrate AI. I own the architecture.",
     "Spec first, agents second, review always.",
-    "7 systems in production — design to deploy.",
+    "6 systems in production — design to deploy.",
     "Edge AI that runs with the network off.",
     "Open to Full-Stack & Software Engineering roles 🚀"
   ]
@@ -242,6 +242,7 @@ export const projectsData = [
     liveUrl: null,
     repoUrl: "https://github.com/BastleyNait/ANEMIVISION",
     featured: true,
+    previewLabel: "anemivision.apk",
     status: "Edge AI",
     accentColor: "#10b981",
     previewImage: "anemivision"
@@ -260,26 +261,9 @@ export const projectsData = [
     featured: true,
     status: "Production",
     accentColor: "#fb923c",
-    previewImage: null,
-    previewLabel: "certificate.pdf",
+    previewLabel: "gestor de certificados",
+    previewImage: "geotop-certificates",
     caseStudy: "geotop-certificates"
-  },
-  {
-    id: "ssp-api",
-    title: "SSP",
-    category: "APIs & Backend",
-    role: "Architecture · API design · Auth",
-    description: "Internship tracking API built to replace the mock data layer behind a React front end that already existed.",
-    longDescription: "FastAPI and SQLAlchemy 2 service on PostgreSQL carrying JWT authentication, bcrypt password hashing and role-based access control, documented with OpenAPI and shipped under Docker Compose.",
-    keyDecision: "The front end already existed, so its data shape was the contract; the API was written to fit it rather than the other way round.",
-    tech: ["FastAPI", "SQLAlchemy 2", "PostgreSQL", "JWT", "RBAC", "Docker Compose"],
-    liveUrl: null,
-    repoUrl: "https://github.com/BastleyNait/BACK-CS-DE-LA-COM",
-    featured: true,
-    status: "Production",
-    accentColor: "#818cf8",
-    previewImage: null,
-    previewLabel: "openapi.json"
   }
 ];
 

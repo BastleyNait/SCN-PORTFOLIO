@@ -18,5 +18,9 @@
   "anemivision": {
     "width": 1280,
     "height": 720
+  },
+  "geotop-certificates": {
+    "width": 1280,
+    "height": 550
   }
 }
