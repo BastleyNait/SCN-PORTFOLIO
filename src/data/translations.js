@@ -40,7 +40,7 @@ export const translations = {
     projects: {
       portfolio: "WORK",
       featured: "Systems in Production",
-      description: "Five systems people actually use. Each card names the decision that shaped it, not just the framework it was built with.",
+      description: "Six systems people actually use. Each card names the decision that shaped it, not just the framework it was built with.",
       allCategories: "All",
       roleLabel: "MY ROLE",
       decisionLabel: "KEY DECISION",
@@ -48,7 +48,14 @@ export const translations = {
       liveDemo: "LIVE",
       repo: "CODE",
       viewCode: "View source on GitHub",
+      caseStudyLink: "Read the case study",
       empty: "No projects in this category yet."
+    },
+    caseStudy: {
+      label: "CASE STUDY",
+      back: "Back to portfolio",
+      stackLabel: "Stack",
+      notFound: "That case study does not exist."
     },
     decisions: {
       label: "DECISION LOG",
@@ -137,7 +144,7 @@ export const translations = {
     projects: {
       portfolio: "TRABAJO",
       featured: "Sistemas en Producción",
-      description: "Cinco sistemas que la gente usa de verdad. Cada tarjeta nombra la decisión que le dio forma, no solo el framework con el que se construyó.",
+      description: "Seis sistemas que la gente usa de verdad. Cada tarjeta nombra la decisión que le dio forma, no solo el framework con el que se construyó.",
       allCategories: "Todos",
       roleLabel: "MI ROL",
       decisionLabel: "DECISIÓN CLAVE",
@@ -145,7 +152,14 @@ export const translations = {
       liveDemo: "EN VIVO",
       repo: "CÓDIGO",
       viewCode: "Ver código en GitHub",
+      caseStudyLink: "Leer el caso de estudio",
       empty: "Todavía no hay proyectos en esta categoría."
+    },
+    caseStudy: {
+      label: "CASO DE ESTUDIO",
+      back: "Volver al portfolio",
+      stackLabel: "Stack",
+      notFound: "Ese caso de estudio no existe."
     },
     decisions: {
       label: "REGISTRO DE DECISIONES",

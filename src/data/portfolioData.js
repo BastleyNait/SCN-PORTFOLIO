@@ -1,3 +1,5 @@
+export { caseStudies } from './caseStudies';
+
 export const personalData = {
   name: "Sebastian Arley Chirinos Negrón",
   shortName: "Sebastian Chirinos",
@@ -11,10 +13,10 @@ export const personalData = {
   whatsapp: "https://wa.me/51987545926",
   github: "https://github.com/BastleyNait",
   portfolioUrl: "https://sebastian-cn-portfolio.vercel.app",
-  bio: "Writing code stopped being the hard part. Deciding what to build, where state lives, what runs on-device, and what to reject before it merges — that is the job. I direct AI agents through a spec-first pipeline and personally own every architectural call behind five systems running in production across web, point of sale, native Android and offline machine learning.",
+  bio: "Writing code stopped being the hard part. Deciding what to build, where state lives, what runs on-device, and what to reject before it merges — that is the job. I direct AI agents through a spec-first pipeline and personally own every architectural call behind six systems running in production across web, point of sale, cloud document delivery, native Android and offline machine learning.",
   shortBio: "I design the system, direct the agents, and defend every line that ships.",
   stats: [
-    { label: "Systems in production", value: "5", icon: "Rocket" },
+    { label: "Systems in production", value: "6", icon: "Rocket" },
     { label: "Decisions on record", value: "6", icon: "ScrollText" },
     { label: "Product domains shipped", value: "4", icon: "Boxes" },
     { label: "Languages in production", value: "5", icon: "Braces" }
@@ -22,7 +24,7 @@ export const personalData = {
   typingLines: [
     "I orchestrate AI. I own the architecture.",
     "Spec first, agents second, review always.",
-    "5 systems in production — design to deploy.",
+    "6 systems in production — design to deploy.",
     "Edge AI that runs with the network off.",
     "Open to Full-Stack & Software Engineering roles 🚀"
   ]
@@ -243,6 +245,24 @@ export const projectsData = [
     status: "Edge AI",
     accentColor: "#10b981",
     previewImage: "anemivision"
+  },
+  {
+    id: "geotop-certificates",
+    title: "GEOTOP Certificates",
+    category: "Web Platforms",
+    role: "Architecture · Backend · Infrastructure",
+    description: "Cloud certificate system for a surveying equipment company, verified by scanning the instrument itself.",
+    longDescription: "Calibration certificates moved off paper into cloud object storage, addressable from a QR code printed on the physical instrument, behind a Flask service on Google Compute Engine.",
+    keyDecision: "The QR resolves straight to the PDF, so a technician in the field needs no app, no login and no serial number.",
+    tech: ["Flask", "Google Compute Engine", "Nginx", "S3-compatible storage", "QR"],
+    liveUrl: null,
+    repoUrl: null,
+    featured: true,
+    status: "Production",
+    accentColor: "#fb923c",
+    previewImage: null,
+    previewLabel: "certificate.pdf",
+    caseStudy: "geotop-certificates"
   }
 ];
 

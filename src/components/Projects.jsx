@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ExternalLink, Sparkles, Eye, GitBranch, UserCog } from 'lucide-react';
+import { ExternalLink, Sparkles, Eye, GitBranch, UserCog, FileText, ImageOff } from 'lucide-react';
 import { Github } from './Icons';
 import { useAppContext } from '../context/app-context';
 import imageManifest from '../data/imageManifest.json';
+import { CASE_STUDY_PREFIX } from '../lib/router';
 
 /* Widths emitted by scripts/optimize-images.mjs. Keep the two in step. */
 const PREVIEW_WIDTHS = [640, 1280];
@@ -24,6 +25,13 @@ const TECH_TAG_COLORS = [
 
 const ALL = '__all__';
 
+/** What the fake browser chrome shows: the live domain, or whatever the
+ *  project data says stands in for it when there is no public URL. */
+function previewLabel(project) {
+  if (project.liveUrl) return project.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
+  return project.previewLabel || `${project.id}.apk`;
+}
+
 /** Production reads green; anything else reads as a distinct build type. */
 function statusColor(status) {
   const value = (status || '').toLowerCase();
@@ -32,7 +40,7 @@ function statusColor(status) {
   return 'var(--accent-blue)';
 }
 
-export default function Projects() {
+export default function Projects({ onOpenCaseStudy }) {
   const { t, data } = useAppContext();
   const projectsData = data.projectsData;
   const reduceMotion = useReducedMotion();
@@ -116,7 +124,7 @@ export default function Projects() {
                     </span>
 
                     <span className="font-mono text-[10px] text-[var(--ink)] font-semibold truncate bg-[var(--card-color)] px-2 py-0.5 border border-[var(--ink)]">
-                      {project.liveUrl ? project.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '') : `${project.id}.apk`}
+                      {previewLabel(project)}
                     </span>
 
                     <span className="w-4 shrink-0" aria-hidden="true" />
@@ -132,6 +140,7 @@ export default function Projects() {
                       {project.status}
                     </span>
 
+                    {(project.liveUrl || project.repoUrl) && (
                     <span className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-200 flex items-center justify-center z-20">
                       <a
                         href={project.liveUrl || project.repoUrl}
@@ -143,6 +152,7 @@ export default function Projects() {
                         <span>{t.projects.viewProject}</span>
                       </a>
                     </span>
+                    )}
                   </div>
                 </div>
 
@@ -193,6 +203,25 @@ export default function Projects() {
 
                     <div className="border-t-2 border-dashed border-[var(--ink)] my-3" />
 
+                    {project.caseStudy && (
+                      <a
+                        href={`${CASE_STUDY_PREFIX}${project.caseStudy}`}
+                        onClick={(event) => {
+                          /* Let the browser handle new-tab and modified clicks. */
+                          if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+                          event.preventDefault();
+                          onOpenCaseStudy(project.caseStudy);
+                        }}
+                        className="neo-btn w-full bg-[var(--ink)] text-[var(--bg-color)] text-xs py-2 px-3 border-2 shadow-[3px_3px_0px_var(--ink)] mb-2"
+                      >
+                        <FileText className="w-3.5 h-3.5" aria-hidden="true" />
+                        <span>{t.projects.caseStudyLink}</span>
+                      </a>
+                    )}
+
+                    {/* A project can be missing either link: a client system has
+                        no public site and no public repo. Render only what exists. */}
+                    {(project.liveUrl || project.repoUrl) && (
                     <div className="flex items-center gap-2 pt-1">
                       {project.liveUrl && (
                         <a
@@ -206,6 +235,7 @@ export default function Projects() {
                         </a>
                       )}
 
+                      {project.repoUrl && (
                       <a
                         href={project.repoUrl}
                         target="_blank"
@@ -218,7 +248,9 @@ export default function Projects() {
                         <Github className="w-3.5 h-3.5" />
                         <span>{t.projects.repo}</span>
                       </a>
+                      )}
                     </div>
+                    )}
                   </div>
                 </div>
               </motion.li>
@@ -243,7 +275,14 @@ function ProjectPreview({ project }) {
   const base = project.previewImage;
   const intrinsic = imageManifest[base];
 
-  if (!base || !intrinsic) return null;
+  if (!base || !intrinsic) {
+    return (
+      <span className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-stripes text-[var(--muted-color)]">
+        <ImageOff className="w-7 h-7" aria-hidden="true" />
+        <span className="font-mono text-[10px] uppercase tracking-wider">{project.title}</span>
+      </span>
+    );
+  }
 
   return (
     <img
