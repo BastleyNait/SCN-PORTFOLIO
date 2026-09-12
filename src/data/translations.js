@@ -71,7 +71,7 @@ export const translations = {
     techStack: {
       label: "TOOLING",
       title: "Technologies & Tools",
-      description: "Tools are the cheapest part of the job. These are the ones I have taken to production and would defend in a design review.",
+      description: "Six systems in production. A POS handling 100+ sales a day, a cloud certificate system with QR verification for 700+ documents, an offline Android screening app, and three commercial sites — all built and deployed end to end.",
       frontendTitle: "Frontend",
       frontendDesc: "React 19 and Next.js App Router, Zustand for state that belongs on the client, Tailwind CSS v4 for interfaces that stay fast.",
       backendTitle: "Backend",
@@ -175,7 +175,7 @@ export const translations = {
     techStack: {
       label: "HERRAMIENTAS",
       title: "Tecnologías y Herramientas",
-      description: "Las herramientas son la parte más barata del trabajo. Estas son las que llevé a producción y defendería en una revisión de diseño.",
+      description: "Seis sistemas en producción. Un POS que mueve 100+ ventas al día, un sistema de certificados en la nube con verificación por QR para 700+ documentos, una app Android de tamizaje que funciona offline, y tres sitios comerciales — todos construidos y desplegados de punta a punta.",
       frontendTitle: "Frontend",
       frontendDesc: "React 19 y Next.js App Router, Zustand para el estado que corresponde al cliente, Tailwind CSS v4 para interfaces que siguen siendo rápidas.",
       backendTitle: "Backend",
