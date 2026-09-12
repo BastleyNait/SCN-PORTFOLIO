@@ -3,8 +3,9 @@
 Personal portfolio for Sebastian Arley Chirinos Negrón, full-stack engineer and software architect.
 
 The page is built around one argument: everyone has the same code generator now, so the
-differentiator is who owns the decisions. It leads with an operating model, backs it with
-architecture decision records, and only then lists the stack.
+differentiator is who can defend the decisions. Evidence first, method last. It leads with
+shipped systems, then the decision records and the concepts under them, then the
+fundamentals, then the tools, and only at the end how AI fits into the work.
 
 **Live:** https://sebastian-cn-portfolio.vercel.app
 
@@ -60,9 +61,15 @@ added to one must be added to the other or the language toggle will render `unde
 
 - `personalData` — identity, positioning line, hero stats
 - `orchestrationData` — the five-phase loop and the delegated/never-delegated split
-- `decisionLog` — architecture decision records: context, options, decision, trade-off
+- `decisionLog` — architecture decision records. Beyond context, options, decision and
+  trade-off, each one carries `concept` and `theory` (the named idea underneath),
+  `atScale` (where it breaks at ten times the size) and `verified` (how it was checked).
+  A record without those four still renders; it just says less.
 - `projectsData` — projects, each with the key decision behind it
-- `techStackData`, `engineeringPrinciples`
+- `techStackData` — tool list, rendered below the fundamentals in the same section
+- `engineeringPrinciples` — each area carries `concepts` (named theory) and `evidence`
+  plus an `adr` id, so nothing in it is an unbacked claim
+- `caseStudies` / `caseStudiesEs` — long-form pieces at `/case-studies/<slug>`
 
 Project categories are derived from `projectsData`, so a new category appears as a filter
 automatically.

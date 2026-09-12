@@ -1,6 +1,13 @@
 import React, { useEffect } from 'react';
 import { ArrowLeft, FileText, Building2 } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
+import { caseStudies as caseStudiesEn } from '../data/caseStudies';
+import { caseStudies as caseStudiesEs } from '../data/caseStudiesEs';
+
+/* Imported here rather than re-exported from the portfolio data, so the
+   long-form text ships in the lazy route chunk and not in the bundle every
+   visitor downloads to read the landing page. */
+const STUDIES = { en: caseStudiesEn, es: caseStudiesEs };
 
 /**
  * The long-form counterpart to a project card. A card has room for the
@@ -8,8 +15,8 @@ import { useAppContext } from '../context/app-context';
  * is the part an interviewer is actually reading for.
  */
 export default function CaseStudy({ slug, onBack }) {
-  const { t, data, language } = useAppContext();
-  const study = data.caseStudies?.[slug];
+  const { t, language } = useAppContext();
+  const study = STUDIES[language]?.[slug];
 
   useEffect(() => {
     if (!study) return undefined;

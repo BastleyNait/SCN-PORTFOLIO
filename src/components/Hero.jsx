@@ -73,7 +73,7 @@ export default function Hero() {
 
           {/* LEFT: identity, position, calls to action */}
           <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+            initial={reduceMotion ? false : { opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             className="lg:col-span-7 flex flex-col items-start"
@@ -148,7 +148,7 @@ export default function Hero() {
 
           {/* RIGHT: portrait */}
           <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+            initial={reduceMotion ? false : { opacity: 1, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.15 }}
             className="lg:col-span-5 flex justify-center relative"
@@ -197,7 +197,7 @@ export default function Hero() {
 
         {/* Stat bar */}
         <motion.dl
-          initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+          initial={reduceMotion ? false : { opacity: 1, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-10 neo-card-flat p-6 grid grid-cols-2 md:grid-cols-4 gap-6"

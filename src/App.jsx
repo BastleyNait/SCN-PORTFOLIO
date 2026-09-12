@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { Suspense, lazy, useCallback } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -7,7 +7,7 @@ import Projects from './components/Projects';
 import DecisionLog from './components/DecisionLog';
 import TechStack from './components/TechStack';
 import ContactFooter from './components/ContactFooter';
-import CaseStudy from './components/CaseStudy';
+const CaseStudy = lazy(() => import('./components/CaseStudy'));
 import { useAppContext } from './context/app-context';
 import { CASE_STUDY_PREFIX, useRoute } from './lib/router';
 
@@ -30,7 +30,9 @@ export default function App() {
       <a href="#main" className="skip-link">{t.meta.skipToContent}</a>
 
       {route.name === 'case-study' ? (
-        <CaseStudy slug={route.slug} onBack={goHome} />
+        <Suspense fallback={<div className="min-h-screen" />}>
+          <CaseStudy slug={route.slug} onBack={goHome} />
+        </Suspense>
       ) : (
         <>
           <Navbar />

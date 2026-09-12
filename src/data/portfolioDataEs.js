@@ -1,5 +1,3 @@
-export { caseStudies } from './caseStudiesEs';
-
 export const personalData = {
   name: "Sebastian Arley Chirinos Negrón",
   shortName: "Sebastian Chirinos",
