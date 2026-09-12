@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { Github, Linkedin, Whatsapp } from './Icons';
 import { useAppContext } from '../context/app-context';
+import { CV_PATH, CV_DOWNLOAD_NAME } from '../lib/cv';
 
 const STAT_COLORS = [
   'var(--accent)',
@@ -130,8 +131,8 @@ export default function Hero() {
               </a>
 
               <a
-                href="/resume_2026.pdf"
-                download="sebastian-chirinos-cv.pdf"
+                href={CV_PATH}
+                download={CV_DOWNLOAD_NAME}
                 className="neo-btn bg-[var(--card-color)] text-[var(--ink)]"
               >
                 <Download className="w-4 h-4" aria-hidden="true" />

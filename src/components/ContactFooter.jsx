@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Mail, Copy, Check, Send, MapPin, Sparkles } from 'lucide-react';
+import { Mail, Copy, Check, Send, MapPin, Sparkles, Download } from 'lucide-react';
 import { Github, Linkedin, Whatsapp } from './Icons';
 import { useAppContext } from '../context/app-context';
+import { CV_PATH, CV_DOWNLOAD_NAME } from '../lib/cv';
 
 const INPUT_CLASS =
   'w-full px-3.5 py-2.5 bg-[var(--bg-color)] border-[3px] border-[var(--ink)] font-mono text-xs sm:text-sm text-[var(--ink)] placeholder:text-[var(--muted-color)] focus:bg-[var(--card-color)] focus:shadow-[3px_3px_0px_var(--ink)] transition-all';
@@ -20,7 +21,7 @@ export default function ContactFooter() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {
-      /* Clipboard access can be denied; the address is visible on the button. */
+      /* Clipboard access can be denied; the address sits next to it as text. */
     }
   };
 
@@ -58,34 +59,54 @@ export default function ContactFooter() {
                 {t.contact.title}
               </h2>
 
-              <p className="text-[var(--on-accent)] font-medium text-sm sm:text-base leading-relaxed mb-8 max-w-lg">
+              <p className="text-[var(--on-accent)] font-medium text-sm sm:text-base leading-relaxed mb-6 max-w-lg">
                 {t.contact.description}
               </p>
 
+              {/* The three facts a recruiter checks before replying. */}
+              <p className="font-mono text-xs sm:text-sm font-bold text-[var(--on-accent)] border-y-2 border-[var(--on-accent)] py-2.5 mb-6">
+                {t.contact.availability}
+              </p>
+
+              {/* The address is a selectable span, not button text: someone who
+                  wants to paste it into their own client should not have to
+                  trust a clipboard API that a locked-down browser may refuse. */}
               <div className="flex flex-wrap items-center gap-3">
-                <button
-                  type="button"
-                  onClick={handleCopyEmail}
-                  className="neo-btn bg-[var(--card-color)] text-[var(--ink)] font-mono text-xs sm:text-sm normal-case tracking-normal py-3 px-5"
-                >
-                  <Mail className="w-4 h-4" aria-hidden="true" />
-                  <span>{personalData.email}</span>
-                  <span className="ml-2 pl-2 border-l-2 border-[var(--ink)] flex items-center">
+                <div className="bg-[var(--card-color)] border-[3px] border-[var(--ink)] shadow-[4px_4px_0px_var(--ink)] flex items-stretch">
+                  <span className="flex items-center gap-2 px-4 py-3 font-mono text-xs sm:text-sm text-[var(--ink)] select-all">
+                    <Mail className="w-4 h-4 shrink-0" aria-hidden="true" />
+                    {personalData.email}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleCopyEmail}
+                    aria-label={t.contact.copyEmail}
+                    className="px-3 border-l-2 border-[var(--ink)] flex items-center text-[var(--ink)] cursor-pointer hover:bg-[var(--accent)] transition-colors"
+                  >
                     {copied
                       ? <Check className="w-4 h-4" aria-hidden="true" />
                       : <Copy className="w-4 h-4" aria-hidden="true" />}
-                  </span>
-                </button>
+                  </button>
+                </div>
 
                 <span className="neo-tag on-accent bg-[var(--accent-lime)] font-bold" role="status" aria-live="polite">
                   {copied ? t.contact.copied : ''}
                 </span>
               </div>
 
-              <div className="flex items-center gap-3 mt-8">
+              <div className="flex flex-wrap items-center gap-3 mt-7">
                 <SocialLink href={personalData.github} label="GitHub"><Github className="w-5 h-5" /></SocialLink>
                 <SocialLink href={personalData.linkedin} label="LinkedIn"><Linkedin className="w-5 h-5" /></SocialLink>
                 <SocialLink href={personalData.whatsapp} label="WhatsApp"><Whatsapp className="w-5 h-5" /></SocialLink>
+
+                <a
+                  href={CV_PATH}
+                  download={CV_DOWNLOAD_NAME}
+                  className="neo-btn bg-[var(--ink)] text-[var(--bg-color)] text-xs py-2.5 px-4 border-2 shadow-[3px_3px_0px_var(--ink)]"
+                >
+                  <Download className="w-4 h-4" aria-hidden="true" />
+                  <span>{t.hero.downloadCv}</span>
+                </a>
               </div>
             </div>
 
