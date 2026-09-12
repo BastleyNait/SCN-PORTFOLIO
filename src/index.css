@@ -48,9 +48,11 @@
 }
 
 @theme {
-  --font-heading: 'Outfit', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'Fira Code', monospace;
+  /* Real fallback stacks, so the page is readable in the swap window and
+     stays readable if Google Fonts is blocked or slow. */
+  --font-heading: 'Outfit', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Fira Code', 'Cascadia Mono', Consolas, 'Liberation Mono', monospace;
 
   --color-neo-bg: var(--bg-color);
   --color-neo-ink: var(--ink);
