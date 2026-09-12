@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { ArrowLeft, FileText, Building2 } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
 
-const METRIC_COLORS = ['var(--accent)', 'var(--accent-blue)', 'var(--accent-lime)'];
-
 /**
  * The long-form counterpart to a project card. A card has room for the
  * decision; this has room for why that decision beat the alternatives, which
@@ -67,11 +65,10 @@ export default function CaseStudy({ slug, onBack }) {
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <dl className="grid grid-cols-1 sm:grid-cols-3 gap-4 -mt-8 mb-12">
-          {study.metrics.map((metric, index) => (
+          {study.metrics.map((metric) => (
             <div key={metric.label} className="neo-card-flat p-4 text-center">
               <dd
-                className="font-heading font-black text-2xl text-[var(--on-accent)] inline-block px-3 py-0.5 border-2 border-[var(--ink)] mb-2"
-                style={{ backgroundColor: METRIC_COLORS[index % METRIC_COLORS.length] }}
+className="font-heading font-black text-3xl text-[var(--ink)] mb-1.5"
               >
                 {metric.value}
               </dd>

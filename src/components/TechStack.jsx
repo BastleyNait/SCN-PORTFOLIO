@@ -14,16 +14,6 @@ import {
 import { useAppContext } from '../context/app-context';
 import EngineeringSkills from './EngineeringSkills';
 
-const CATEGORY_COLORS = [
-  'var(--accent)',
-  'var(--accent-lime)',
-  'var(--accent-pink)',
-  'var(--accent-blue)',
-  'var(--accent-orange)',
-  'var(--accent-purple)',
-  'var(--accent-red)'
-];
-
 const ICONS = {
   Code2,
   Layout,
@@ -41,12 +31,9 @@ export default function TechStack() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const activeCategory = techStackData[activeIndex] ?? techStackData[0];
-  const activeColor = CATEGORY_COLORS[activeIndex % CATEGORY_COLORS.length];
 
   return (
     <section id="stack" className="py-14 relative bg-[var(--bg-color)]" aria-labelledby="stack-title">
-      <div className="absolute inset-0 bg-stripes pointer-events-none opacity-25" aria-hidden="true" />
-
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         <div className="flex flex-col items-center text-center mb-10">
@@ -72,7 +59,6 @@ export default function TechStack() {
           {techStackData.map((category, index) => {
             const isActive = index === activeIndex;
             const Icon = ICONS[category.icon];
-            const color = CATEGORY_COLORS[index % CATEGORY_COLORS.length];
 
             return (
               <button
@@ -88,7 +74,7 @@ export default function TechStack() {
                     ? 'on-accent shadow-[3px_3px_0px_var(--ink)] -translate-x-0.5 -translate-y-0.5'
                     : 'shadow-[2px_2px_0px_var(--ink)] hover:-translate-x-px hover:-translate-y-px hover:shadow-[3px_3px_0px_var(--ink)]'
                 }`}
-                style={isActive ? { backgroundColor: color } : undefined}
+                style={isActive ? { backgroundColor: 'var(--accent)' } : undefined}
               >
                 {Icon && <Icon className="w-4 h-4" aria-hidden="true" />}
                 <span>{category.category}</span>
@@ -111,12 +97,7 @@ export default function TechStack() {
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 list-none p-0">
           {activeCategory.items.map((item) => (
             <li key={item.name} className="neo-card-sm p-4 flex items-center gap-3">
-              <span
-                className="w-10 h-10 border-2 border-[var(--ink)] flex items-center justify-center shrink-0 shadow-[2px_2px_0px_var(--ink)] text-[var(--on-accent)]"
-                style={{ backgroundColor: activeColor }}
-              >
-                <CheckCircle2 className="w-5 h-5" aria-hidden="true" />
-              </span>
+              <CheckCircle2 className="w-4 h-4 shrink-0 text-[var(--ink)]" aria-hidden="true" />
               <span className="font-heading font-bold text-sm text-[var(--ink)] truncate min-w-0">
                 {item.name}
               </span>

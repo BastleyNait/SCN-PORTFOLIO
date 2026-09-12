@@ -20,7 +20,7 @@ export const translations = {
       toggleLanguage: "Switch language to Spanish"
     },
     hero: {
-      greeting: "Hi 👋, I'm",
+      greeting: "Hi, I'm",
       available: "AVAILABLE FOR WORK",
       exploreBtn: "SEE THE DECISIONS",
       downloadCv: "Download CV",
@@ -101,7 +101,7 @@ export const translations = {
       messagePlaceholder: "What are you trying to build?",
       sendBtn: "OPEN IN MY EMAIL APP",
       formNote: "This opens your own mail client with the message prefilled. Nothing is sent from this page.",
-      tagline: "✦ Decide well, then build fast. ✦",
+      tagline: "Decide well, then build fast.",
       rights: "All rights reserved."
     }
   },
@@ -126,7 +126,7 @@ export const translations = {
       toggleLanguage: "Cambiar idioma a inglés"
     },
     hero: {
-      greeting: "Hola 👋, soy",
+      greeting: "Hola, soy",
       available: "DISPONIBLE PARA TRABAJAR",
       exploreBtn: "VER LAS DECISIONES",
       downloadCv: "Descargar CV",
@@ -207,7 +207,7 @@ export const translations = {
       messagePlaceholder: "¿Qué estás intentando construir?",
       sendBtn: "ABRIR EN MI APP DE CORREO",
       formNote: "Esto abre tu propio cliente de correo con el mensaje ya escrito. Desde esta página no se envía nada.",
-      tagline: "✦ Decidir bien, después construir rápido. ✦",
+      tagline: "Decidir bien, después construir rápido.",
       rights: "Todos los derechos reservados."
     }
   }

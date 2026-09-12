@@ -11,15 +11,6 @@ import {
 } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
 
-const COLOR_CYCLE = [
-  'var(--accent)',
-  'var(--accent-lime)',
-  'var(--accent-pink)',
-  'var(--accent-blue)',
-  'var(--accent-orange)',
-  'var(--accent-purple)'
-];
-
 const ICONS = {
   Building2,
   ClipboardCheck,
@@ -39,7 +30,7 @@ export default function EngineeringSkills() {
   return (
     <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 list-none p-0">
       {principles.map((principle, index) => {
-        const color = COLOR_CYCLE[index % COLOR_CYCLE.length];
+        const color = 'var(--ink)';
         const Icon = ICONS[principle.icon];
 
         return (
@@ -49,20 +40,14 @@ export default function EngineeringSkills() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.4, delay: reduceMotion ? 0 : Math.min(index, 3) * 0.08 }}
-            className="neo-card p-5 flex flex-col"
+            className="neo-card-flat p-5 flex flex-col"
             style={{ borderLeft: `6px solid ${color}` }}
           >
             <div className="flex items-center justify-between gap-2 mb-3.5">
-              <span
-                className="w-10 h-10 border-2 border-[var(--ink)] flex items-center justify-center shadow-[2px_2px_0px_var(--ink)] text-[var(--on-accent)] shrink-0"
-                style={{ backgroundColor: color }}
-              >
+              <span className="w-10 h-10 border border-[var(--ink)] flex items-center justify-center bg-[var(--ink)] text-[var(--bg-color)] shrink-0">
                 {Icon && <Icon className="w-5 h-5" aria-hidden="true" />}
               </span>
-              <span
-                className="neo-tag on-accent text-[11px] font-bold uppercase tracking-wider shadow-[2px_2px_0px_var(--ink)]"
-                style={{ backgroundColor: color }}
-              >
+              <span className="neo-tag text-[11px] font-bold uppercase tracking-wider">
                 {principle.tag}
               </span>
             </div>

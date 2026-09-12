@@ -14,15 +14,6 @@ const PREVIEW_WIDTHS = [640, 1280];
    small screens instead of downloading it and throwing the pixels away. */
 const PREVIEW_SIZES = '(max-width: 767px) 100vw, 560px';
 
-const TECH_TAG_COLORS = [
-  'var(--accent)',
-  'var(--accent-lime)',
-  'var(--accent-blue)',
-  'var(--accent-pink)',
-  'var(--accent-orange)',
-  'var(--accent-purple)'
-];
-
 const ALL = '__all__';
 
 /** What the fake browser chrome shows: the live domain, or whatever the
@@ -30,14 +21,6 @@ const ALL = '__all__';
 function previewLabel(project) {
   if (project.liveUrl) return project.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
   return project.previewLabel || `${project.id}.apk`;
-}
-
-/** Production reads green; anything else reads as a distinct build type. */
-function statusColor(status) {
-  const value = (status || '').toLowerCase();
-  if (value.startsWith('prod')) return 'var(--accent-lime)';
-  if (value.includes('ai')) return 'var(--accent-pink)';
-  return 'var(--accent-blue)';
 }
 
 export default function Projects({ onOpenCaseStudy }) {
@@ -117,12 +100,6 @@ export default function Projects({ onOpenCaseStudy }) {
                 {/* Preview with a browser chrome affordance */}
                 <div className="relative w-full border-b-[3px] border-[var(--ink)]">
                   <div className="h-8 bg-[var(--bg-color)] border-b-2 border-[var(--ink)] px-3 flex items-center justify-between gap-2">
-                    <span className="flex items-center gap-1.5 shrink-0" aria-hidden="true">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-red)] border-2 border-[var(--ink)]" />
-                      <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent)] border-2 border-[var(--ink)]" />
-                      <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-lime)] border-2 border-[var(--ink)]" />
-                    </span>
-
                     <span className="font-mono text-[10px] text-[var(--ink)] font-semibold truncate bg-[var(--card-color)] px-2 py-0.5 border border-[var(--ink)]">
                       {previewLabel(project)}
                     </span>
@@ -133,10 +110,7 @@ export default function Projects({ onOpenCaseStudy }) {
                   <div className="relative w-full h-40 bg-[var(--bg-color)] overflow-hidden">
                     <ProjectPreview project={project} />
 
-                    <span
-                      className="absolute bottom-3 right-3 z-10 neo-tag on-accent shadow-[2px_2px_0px_var(--ink)] text-[10px] font-bold uppercase tracking-wider"
-                      style={{ backgroundColor: statusColor(project.status) }}
-                    >
+                    <span className="absolute bottom-3 right-3 z-10 neo-tag bg-[var(--ink)] text-[var(--bg-color)] text-[10px] font-bold uppercase tracking-wider">
                       {project.status}
                     </span>
 
@@ -190,12 +164,8 @@ export default function Projects({ onOpenCaseStudy }) {
 
                   <div className="mt-auto">
                     <ul className="flex flex-wrap gap-1.5 mb-4 list-none p-0">
-                      {project.tech.map((tech, index) => (
-                        <li
-                          key={tech}
-                          className="neo-tag on-accent text-[10px] font-bold shadow-[2px_2px_0px_var(--ink)]"
-                          style={{ backgroundColor: TECH_TAG_COLORS[index % TECH_TAG_COLORS.length] }}
-                        >
+                      {project.tech.map((tech) => (
+                        <li key={tech} className="neo-tag text-[10px] font-semibold">
                           {tech}
                         </li>
                       ))}

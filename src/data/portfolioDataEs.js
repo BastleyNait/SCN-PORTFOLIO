@@ -7,7 +7,7 @@ export const personalData = {
   title: "Ingeniero Full-Stack · Arquitecto de Software · Entrega asistida por IA",
   role: "Ingeniero Full-Stack y Arquitecto de Software",
   headline: "Orquesto la IA. La arquitectura es mía.",
-  location: "Arequipa, Perú 🇵🇪",
+  location: "Arequipa, Perú",
   email: "schirinosne@gmail.com",
   linkedin: "https://www.linkedin.com/in/sebastian-chirinos-negron/",
   whatsapp: "https://wa.me/51987545926",
@@ -26,7 +26,7 @@ export const personalData = {
     "Primero la spec, después los agentes, siempre la revisión.",
     "6 sistemas en producción — del diseño al deploy.",
     "Edge AI que funciona con la red apagada.",
-    "Disponible para roles Full-Stack e Ingeniería de Software 🚀"
+    "Disponible para roles Full-Stack e Ingeniería de Software"
   ]
 };
 
@@ -179,7 +179,6 @@ export const projectsData = [
     repoUrl: "https://github.com/BastleyNait/LO-EXACTO.git",
     featured: true,
     status: "Producción",
-    accentColor: "#38bdf8",
     previewImage: "lo-exacto"
   },
   {
@@ -195,7 +194,6 @@ export const projectsData = [
     repoUrl: "https://github.com/BastleyNait/CALITOP-WEB",
     featured: true,
     status: "Producción",
-    accentColor: "#2dd4bf",
     previewImage: "calitop-services"
   },
   {
@@ -211,7 +209,6 @@ export const projectsData = [
     repoUrl: "https://github.com/BastleyNait/REVOLT-LAP",
     featured: true,
     status: "Producción",
-    accentColor: "#a855f7",
     previewImage: "revolt-laptop"
   },
   {
@@ -227,7 +224,6 @@ export const projectsData = [
     repoUrl: "https://github.com/BastleyNait/BOOM-POS",
     featured: true,
     status: "Producción",
-    accentColor: "#f59e0b",
     previewImage: "boom-pos"
   },
   {
@@ -244,7 +240,6 @@ export const projectsData = [
     featured: true,
     previewLabel: "anemivision.apk",
     status: "Edge AI",
-    accentColor: "#10b981",
     previewImage: "anemivision"
   },
   {
@@ -260,7 +255,6 @@ export const projectsData = [
     repoUrl: "https://github.com/BastleyNait/GEOTOP-PDF",
     featured: true,
     status: "Producción",
-    accentColor: "#fb923c",
     previewLabel: "gestor de certificados",
     previewImage: "geotop-certificates",
     caseStudy: "geotop-certificates"

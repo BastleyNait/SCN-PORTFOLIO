@@ -15,13 +15,6 @@ import { Github, Linkedin, Whatsapp } from './Icons';
 import { useAppContext } from '../context/app-context';
 import { CV_PATH, CV_DOWNLOAD_NAME } from '../lib/cv';
 
-const STAT_COLORS = [
-  'var(--accent)',
-  'var(--accent-blue)',
-  'var(--accent-pink)',
-  'var(--accent-lime)'
-];
-
 const STAT_ICONS = {
   Rocket: Rocket,
   ScrollText: ScrollText,
@@ -86,8 +79,8 @@ export default function Hero() {
             className="lg:col-span-7 flex flex-col items-start"
           >
             <div className="flex flex-wrap items-center gap-3 mb-6">
-              <span className="neo-tag on-accent bg-[var(--accent-lime)] shadow-[2px_2px_0px_var(--ink)] font-bold uppercase tracking-wider">
-                <span className="w-2 h-2 rounded-full bg-[var(--on-accent)] animate-pulse" aria-hidden="true" />
+              <span className="neo-tag font-bold uppercase tracking-wider">
+                <span className="w-2 h-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
                 {t.hero.available}
               </span>
               <span className="neo-tag shadow-[2px_2px_0px_var(--ink)]">
@@ -162,16 +155,6 @@ export default function Hero() {
           >
             <div className="relative w-full max-w-[340px] sm:max-w-[380px]">
 
-              <FloatingTag className="-top-4 -left-4" color="var(--accent-blue)" delay={0} reduceMotion={reduceMotion}>
-                Architecture
-              </FloatingTag>
-              <FloatingTag className="top-1/2 -right-5" color="var(--accent-lime)" delay={1} reduceMotion={reduceMotion}>
-                AI Orchestration
-              </FloatingTag>
-              <FloatingTag className="-bottom-4 left-4" color="var(--accent-pink)" delay={2} reduceMotion={reduceMotion}>
-                Edge ML
-              </FloatingTag>
-
               <div className="w-full bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[5px_5px_0px_var(--ink)] p-4 flex flex-col items-center">
                 <div className="relative w-full h-[280px] sm:h-[320px] bg-[var(--bg-color)] border-2 border-[var(--ink)] overflow-hidden">
                   {photoFailed ? (
@@ -198,7 +181,7 @@ export default function Hero() {
 
                 <div className="w-full mt-3.5 pt-3 border-t-2 border-dashed border-[var(--ink)] flex items-center justify-between gap-2">
                   <span className="flex items-center gap-2 min-w-0">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-lime)] border border-[var(--ink)] shrink-0" aria-hidden="true" />
+                    <span className="w-2 h-2 rounded-full bg-[var(--accent)] shrink-0" aria-hidden="true" />
                     <span className="font-heading font-extrabold text-xs sm:text-sm text-[var(--ink)] tracking-tight truncate">
                       {personalData.shortName}
                     </span>
@@ -219,16 +202,12 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-10 neo-card-flat p-6 grid grid-cols-2 md:grid-cols-4 gap-6"
         >
-          {personalData.stats.map((stat, index) => {
+          {personalData.stats.map((stat) => {
             const Icon = STAT_ICONS[stat.icon];
-            const color = STAT_COLORS[index % STAT_COLORS.length];
 
             return (
               <div key={stat.label} className="flex flex-col items-center text-center p-2">
-                <dd
-                  className="font-heading font-black text-2xl sm:text-3xl text-[var(--on-accent)] px-3 py-0.5 border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] mb-2.5"
-                  style={{ backgroundColor: color }}
-                >
+                <dd className="font-heading font-black text-3xl sm:text-4xl text-[var(--ink)] mb-1.5">
                   {stat.value}
                 </dd>
                 <dt className="font-mono text-xs text-[var(--ink)] font-bold tracking-tight inline-flex items-center gap-1.5">
@@ -242,18 +221,5 @@ export default function Hero() {
 
       </div>
     </section>
-  );
-}
-
-function FloatingTag({ children, className, color, delay, reduceMotion }) {
-  return (
-    <motion.span
-      animate={reduceMotion ? undefined : { y: [-5, 5, -5] }}
-      transition={{ duration: 3.6 + delay * 0.3, repeat: Infinity, ease: 'easeInOut', delay }}
-      className={`absolute z-20 neo-tag on-accent shadow-[2px_2px_0px_var(--ink)] font-bold uppercase tracking-wider ${className}`}
-      style={{ backgroundColor: color }}
-    >
-      {children}
-    </motion.span>
   );
 }

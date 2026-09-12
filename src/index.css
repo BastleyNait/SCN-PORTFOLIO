@@ -21,6 +21,8 @@
     --black-color: var(--ink);
 
     --accent: #27f5a9;
+    /* Secondary hues are kept for one-off use. Nothing cycles through them:
+       a page that rotates six accents reads as a palette demo. */
     --accent-lime: #a3e635;
     --accent-pink: #f472b6;
     --accent-blue: #38bdf8;
@@ -118,27 +120,14 @@
 
   .neo-card-sm {
     background: var(--card-color);
-    border: 2px solid var(--ink);
-    box-shadow: 2px 2px 0px var(--ink);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border: 1px solid var(--ink);
   }
 
-  .neo-card-sm:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 4px 4px 0px var(--ink);
-  }
-
-  /* Flat card: no lift on hover, for dense content that should sit still. */
+  /* Every container that is not a project card: a rule, no shadow. */
   .neo-card-flat {
     background: var(--card-color);
-    border: 2px solid var(--ink);
-    box-shadow: 3px 3px 0px var(--ink);
+    border: 1px solid var(--ink);
   }
-
-  .neo-shadow-accent { box-shadow: 4px 4px 0px var(--accent); }
-  .neo-shadow-lime { box-shadow: 4px 4px 0px var(--accent-lime); }
-  .neo-shadow-pink { box-shadow: 4px 4px 0px var(--accent-pink); }
-  .neo-shadow-blue { box-shadow: 4px 4px 0px var(--accent-blue); }
 
   .neo-btn {
     display: inline-flex;
@@ -151,14 +140,14 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     border: 2px solid var(--ink);
-    box-shadow: 3px 3px 0px var(--ink);
+    box-shadow: 2px 2px 0px var(--ink);
     transition: transform 0.1s ease, box-shadow 0.1s ease;
     cursor: pointer;
   }
 
   .neo-btn:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0px var(--ink);
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0px var(--ink);
   }
 
   .neo-btn:active {
@@ -181,7 +170,7 @@
 
   .neo-divider {
     border: none;
-    border-top: 2px dashed var(--ink);
+    border-top: 1px solid var(--ink);
     margin: 0;
   }
 

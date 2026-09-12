@@ -7,7 +7,7 @@ export const personalData = {
   title: "Full-Stack Engineer · Software Architect · AI-Augmented Delivery",
   role: "Full-Stack Engineer & Software Architect",
   headline: "I orchestrate AI. I own the architecture.",
-  location: "Arequipa, Peru 🇵🇪",
+  location: "Arequipa, Peru",
   email: "schirinosne@gmail.com",
   linkedin: "https://www.linkedin.com/in/sebastian-chirinos-negron/",
   whatsapp: "https://wa.me/51987545926",
@@ -26,7 +26,7 @@ export const personalData = {
     "Spec first, agents second, review always.",
     "6 systems in production — design to deploy.",
     "Edge AI that runs with the network off.",
-    "Open to Full-Stack & Software Engineering roles 🚀"
+    "Open to Full-Stack & Software Engineering roles"
   ]
 };
 
@@ -179,7 +179,6 @@ export const projectsData = [
     repoUrl: "https://github.com/BastleyNait/LO-EXACTO.git",
     featured: true,
     status: "Production",
-    accentColor: "#38bdf8",
     previewImage: "lo-exacto"
   },
   {
@@ -195,7 +194,6 @@ export const projectsData = [
     repoUrl: "https://github.com/BastleyNait/CALITOP-WEB",
     featured: true,
     status: "Production",
-    accentColor: "#2dd4bf",
     previewImage: "calitop-services"
   },
   {
@@ -211,7 +209,6 @@ export const projectsData = [
     repoUrl: "https://github.com/BastleyNait/REVOLT-LAP",
     featured: true,
     status: "Production",
-    accentColor: "#a855f7",
     previewImage: "revolt-laptop"
   },
   {
@@ -227,7 +224,6 @@ export const projectsData = [
     repoUrl: "https://github.com/BastleyNait/BOOM-POS",
     featured: true,
     status: "Production",
-    accentColor: "#f59e0b",
     previewImage: "boom-pos"
   },
   {
@@ -244,7 +240,6 @@ export const projectsData = [
     featured: true,
     previewLabel: "anemivision.apk",
     status: "Edge AI",
-    accentColor: "#10b981",
     previewImage: "anemivision"
   },
   {
@@ -260,7 +255,6 @@ export const projectsData = [
     repoUrl: "https://github.com/BastleyNait/GEOTOP-PDF",
     featured: true,
     status: "Production",
-    accentColor: "#fb923c",
     previewLabel: "gestor de certificados",
     previewImage: "geotop-certificates",
     caseStudy: "geotop-certificates"

@@ -75,7 +75,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-[72px]">
 
           <a href="#hero" className="flex items-center gap-3 group">
-            <span className="w-10 h-10 bg-[var(--accent)] border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] flex items-center justify-center font-mono font-black text-base text-[var(--on-accent)] uppercase group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:shadow-[4px_4px_0px_var(--ink)] transition-all">
+            <span className="w-10 h-10 bg-[var(--ink)] text-[var(--bg-color)] flex items-center justify-center font-mono font-black text-base uppercase">
               SC
             </span>
             <span className="flex flex-col">
@@ -96,16 +96,16 @@ export default function Navbar() {
                   key={section.id}
                   href={`#${section.id}`}
                   aria-current={isActive ? 'true' : undefined}
-                  className="relative px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_var(--ink)] transition-all bg-[var(--card-color)] overflow-hidden"
+                  className="relative px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border border-[var(--ink)] transition-colors bg-[var(--card-color)] overflow-hidden"
                 >
                   {isActive && (
                     <motion.span
                       layoutId="activeTab"
-                      className="absolute inset-0 bg-[var(--accent)]"
+                      className="absolute inset-0 bg-[var(--ink)]"
                       transition={{ type: 'spring', stiffness: 450, damping: 35 }}
                     />
                   )}
-                  <span className={`relative z-10 ${isActive ? 'text-[var(--on-accent)]' : 'text-[var(--ink)]'}`}>
+                  <span className={`relative z-10 ${isActive ? 'text-[var(--bg-color)]' : 'text-[var(--ink)]'}`}>
                     {t.nav[section.labelKey]}
                   </span>
                 </a>
@@ -182,7 +182,7 @@ export default function Navbar() {
                     aria-current={isActive ? 'true' : undefined}
                     className={`px-4 py-2.5 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] transition-all flex items-center justify-between ${
                       isActive
-                        ? 'bg-[var(--accent)] text-[var(--on-accent)]'
+                        ? 'bg-[var(--ink)] text-[var(--bg-color)]'
                         : 'bg-[var(--card-color)] text-[var(--ink)]'
                     }`}
                   >

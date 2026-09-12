@@ -5,7 +5,7 @@ import { useAppContext } from '../context/app-context';
 import { CV_PATH, CV_DOWNLOAD_NAME } from '../lib/cv';
 
 const INPUT_CLASS =
-  'w-full px-3.5 py-2.5 bg-[var(--bg-color)] border-2 border-[var(--ink)] font-mono text-xs sm:text-sm text-[var(--ink)] placeholder:text-[var(--muted-color)] focus:bg-[var(--card-color)] focus:shadow-[2px_2px_0px_var(--ink)] transition-all';
+  'w-full px-3.5 py-2.5 bg-[var(--bg-color)] border border-[var(--ink)] font-mono text-xs sm:text-sm text-[var(--ink)] placeholder:text-[var(--muted-color)] focus:bg-[var(--card-color)] transition-colors';
 
 const LABEL_CLASS =
   'block font-mono text-xs font-bold text-[var(--ink)] uppercase mb-1';
@@ -46,25 +46,25 @@ export default function ContactFooter() {
     <footer id="contact" className="pt-14 pb-8 relative z-10 bg-[var(--bg-color)]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div className="bg-[var(--accent)] border-2 border-[var(--ink)] shadow-[5px_5px_0px_var(--ink)] p-8 sm:p-10 mb-10">
+        <div className="bg-[var(--card-color)] border-2 border-[var(--ink)] p-8 sm:p-10 mb-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
             <div className="lg:col-span-7 flex flex-col items-start">
-              <div className="neo-section-label bg-[var(--card-color)] text-[var(--ink)] mb-4">
+              <div className="neo-section-label mb-4">
                 <Sparkles className="w-4 h-4" aria-hidden="true" />
                 <span>{t.contact.label}</span>
               </div>
 
-              <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight text-[var(--on-accent)] mb-4 leading-tight text-balance">
+              <h2 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight text-[var(--ink)] mb-4 leading-tight text-balance">
                 {t.contact.title}
               </h2>
 
-              <p className="text-[var(--on-accent)] font-medium text-sm sm:text-base leading-relaxed mb-6 max-w-lg">
+              <p className="text-[var(--muted-color)] text-sm sm:text-base leading-relaxed mb-6 max-w-lg">
                 {t.contact.description}
               </p>
 
               {/* The three facts a recruiter checks before replying. */}
-              <p className="font-mono text-xs sm:text-sm font-bold text-[var(--on-accent)] border-y-2 border-[var(--on-accent)] py-2.5 mb-6">
+              <p className="font-mono text-xs sm:text-sm font-bold text-[var(--ink)] border-y border-[var(--ink)] py-2.5 mb-6">
                 {t.contact.availability}
               </p>
 
@@ -72,7 +72,7 @@ export default function ContactFooter() {
                   wants to paste it into their own client should not have to
                   trust a clipboard API that a locked-down browser may refuse. */}
               <div className="flex flex-wrap items-center gap-3">
-                <div className="bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] flex items-stretch">
+                <div className="bg-[var(--bg-color)] border border-[var(--ink)] flex items-stretch">
                   <span className="flex items-center gap-2 px-4 py-3 font-mono text-xs sm:text-sm text-[var(--ink)] select-all">
                     <Mail className="w-4 h-4 shrink-0" aria-hidden="true" />
                     {personalData.email}
@@ -81,7 +81,7 @@ export default function ContactFooter() {
                     type="button"
                     onClick={handleCopyEmail}
                     aria-label={t.contact.copyEmail}
-                    className="px-3 border-l-2 border-[var(--ink)] flex items-center text-[var(--ink)] cursor-pointer hover:bg-[var(--accent)] transition-colors"
+                    className="px-3 border-l border-[var(--ink)] flex items-center text-[var(--ink)] cursor-pointer hover:bg-[var(--accent)] transition-colors"
                   >
                     {copied
                       ? <Check className="w-4 h-4" aria-hidden="true" />
@@ -89,7 +89,7 @@ export default function ContactFooter() {
                   </button>
                 </div>
 
-                <span className="neo-tag on-accent bg-[var(--accent-lime)] font-bold" role="status" aria-live="polite">
+                <span className="neo-tag on-accent bg-[var(--accent)] font-bold" role="status" aria-live="polite">
                   {copied ? t.contact.copied : ''}
                 </span>
               </div>
@@ -112,7 +112,7 @@ export default function ContactFooter() {
 
             <div className="lg:col-span-5">
               <div className="neo-card-flat p-6 sm:p-8">
-                <div className="neo-section-label on-accent bg-[var(--accent-lime)] mb-6">
+                <div className="neo-section-label mb-6">
                   <Send className="w-4 h-4" aria-hidden="true" />
                   <span>{t.contact.formTitle}</span>
                 </div>
@@ -204,7 +204,7 @@ function SocialLink({ href, label, children }) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="p-2.5 bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_var(--ink)] transition-all flex items-center justify-center text-[var(--ink)]"
+      className="p-2.5 bg-[var(--card-color)] border border-[var(--ink)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] transition-colors flex items-center justify-center text-[var(--ink)]"
     >
       {children}
     </a>

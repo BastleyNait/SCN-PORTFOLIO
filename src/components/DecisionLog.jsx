@@ -3,15 +3,6 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ScrollText, GitBranch, Scale, ChevronDown } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
 
-const RECORD_COLORS = [
-  'var(--accent)',
-  'var(--accent-blue)',
-  'var(--accent-pink)',
-  'var(--accent-purple)',
-  'var(--accent-lime)',
-  'var(--accent-orange)'
-];
-
 export default function DecisionLog() {
   const { t, data } = useAppContext();
   const records = data.decisionLog;
@@ -50,7 +41,7 @@ export default function DecisionLog() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
           {records.map((record, index) => {
-            const color = RECORD_COLORS[index % RECORD_COLORS.length];
+            const color = 'var(--ink)';
             const isOpen = openId === record.id;
             const panelId = `${record.id}-panel`;
 
@@ -74,8 +65,7 @@ export default function DecisionLog() {
                     className="w-full text-left p-5 sm:p-6 flex items-start gap-4 cursor-pointer hover:bg-[var(--bg-color)] transition-colors"
                   >
                     <span
-                      className="hidden sm:flex w-11 h-11 shrink-0 items-center justify-center border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] text-[var(--on-accent)]"
-                      style={{ backgroundColor: color }}
+                      className="hidden sm:flex w-11 h-11 shrink-0 items-center justify-center border border-[var(--ink)] bg-[var(--ink)] text-[var(--bg-color)]"
                     >
                       <GitBranch className="w-5 h-5" aria-hidden="true" />
                     </span>
@@ -88,10 +78,7 @@ export default function DecisionLog() {
                         <span className="neo-tag text-[10px] font-bold uppercase tracking-wider">
                           {record.project}
                         </span>
-                        <span
-                          className="neo-tag on-accent text-[10px] font-bold uppercase tracking-wider"
-                          style={{ backgroundColor: color }}
-                        >
+                        <span className="neo-tag bg-[var(--ink)] text-[var(--bg-color)] text-[10px] font-bold uppercase tracking-wider">
                           {record.tag}
                         </span>
                       </span>

@@ -3,14 +3,6 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { Workflow, Bot, UserCog, Quote } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
 
-const PHASE_COLORS = [
-  'var(--accent)',
-  'var(--accent-blue)',
-  'var(--accent-purple)',
-  'var(--accent-pink)',
-  'var(--accent-lime)'
-];
-
 export default function Orchestration() {
   const { t, data } = useAppContext();
   const { thesis, loop, split } = data.orchestrationData;
@@ -29,8 +21,6 @@ export default function Orchestration() {
       className="py-14 relative bg-[var(--bg-color)] border-b-[3px] border-[var(--ink)]"
       aria-labelledby="orchestration-title"
     >
-      <div className="absolute inset-0 bg-stripes pointer-events-none opacity-30" aria-hidden="true" />
-
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Section header */}
@@ -50,7 +40,7 @@ export default function Orchestration() {
           {/* The thesis, set as a pull quote so it reads as a position, not filler */}
           <blockquote className="relative neo-card-flat max-w-3xl p-6 sm:p-8 text-left">
             <Quote
-              className="w-8 h-8 absolute -top-4 -left-4 bg-[var(--accent)] text-[var(--on-accent)] border-2 border-[var(--ink)] p-1.5"
+              className="w-8 h-8 absolute -top-4 -left-4 bg-[var(--ink)] text-[var(--bg-color)] p-1.5"
               aria-hidden="true"
             />
             <p className="text-[var(--ink)] text-sm sm:text-base leading-relaxed font-medium">
@@ -69,7 +59,6 @@ export default function Orchestration() {
 
         <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 mb-12">
           {loop.map((phase, index) => {
-            const color = PHASE_COLORS[index % PHASE_COLORS.length];
             const isShared = phase.owner === 'shared';
 
             return (
@@ -77,7 +66,6 @@ export default function Orchestration() {
                 key={phase.step}
                 {...rise(index * 0.06)}
                 className="neo-card-flat p-5 flex flex-col"
-                style={{ borderTop: `6px solid ${color}` }}
               >
                 {/* Step number + ownership badge */}
                 <div className="flex items-center justify-between mb-4">
@@ -85,8 +73,8 @@ export default function Orchestration() {
                     {phase.step}
                   </span>
                   <span
-                    className="neo-tag on-accent text-[10px] font-bold uppercase tracking-wider shadow-[2px_2px_0px_var(--ink)]"
-                    style={{ backgroundColor: isShared ? 'var(--accent-lime)' : color }}
+                    className="neo-tag text-[10px] font-bold uppercase tracking-wider"
+                    style={{ backgroundColor: isShared ? 'var(--card-color)' : 'var(--ink)', color: isShared ? 'var(--ink)' : 'var(--bg-color)' }}
                   >
                     {isShared ? <Bot className="w-3 h-3" aria-hidden="true" /> : <UserCog className="w-3 h-3" aria-hidden="true" />}
                     {isShared ? t.orchestration.ownerShared : t.orchestration.ownerHuman}
@@ -140,7 +128,7 @@ export default function Orchestration() {
             tag={split.delegatedTag}
             title={split.delegatedTitle}
             items={split.delegated}
-            color="var(--accent-blue)"
+            color="var(--ink)"
             marker="→"
           />
           <SplitCard
@@ -149,7 +137,7 @@ export default function Orchestration() {
             tag={split.ownedTag}
             title={split.ownedTitle}
             items={split.owned}
-            color="var(--accent)"
+            color="var(--ink)"
             marker="◆"
           />
         </div>
@@ -164,10 +152,7 @@ function SplitCard({ icon, tag, title, items, color, marker, ...motionProps }) {
   return (
     <motion.div {...motionProps} className="neo-card-flat p-6 sm:p-8">
       <div className="flex items-center gap-3 mb-5">
-        <span
-          className="w-11 h-11 border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] flex items-center justify-center text-[var(--on-accent)] shrink-0"
-          style={{ backgroundColor: color }}
-        >
+        <span className="w-11 h-11 border border-[var(--ink)] bg-[var(--ink)] text-[var(--bg-color)] flex items-center justify-center shrink-0">
           {icon}
         </span>
         <div>
