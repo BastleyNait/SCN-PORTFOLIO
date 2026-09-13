@@ -4,15 +4,15 @@ export const personalData = {
   username: "BastleyNait",
   title: "Ingeniero Full-Stack · Arquitecto de Software · React, Next.js y Python",
   role: "Ingeniero Full-Stack y Arquitecto de Software",
-  headline: "Seis sistemas en producción. Puedo defender cada decisión que hay dentro.",
+  headline: "Ingeniero full-stack. Seis sistemas en producción en cuatro dominios.",
   location: "Arequipa, Perú",
   email: "schirinosne@gmail.com",
   linkedin: "https://www.linkedin.com/in/sebastian-chirinos-negron/",
   whatsapp: "https://wa.me/51987545926",
   github: "https://github.com/BastleyNait",
   portfolioUrl: "https://sebastian-cn-portfolio.vercel.app",
-  bio: "Seis sistemas en producción entre web, punto de venta, entrega de documentos en la nube y machine learning en el dispositivo. En cada uno tracé las fronteras de servicio, diseñé el modelo de datos y elegí qué rechazar. Cada decisión de abajo está escrita con el concepto que la sostiene, el trade-off que acepté y dónde se rompe a diez veces el tamaño.",
-  shortBio: "Diseño el sistema y defiendo cada decisión que hay dentro.",
+  bio: "Los cuatro dominios son web, punto de venta, entrega de documentos en la nube y machine learning en el dispositivo. En cada sistema tracé las fronteras de servicio, diseñé el modelo de datos y elegí qué rechazar. Cada decisión de abajo está escrita con el concepto que la sostiene, el trade-off que acepté y dónde se rompe a diez veces el tamaño.",
+  shortBio: "Ingeniero full-stack. Seis sistemas en producción en cuatro dominios.",
   stats: [
     { label: "Sistemas en producción", value: "6", icon: "Rocket" },
     { label: "Decisiones documentadas", value: "7", icon: "ScrollText" },
@@ -20,7 +20,7 @@ export const personalData = {
     { label: "Lenguajes en producción", value: "5", icon: "Braces" }
   ],
   typingLines: [
-    "Seis sistemas en producción — del diseño al deploy.",
+    "Un QR en el instrumento que resuelve a su certificado.",
     "Un cobro idempotente que sobrevive a una conexión caída.",
     "Invariantes en la base de datos, no en una función auxiliar.",
     "Edge AI que funciona con la red apagada.",

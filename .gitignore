@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 .vercel
+.env*
+
+# Internal audit notes, not for the public repo
+INFORME_AUDITORIA_RECLUTADOR.md

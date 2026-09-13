@@ -4,15 +4,15 @@ export const personalData = {
   username: "BastleyNait",
   title: "Full-Stack Engineer · Software Architect · React, Next.js & Python",
   role: "Full-Stack Engineer & Software Architect",
-  headline: "Six systems in production. I can defend every decision in them.",
+  headline: "Full-stack engineer. Six systems in production across four domains.",
   location: "Arequipa, Peru",
   email: "schirinosne@gmail.com",
   linkedin: "https://www.linkedin.com/in/sebastian-chirinos-negron/",
   whatsapp: "https://wa.me/51987545926",
   github: "https://github.com/BastleyNait",
   portfolioUrl: "https://sebastian-cn-portfolio.vercel.app",
-  bio: "Six systems in production across web, point of sale, cloud document delivery and on-device machine learning. On each one I drew the service boundaries, designed the data model and chose what to reject. Every decision below is written down with the concept underneath it, the trade-off I accepted, and where it breaks at ten times the size.",
-  shortBio: "I design the system and defend every decision inside it.",
+  bio: "The four domains are web, point of sale, cloud document delivery and on-device machine learning. On each system I drew the service boundaries, designed the data model and chose what to reject. Every decision below is written down with the concept underneath it, the trade-off I accepted, and where it breaks at ten times the size.",
+  shortBio: "Full-stack engineer. Six systems in production across four domains.",
   stats: [
     { label: "Systems in production", value: "6", icon: "Rocket" },
     { label: "Decisions on record", value: "7", icon: "ScrollText" },
@@ -20,7 +20,7 @@ export const personalData = {
     { label: "Languages in production", value: "5", icon: "Braces" }
   ],
   typingLines: [
-    "Six systems in production — design to deploy.",
+    "A QR on the instrument that resolves to its certificate.",
     "An idempotent checkout that survives a dropped connection.",
     "Invariants in the database, not in a helper function.",
     "Edge AI that runs with the network off.",

@@ -26,7 +26,7 @@ export const translations = {
       downloadCv: "Download CV",
       photoPlaceholder: "PHOTO",
       placeImage: "Place your image in",
-      engineerBadge: "FULL-STACK ENGINEER"
+      engineerBadge: "REACT · PYTHON"
     },
     orchestration: {
       label: "OPERATING MODEL",
@@ -136,7 +136,7 @@ export const translations = {
       downloadCv: "Descargar CV",
       photoPlaceholder: "FOTO",
       placeImage: "Coloca tu imagen en",
-      engineerBadge: "INGENIERO FULL-STACK"
+      engineerBadge: "REACT · PYTHON"
     },
     orchestration: {
       label: "MODELO DE TRABAJO",
