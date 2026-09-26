@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "og": "node scripts/generate-og.mjs",
     "images": "node scripts/optimize-images.mjs",
+    "screenshots": "node scripts/import-screenshots.mjs",
     "assets": "npm run og && npm run images"
   },
   "dependencies": {

@@ -4,7 +4,7 @@ export const personalData = {
   username: "BastleyNait",
   title: "Ingeniero Full-Stack · Arquitecto de Software · React, Next.js y Python",
   role: "Ingeniero Full-Stack y Arquitecto de Software",
-  headline: "Ingeniero full-stack. Seis sistemas en producción en cuatro dominios.",
+  headline: "Ingeniero full-stack. Siete sistemas en producción en cuatro dominios.",
   location: "Arequipa, Perú",
   email: "schirinosne@gmail.com",
   linkedin: "https://www.linkedin.com/in/sebastian-chirinos-negron/",
@@ -12,9 +12,9 @@ export const personalData = {
   github: "https://github.com/BastleyNait",
   portfolioUrl: "https://sebastian-cn-portfolio.vercel.app",
   bio: "Los cuatro dominios son web, punto de venta, entrega de documentos en la nube y machine learning en el dispositivo. En cada sistema tracé las fronteras de servicio, diseñé el modelo de datos y elegí qué rechazar. Cada decisión de abajo está escrita con el concepto que la sostiene, el trade-off que acepté y dónde se rompe a diez veces el tamaño.",
-  shortBio: "Ingeniero full-stack. Seis sistemas en producción en cuatro dominios.",
+  shortBio: "Ingeniero full-stack. Siete sistemas en producción en cuatro dominios.",
   stats: [
-    { label: "Sistemas en producción", value: "6", icon: "Rocket" },
+    { label: "Sistemas en producción", value: "7", icon: "Rocket" },
     { label: "Decisiones documentadas", value: "7", icon: "ScrollText" },
     { label: "Dominios entregados", value: "4", icon: "Boxes" },
     { label: "Lenguajes en producción", value: "5", icon: "Braces" }
@@ -217,8 +217,7 @@ export const projectsData = [
     liveUrl: "https://www.lo-exacto.com/",
     repoUrl: "https://github.com/BastleyNait/LO-EXACTO.git",
     featured: true,
-    status: "Producción",
-    previewImage: "lo-exacto"
+    status: "Producción"
   },
   {
     id: "calitop-services",
@@ -232,8 +231,52 @@ export const projectsData = [
     liveUrl: "https://www.calitop-services.com/",
     repoUrl: "https://github.com/BastleyNait/CALITOP-WEB",
     featured: true,
+    status: "Producción"
+  },
+  {
+    id: "geotop-aqp",
+    title: "GEOTOP AQP",
+    category: "Comercio y POS",
+    role: "Rediseño front-end · Despliegue · Operación",
+    description: "Tienda online de una empresa de equipos topográficos en Arequipa, rediseñada y operada sobre un PrestaShop heredado.",
+    longDescription: "Portada, navegación y footer nuevos para una tienda PrestaShop 1.7 sobre PHP 7.2 y hosting cPanel compartido sin acceso SSH. Los cambios viajan por SFTP y un ejecutor de trabajos por cron, y cada despliegue limpia cuatro capas de caché: navegador, Nginx, Smarty compilado y el CSS combinado de PrestaShop.",
+    keyDecision: "Todo cambio llega primero a una tienda de staging con su propia base de datos; el despliegue copia solo archivos del tema y respalda el tema en vivo antes de tocarlo.",
+    tech: ["PrestaShop", "PHP", "Smarty", "MariaDB", "Nginx", "cPanel"],
+    liveUrl: "https://geotop-aqp.com/",
+    repoUrl: "https://github.com/BastleyNait/GEOTOP-WEB",
+    featured: true,
+    status: "Producción"
+  },
+  {
+    id: "geotop-certificates",
+    title: "GEOTOP Certificados",
+    category: "Plataformas Web",
+    role: "Arquitectura · Backend · Infraestructura",
+    description: "Sistema de certificados en la nube para una empresa de equipos de topografía, verificable escaneando el propio instrumento.",
+    longDescription: "Los certificados de calibración salieron del papel: un servicio Flask en una VM de Google Compute Engine aprovisionada a mano, detrás de Nginx, estampa un QR en cada PDF con PyPDF2 y ReportLab y sirve 900+ certificados desde almacenamiento de objetos compatible con S3. En producción desde 2025 sin caídas.",
+    keyDecision: "El QR resuelve directo al PDF, así que un técnico en campo no necesita app, ni login, ni número de serie.",
+    tech: ["Flask", "PyPDF2", "ReportLab", "Google Compute Engine", "Nginx", "Almacenamiento compatible con S3"],
+    liveUrl: null,
+    repoUrl: "https://github.com/BastleyNait/GEOTOP-PDF",
+    featured: true,
     status: "Producción",
-    previewImage: "calitop-services"
+    previewLabel: "gestor de certificados",
+    caseStudy: "geotop-certificates"
+  },
+  {
+    id: "boom-pos",
+    title: "Boom POS & CRM",
+    category: "Comercio y POS",
+    role: "Arquitectura · Diseño de estado · Backend",
+    description: "Punto de venta y CRM que mueve 100+ ventas al día sobre un inventario de 500+ productos, construido para seguir vendiendo cuando la conexión no coopera.",
+    longDescription: "Sistema de gestión que combina un cobro reactivo con un módulo CRM de clientes, estado de cliente centralizado en Zustand y un backend Flask con PostgreSQL dueño del libro contable. De los requisitos a producción en dos meses.",
+    keyDecision: "El carrito pertenece al cliente; el servidor registra cada venta cerrada como una transacción idempotente.",
+    tech: ["Next.js", "TypeScript", "Zustand", "Flask", "PostgreSQL", "API Routes"],
+    liveUrl: "https://boom-pos.vercel.app/",
+    repoUrl: "https://github.com/BastleyNait/BOOM-POS",
+    featured: true,
+    status: "Producción",
+    caseStudy: "boom-pos"
   },
   {
     id: "revolt-laptop",
@@ -247,24 +290,7 @@ export const projectsData = [
     liveUrl: "https://revolt-laptops.vercel.app/",
     repoUrl: "https://github.com/BastleyNait/REVOLT-LAP",
     featured: true,
-    status: "Producción",
-    previewImage: "revolt-laptop"
-  },
-  {
-    id: "boom-pos",
-    title: "Boom POS & CRM",
-    category: "Comercio y POS",
-    role: "Arquitectura · Diseño de estado · Backend",
-    description: "Punto de venta y CRM construidos para seguir vendiendo cuando la conexión no coopera.",
-    longDescription: "Sistema de gestión que combina un cobro reactivo con un módulo CRM de clientes, estado de cliente centralizado en Zustand y un backend Flask con PostgreSQL dueño del libro contable.",
-    keyDecision: "El carrito pertenece al cliente; el servidor registra cada venta cerrada como una transacción idempotente.",
-    tech: ["Next.js", "Zustand", "Flask", "PostgreSQL", "API Routes"],
-    liveUrl: "https://boom-pos.vercel.app/",
-    repoUrl: "https://github.com/BastleyNait/BOOM-POS",
-    featured: true,
-    status: "Producción",
-    previewImage: "boom-pos",
-    caseStudy: "boom-pos"
+    status: "Producción"
   },
   {
     id: "anemivision",
@@ -280,25 +306,7 @@ export const projectsData = [
     featured: true,
     previewLabel: "anemivision.apk",
     status: "Edge AI",
-    previewImage: "anemivision",
     caseStudy: "anemivision"
-  },
-  {
-    id: "geotop-certificates",
-    title: "GEOTOP Certificados",
-    category: "Plataformas Web",
-    role: "Arquitectura · Backend · Infraestructura",
-    description: "Sistema de certificados en la nube para una empresa de equipos de topografía, verificable escaneando el propio instrumento.",
-    longDescription: "Los certificados de calibración salieron del papel al almacenamiento de objetos en la nube, direccionables desde un QR impreso en el instrumento físico, detrás de un servicio Flask en Google Compute Engine.",
-    keyDecision: "El QR resuelve directo al PDF, así que un técnico en campo no necesita app, ni login, ni número de serie.",
-    tech: ["Flask", "Google Compute Engine", "Nginx", "Almacenamiento compatible con S3", "QR"],
-    liveUrl: null,
-    repoUrl: "https://github.com/BastleyNait/GEOTOP-PDF",
-    featured: true,
-    status: "Producción",
-    previewLabel: "gestor de certificados",
-    previewImage: "geotop-certificates",
-    caseStudy: "geotop-certificates"
   }
 ];
 

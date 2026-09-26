@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ScrollText, GitBranch, Scale, ChevronDown, BookOpen, TrendingUp, CheckCircle2, FileText } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
+import { slideIn, stagger } from '../lib/motion';
 import { CASE_STUDY_PREFIX } from '../lib/router';
 
 export default function DecisionLog({ onOpenCaseStudy }) {
@@ -23,21 +24,22 @@ export default function DecisionLog({ onOpenCaseStudy }) {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         <div className="flex flex-col items-center text-center mb-14">
-          <div className="neo-section-label mb-4">
+          <motion.div {...slideIn('left', { reduce: reduceMotion })} className="neo-section-label mb-4">
             <ScrollText className="w-4 h-4" aria-hidden="true" />
             <span>{t.decisions.label}</span>
-          </div>
+          </motion.div>
 
-          <h2
+          <motion.h2
+            {...slideIn('left', { delay: 0.06, reduce: reduceMotion })}
             id="decisions-title"
             className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-[var(--ink)] tracking-tight mb-4 text-balance"
           >
             {t.decisions.title}
-          </h2>
+          </motion.h2>
 
-          <p className="text-[var(--muted-color)] text-sm sm:text-base max-w-2xl leading-relaxed">
+          <motion.p {...slideIn('right', { delay: 0.12, reduce: reduceMotion })} className="text-[var(--muted-color)] text-sm sm:text-base max-w-2xl leading-relaxed">
             {t.decisions.description}
-          </p>
+          </motion.p>
         </div>
 
         <div className="space-y-5">
@@ -49,10 +51,7 @@ export default function DecisionLog({ onOpenCaseStudy }) {
             return (
               <motion.article
                 key={record.id}
-                initial={reduceMotion ? false : { opacity: 1, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-60px' }}
-                transition={{ duration: 0.35, delay: reduceMotion ? 0 : Math.min(index, 3) * 0.06 }}
+                {...slideIn(index % 2 === 0 ? 'left' : 'right', { delay: stagger(index % 2, 0.06), reduce: reduceMotion })}
                 className="neo-card-flat overflow-hidden"
                 style={{ borderLeft: `8px solid ${color}` }}
               >

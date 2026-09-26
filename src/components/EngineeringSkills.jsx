@@ -10,6 +10,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
+import { slideIn, stagger } from '../lib/motion';
 
 const ICONS = {
   Building2,
@@ -36,10 +37,9 @@ export default function EngineeringSkills() {
         return (
           <motion.li
             key={principle.title}
-            initial={reduceMotion ? false : { opacity: 1, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.4, delay: reduceMotion ? 0 : Math.min(index, 3) * 0.08 }}
+            /* Outer columns arrive from their own edge, the middle one
+               follows the left; the delay steps across the row. */
+            {...slideIn(index % 3 === 2 ? 'right' : 'left', { delay: stagger(index % 3, 0.07), reduce: reduceMotion })}
             className="neo-card-flat p-5 flex flex-col"
             style={{ borderLeft: `6px solid ${color}` }}
           >

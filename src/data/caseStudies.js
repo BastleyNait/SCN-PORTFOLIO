@@ -124,7 +124,7 @@ export const caseStudies = {
     role: 'Architecture · Backend · Infrastructure',
     tech: ['Flask', 'Google Compute Engine', 'Nginx', 'S3-compatible object storage', 'QR'],
     metrics: [
-      { value: '700+', label: 'certificates in the cloud' },
+      { value: '900+', label: 'certificates in the cloud' },
       { value: 'Seconds', label: 'to verify an instrument' },
       { value: '0', label: 'apps to install' }
     ],
@@ -161,7 +161,7 @@ export const caseStudies = {
       {
         heading: 'What it does today',
         body: [
-          'More than 700 certificates are in the cloud and addressable from the equipment they belong to. Verification that used to mean a phone call and a filing cabinet is a scan and a few seconds.',
+          'More than 900 certificates are in the cloud and addressable from the equipment they belong to. Verification that used to mean a phone call and a filing cabinet is a scan and a few seconds.',
           'The traceability is the quiet part: a certificate is now attached to a physical object rather than to a folder someone has to maintain.'
         ]
       },

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Mail, Copy, Check, Send, MapPin, Sparkles, Download } from 'lucide-react';
 import { Github, Linkedin, Whatsapp } from './Icons';
 import { useAppContext } from '../context/app-context';
 import { CV_PATH, CV_DOWNLOAD_NAME } from '../lib/cv';
+import { slideIn } from '../lib/motion';
 
 const INPUT_CLASS =
   'w-full px-3.5 py-2.5 bg-[var(--bg-color)] border border-[var(--ink)] font-mono text-xs sm:text-sm text-[var(--ink)] placeholder:text-[var(--muted-color)] focus:bg-[var(--card-color)] transition-colors';
@@ -13,6 +15,7 @@ const LABEL_CLASS =
 export default function ContactFooter() {
   const { t, data } = useAppContext();
   const personalData = data.personalData;
+  const reduceMotion = useReducedMotion();
   const [copied, setCopied] = useState(false);
 
   const handleCopyEmail = async () => {
@@ -49,7 +52,7 @@ export default function ContactFooter() {
         <div className="bg-[var(--card-color)] border-2 border-[var(--ink)] p-8 sm:p-10 mb-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
-            <div className="lg:col-span-7 flex flex-col items-start">
+            <motion.div {...slideIn('left', { reduce: reduceMotion })} className="lg:col-span-7 flex flex-col items-start">
               <div className="neo-section-label mb-4">
                 <Sparkles className="w-4 h-4" aria-hidden="true" />
                 <span>{t.contact.label}</span>
@@ -108,9 +111,9 @@ export default function ContactFooter() {
                   <span>{t.hero.downloadCv}</span>
                 </a>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="lg:col-span-5">
+            <motion.div {...slideIn('right', { delay: 0.1, reduce: reduceMotion })} className="lg:col-span-5">
               <div className="neo-card-flat p-6 sm:p-8">
                 <div className="neo-section-label mb-6">
                   <Send className="w-4 h-4" aria-hidden="true" />
@@ -166,7 +169,7 @@ export default function ContactFooter() {
                   </p>
                 </form>
               </div>
-            </div>
+            </motion.div>
 
           </div>
         </div>

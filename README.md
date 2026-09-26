@@ -28,6 +28,7 @@ npm run dev
 | `npm run lint` | Oxlint over `src/` |
 | `npm run og` | Regenerates `public/og.png`, the 1200x630 share card |
 | `npm run images` | Rebuilds the served WebP variants from `assets/source/` |
+| `npm run screenshots -- <dir>` | Imports a folder of per-project screenshots, then runs `images` |
 | `npm run assets` | Both of the above |
 
 ## Structure
@@ -44,13 +45,13 @@ src/
     caseStudies.js      Long-form write-ups, English
     caseStudiesEs.js    Long-form write-ups, Spanish
     translations.js     UI strings for both languages
-    imageManifest.json  Generated: intrinsic size of each preview image
+    imageManifest.json  Generated: slides per project, with size and caption
   lib/
     router.js      Home vs /case-studies/<slug>
     cv.js          CV path and download filename, shared by hero and footer
   index.css        Design tokens and the neobrutalist component classes
 
-assets/source/     Full-size originals. Never served; input to npm run images.
+assets/source/     Full-size originals, one folder per project. Never served.
 scripts/           generate-og.mjs, optimize-images.mjs
 ```
 
@@ -80,11 +81,42 @@ card renders without those buttons, which is the normal shape of client work.
 
 ## Images
 
-Full-size screenshots live in `assets/source/` and are never served. `npm run images` emits two
-WebP widths per project into `public/projects/` plus the portrait variants, and writes the
-intrinsic dimensions to `src/data/imageManifest.json` so cards reserve their space before the
-file arrives. To add a project image, drop the original in `assets/source/`, add it to the
-`PROJECTS` map in `scripts/optimize-images.mjs`, and rerun the script.
+Every project has a screenshot carousel. The source screenshots live in
+`assets/source/projects/<project-id>/` (one folder per project, named after its `id` in
+`projectsData`) and are never served. Each image in a folder becomes one slide:
+
+```
+assets/source/projects/
+  lo-exacto/
+    01-home.png          -> slide 1, caption "home"
+    02-catalogo.png      -> slide 2, caption "catalogo"
+    03.png               -> slide 3, no caption
+  boom-pos/
+    ...
+```
+
+- **Order** follows the file names with natural sorting, so prefix them `01-`, `02-`, … to set it.
+- **Captions** come from the name: `02-panel_admin.png` is captioned "panel admin". A name
+  without a number prefix (for example `Captura de pantalla 2026-09-01.png`) gets no caption.
+- **Formats:** PNG, JPG, WebP or AVIF, at any size. Desktop captures taller than 16:9 are cropped
+  to the top of the page; phone captures in portrait are shown whole, centred.
+
+Then run `npm run images`. It emits two WebP widths per slide into `public/projects/<id>/`
+plus the portrait variants, and writes each slide's intrinsic size and caption to
+`src/data/imageManifest.json` so the carousel reserves its space before the file arrives.
+A new project only needs a folder whose name matches its `id`.
+
+To bring in a whole set of captures at once, point `npm run screenshots` at a folder with one
+sub-folder per project:
+
+```bash
+npm run screenshots -- "C:\Users\me\Pictures\Screenshots\PROJECTS-PORTFOLIO"
+```
+
+Sub-folders are matched by the `ALIASES` map in `scripts/import-screenshots.mjs` (`BOOM-POS`,
+`CALITOP`, `GEOTOP`, `GEOTOP-CERT`, `LO-EXACTO`, `REVOLT`, `ANEMIVISION`) or by project id. A
+matched project's gallery is replaced with that folder's images, keeping their file names; a
+project with no folder keeps its current gallery. Then it rebuilds the served images.
 
 ## Theming
 
@@ -102,8 +134,11 @@ The theme is applied by an inline script in `index.html` before first paint, the
 
 - The contact form composes a `mailto:` link in the visitor's own client. There is no backend and
   no third-party form service, and the form says so.
-- Entry animations are skipped entirely when the visitor has `prefers-reduced-motion` set.
-- Nothing that carries content starts at `opacity: 0`. Reveals animate position only, so a fast
-  or programmatic scroll that never fires the observer still leaves the section readable.
+- Entrances slide in from the side once, the first time a block scrolls into view
+  (`src/lib/motion.js`): transform and opacity only, a strong ease-out
+  (`cubic-bezier(0.23, 1, 0.32, 1)`), 700ms, siblings staggered 40–70ms. Project rows close like
+  doors (gallery from its own side, text from the other), decision records alternate sides, the
+  stack's tools arrive from the side of the tab that was picked. With `prefers-reduced-motion` the
+  travel is dropped and only a 300ms fade remains.
 - Fonts are requested as variable `wght` ranges, not discrete weights. Asking for the weights
   individually pulled 75 `@font-face` rules and a file per weight.

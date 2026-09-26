@@ -14,6 +14,7 @@ import {
 import { Github, Linkedin, Whatsapp } from './Icons';
 import { useAppContext } from '../context/app-context';
 import { CV_PATH, CV_DOWNLOAD_NAME } from '../lib/cv';
+import { slideIn, stagger } from '../lib/motion';
 
 const STAT_ICONS = {
   Rocket: Rocket,
@@ -73,9 +74,7 @@ export default function Hero() {
 
           {/* LEFT: identity, position, calls to action */}
           <motion.div
-            initial={reduceMotion ? false : { opacity: 1, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            {...slideIn('left', { onMount: true, reduce: reduceMotion })}
             className="lg:col-span-7 flex flex-col items-start"
           >
             <div className="flex flex-wrap items-center gap-3 mb-6">
@@ -148,9 +147,7 @@ export default function Hero() {
 
           {/* RIGHT: portrait */}
           <motion.div
-            initial={reduceMotion ? false : { opacity: 1, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
+            {...slideIn('right', { onMount: true, delay: 0.12, reduce: reduceMotion })}
             className="lg:col-span-5 flex justify-center relative"
           >
             <div className="relative w-full max-w-[340px] sm:max-w-[380px]">
@@ -197,16 +194,20 @@ export default function Hero() {
 
         {/* Stat bar */}
         <motion.dl
-          initial={reduceMotion ? false : { opacity: 1, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
+          {...slideIn('left', { onMount: true, delay: 0.2, reduce: reduceMotion })}
           className="mt-10 neo-card-flat p-6 grid grid-cols-2 md:grid-cols-4 gap-6"
         >
-          {personalData.stats.map((stat) => {
+          {personalData.stats.map((stat, index) => {
             const Icon = STAT_ICONS[stat.icon];
 
+            /* The figures follow the bar in, one after another, from the
+               side the bar came from. */
             return (
-              <div key={stat.label} className="flex flex-col items-center text-center p-2">
+              <motion.div
+                key={stat.label}
+                {...slideIn('left', { onMount: true, delay: 0.3 + stagger(index), distance: 32, reduce: reduceMotion })}
+                className="flex flex-col items-center text-center p-2"
+              >
                 <dd className="font-heading font-black text-3xl sm:text-4xl text-[var(--ink)] mb-1.5">
                   {stat.value}
                 </dd>
@@ -214,7 +215,7 @@ export default function Hero() {
                   {Icon && <Icon className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />}
                   {stat.label}
                 </dt>
-              </div>
+              </motion.div>
             );
           })}
         </motion.dl>
