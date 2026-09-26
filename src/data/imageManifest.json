@@ -19,7 +19,45 @@
     {
       "file": "01",
       "width": 1280,
-      "height": 647,
+      "height": 602,
+      "caption": null
+    },
+    {
+      "file": "02",
+      "width": 1280,
+      "height": 600,
+      "caption": null
+    },
+    {
+      "file": "03",
+      "width": 1280,
+      "height": 601,
+      "caption": null
+    },
+    {
+      "file": "04",
+      "width": 1280,
+      "height": 574,
+      "caption": null
+    }
+  ],
+  "geotop-aqp": [
+    {
+      "file": "01",
+      "width": 1280,
+      "height": 573,
+      "caption": null
+    },
+    {
+      "file": "02",
+      "width": 1280,
+      "height": 569,
+      "caption": null
+    },
+    {
+      "file": "03",
+      "width": 1280,
+      "height": 575,
       "caption": null
     }
   ],
@@ -27,7 +65,13 @@
     {
       "file": "01",
       "width": 1280,
-      "height": 550,
+      "height": 588,
+      "caption": null
+    },
+    {
+      "file": "02",
+      "width": 1280,
+      "height": 588,
       "caption": null
     }
   ],
@@ -35,13 +79,37 @@
     {
       "file": "01",
       "width": 1280,
-      "height": 640,
+      "height": 643,
+      "caption": null
+    },
+    {
+      "file": "02",
+      "width": 1280,
+      "height": 633,
+      "caption": null
+    },
+    {
+      "file": "03",
+      "width": 1280,
+      "height": 598,
       "caption": null
     }
   ],
   "revolt-laptop": [
     {
       "file": "01",
+      "width": 1280,
+      "height": 594,
+      "caption": null
+    },
+    {
+      "file": "02",
+      "width": 1280,
+      "height": 628,
+      "caption": null
+    },
+    {
+      "file": "03",
       "width": 1280,
       "height": 647,
       "caption": null
