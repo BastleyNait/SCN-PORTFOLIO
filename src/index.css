@@ -255,6 +255,88 @@
   animation-fill-mode: both;
 }
 
+/* ===== Project showcase (text over the screenshots) =====
+   Phone: the capture sits at the top at its own shape and the text follows
+   below it on the blurred copy. Desktop: the capture fills the card and the
+   text sits on a scrim over one side, alternating from card to card. */
+.showcase-shot--landscape {
+  height: auto;
+}
+
+.showcase-shot--portrait {
+  height: 56vw;
+  object-fit: contain;
+  object-position: center bottom;
+  padding-top: 3.25rem;
+}
+
+.showcase-scrim {
+  background:
+    linear-gradient(to bottom, rgba(13, 12, 11, 0.55) 0, rgba(13, 12, 11, 0) 72px),
+    linear-gradient(to bottom, rgba(13, 12, 11, 0) calc(50vw - 110px), rgba(13, 12, 11, 0.94) calc(50vw + 10px), #0d0c0b 100%);
+}
+
+.showcase-content {
+  padding: calc(50vw - 2.5rem) 1.25rem 1.5rem;
+}
+
+.showcase-arrows {
+  display: none;
+}
+
+/* Tokens re-pointed to the dark palette for anything laid over the scrim. */
+.on-scrim {
+  --ink: #f3efe4;
+  --ink-rgb: 243, 239, 228;
+  --muted-color: rgba(243, 239, 228, 0.78);
+  --card-color: #1d1a16;
+  --bg-color: #12100e;
+  color: var(--ink);
+}
+
+@media (min-width: 1024px) {
+  .showcase-shot--landscape {
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .showcase-shot--portrait {
+    height: 100%;
+    padding: 4.5rem 3.5rem 2.5rem;
+  }
+
+  .showcase-shot--right { object-position: right center; }
+  .showcase-shot--left { object-position: left center; }
+
+  .showcase-scrim {
+    background:
+      linear-gradient(to bottom, rgba(13, 12, 11, 0.55) 0, rgba(13, 12, 11, 0) 96px),
+      linear-gradient(to right, rgba(13, 12, 11, 0.97) 0%, rgba(13, 12, 11, 0.93) 42%, rgba(13, 12, 11, 0.45) 64%, rgba(13, 12, 11, 0) 82%);
+  }
+
+  .showcase-scrim--flip {
+    background:
+      linear-gradient(to bottom, rgba(13, 12, 11, 0.55) 0, rgba(13, 12, 11, 0) 96px),
+      linear-gradient(to left, rgba(13, 12, 11, 0.97) 0%, rgba(13, 12, 11, 0.93) 42%, rgba(13, 12, 11, 0.45) 64%, rgba(13, 12, 11, 0) 82%);
+  }
+
+  .showcase-content {
+    padding: 5rem 3rem 3rem;
+  }
+
+  .showcase-arrows {
+    display: flex;
+    bottom: 2rem;
+    right: 2rem;
+  }
+
+  .showcase-arrows--left {
+    right: auto;
+    left: 2rem;
+  }
+}
+
 /* Gallery lightbox. The page behind a modal dialog is inert but still
    scrolls, so lock it while one is open. */
 .lightbox::backdrop {

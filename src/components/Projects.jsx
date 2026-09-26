@@ -4,9 +4,15 @@ import { ArrowUpRight, Sparkles, GitBranch, UserCog, FileText } from 'lucide-rea
 import { Github } from './Icons';
 import { useAppContext } from '../context/app-context';
 import { CASE_STUDY_PREFIX } from '../lib/router';
-import ProjectGallery from './ProjectGallery';
+import ProjectGallery, { ProjectShowcase } from './ProjectGallery';
 
 const ALL = '__all__';
+
+/* Two ways to present a project, kept side by side so the page can switch
+   between them with one word:
+   'showcase' - the screenshots fill the card and the text sits over them.
+   'split'    - a framed gallery beside a column of text. */
+const PROJECT_LAYOUT = 'showcase';
 
 export default function Projects({ onOpenCaseStudy }) {
   const { t, data } = useAppContext();
@@ -84,7 +90,9 @@ export default function Projects({ onOpenCaseStudy }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className={i > 0 ? 'border-t-2 border-dashed border-[var(--ink)]/30 pt-12 mt-12 lg:pt-16 lg:mt-16' : ''}
+                className={i === 0 ? '' : PROJECT_LAYOUT === 'showcase'
+                  ? 'mt-10 lg:mt-14'
+                  : 'border-t-2 border-dashed border-[var(--ink)]/30 pt-12 mt-12 lg:pt-16 lg:mt-16'}
               >
                 <ProjectRow
                   project={project}
@@ -110,120 +118,160 @@ export default function Projects({ onOpenCaseStudy }) {
 }
 
 function ProjectRow({ project, position, total, flipped, onOpenCaseStudy }) {
-  const { t } = useAppContext();
   const headingId = `project-${project.id}-title`;
+  const details = (
+    <ProjectDetails
+      project={project}
+      position={position}
+      total={total}
+      headingId={headingId}
+      compact={PROJECT_LAYOUT === 'showcase'}
+      onOpenCaseStudy={onOpenCaseStudy}
+    />
+  );
+
+  if (PROJECT_LAYOUT === 'showcase') {
+    return (
+      <article aria-labelledby={headingId}>
+        <ProjectShowcase project={project} priority={position === 1} flipped={flipped}>
+          {details}
+        </ProjectShowcase>
+      </article>
+    );
+  }
 
   return (
     <article aria-labelledby={headingId} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
       <div className={`lg:col-span-7 ${flipped ? 'lg:order-2' : ''}`}>
         <ProjectGallery project={project} priority={position === 1} />
       </div>
-
       <div className={`lg:col-span-5 flex flex-col ${flipped ? 'lg:order-1' : ''}`}>
-        <div className="flex items-center gap-3 mb-4">
-          <span className="font-mono text-sm font-black tabular-nums text-[var(--ink)]">
-            {String(position).padStart(2, '0')}
-            <span className="text-[var(--muted-color)] font-semibold"> / {String(total).padStart(2, '0')}</span>
+        {details}
+      </div>
+    </article>
+  );
+}
+
+/* Index, title, description, key decision, role, stack and links. The
+   showcase drops the long description: over a screenshot, less text is
+   what keeps the screenshot visible. */
+function ProjectDetails({ project, position, total, headingId, compact, onOpenCaseStudy }) {
+  const { t } = useAppContext();
+
+  return (
+    <>
+      <div className="flex items-center gap-3 mb-4">
+        <span className="font-mono text-sm font-black tabular-nums text-[var(--ink)]">
+          {String(position).padStart(2, '0')}
+          <span className="text-[var(--muted-color)] font-semibold"> / {String(total).padStart(2, '0')}</span>
+        </span>
+        <span className="h-px flex-1 bg-[var(--ink)] opacity-30" aria-hidden="true" />
+        <span className="neo-tag text-[10px] font-semibold">{project.category}</span>
+        {compact && (
+          <span className="neo-tag text-[10px] font-bold uppercase tracking-wider bg-[var(--accent)] text-[var(--on-accent)] border-[var(--on-accent)]">
+            {project.status}
           </span>
-          <span className="h-px flex-1 bg-[var(--ink)] opacity-30" aria-hidden="true" />
-          <span className="neo-tag text-[10px] font-semibold">{project.category}</span>
-        </div>
+        )}
+      </div>
 
-        <h3
-          id={headingId}
-          className="font-heading font-black text-3xl sm:text-4xl text-[var(--ink)] leading-[1.05] tracking-tight mb-3 text-balance"
-        >
-          {project.title}
-        </h3>
+      <h3
+        id={headingId}
+        className={`font-heading font-black text-[var(--ink)] leading-[1.02] tracking-tight mb-3 text-balance ${
+          compact ? 'text-4xl sm:text-5xl lg:text-6xl' : 'text-3xl sm:text-4xl'
+        }`}
+      >
+        {project.title}
+      </h3>
 
-        <p className="text-[var(--ink)] text-base leading-relaxed mb-2 text-pretty font-medium">
-          {project.description}
-        </p>
+      <p className={`text-[var(--ink)] text-base leading-relaxed text-pretty font-medium ${compact ? 'mb-5 max-w-xl' : 'mb-2'}`}>
+        {project.description}
+      </p>
+      {!compact && (
         <p className="text-[var(--muted-color)] text-sm leading-relaxed mb-6 text-pretty">
           {project.longDescription}
         </p>
+      )}
 
-        {/* The decision behind the project, given more weight than the stack */}
-        <div className="border-l-4 border-[var(--accent)] pl-4 mb-5">
-          <p className="font-mono text-[10px] font-black uppercase tracking-[0.18em] text-[var(--muted-color)] mb-1.5 flex items-center gap-1.5">
-            <GitBranch className="w-3 h-3" aria-hidden="true" />
-            {t.projects.decisionLabel}
-          </p>
-          <p className="text-[var(--ink)] text-sm leading-relaxed font-semibold">
-            {project.keyDecision}
-          </p>
-        </div>
-
-        <p className="font-mono text-[10px] text-[var(--muted-color)] uppercase tracking-wider mb-4 flex items-start gap-1.5">
-          <UserCog className="w-3 h-3 mt-0.5 shrink-0" aria-hidden="true" />
-          <span>
-            <span className="font-black">{t.projects.roleLabel}:</span> {project.role}
-          </span>
+      {/* The decision behind the project, given more weight than the stack */}
+      <div className="border-l-4 border-[var(--accent)] pl-4 mb-5">
+        <p className="font-mono text-[10px] font-black uppercase tracking-[0.18em] text-[var(--muted-color)] mb-1.5 flex items-center gap-1.5">
+          <GitBranch className="w-3 h-3" aria-hidden="true" />
+          {t.projects.decisionLabel}
         </p>
-
-        <ul className="flex flex-wrap gap-1.5 mb-6 list-none p-0" aria-label="Stack">
-          {project.tech.map((tech) => (
-            <li key={tech} className="neo-tag text-[10px] font-semibold">
-              {tech}
-            </li>
-          ))}
-        </ul>
-
-        {/* A project can be missing either link: a client system has no public
-            site and no public repo. Render only what exists, and let the one
-            that is there carry the primary style. */}
-        <div className="flex flex-wrap items-stretch gap-2.5">
-          {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="neo-btn bg-[var(--accent)] text-[var(--on-accent)] text-xs py-3 px-5 shadow-[3px_3px_0px_var(--ink)] group/visit"
-            >
-              <span>{t.projects.visitSite}</span>
-              <ArrowUpRight
-                className="w-4 h-4 transition-transform duration-150 group-hover/visit:translate-x-0.5 group-hover/visit:-translate-y-0.5"
-                aria-hidden="true"
-              />
-              <span className="sr-only">{t.projects.opensInNewTab}</span>
-            </a>
-          )}
-
-          {project.caseStudy && (
-            <a
-              href={`${CASE_STUDY_PREFIX}${project.caseStudy}`}
-              onClick={(event) => {
-                /* Let the browser handle new-tab and modified clicks. */
-                if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
-                event.preventDefault();
-                onOpenCaseStudy(project.caseStudy);
-              }}
-              className={`neo-btn text-xs py-3 px-4 ${
-                project.liveUrl
-                  ? 'bg-[var(--card-color)] text-[var(--ink)]'
-                  : 'bg-[var(--ink)] text-[var(--bg-color)]'
-              }`}
-            >
-              <FileText className="w-4 h-4" aria-hidden="true" />
-              <span>{t.projects.caseStudyShort}</span>
-            </a>
-          )}
-
-          {project.repoUrl && (
-            <a
-              href={project.repoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={t.projects.viewCode}
-              className="neo-btn bg-[var(--card-color)] text-[var(--ink)] text-xs py-3 px-4"
-            >
-              <Github className="w-4 h-4" />
-              <span>{t.projects.repo}</span>
-              <span className="sr-only">{t.projects.opensInNewTab}</span>
-            </a>
-          )}
-        </div>
+        <p className="text-[var(--ink)] text-sm leading-relaxed font-semibold">
+          {project.keyDecision}
+        </p>
       </div>
-    </article>
+
+      <p className="font-mono text-[10px] text-[var(--muted-color)] uppercase tracking-wider mb-4 flex items-start gap-1.5">
+        <UserCog className="w-3 h-3 mt-0.5 shrink-0" aria-hidden="true" />
+        <span>
+          <span className="font-black">{t.projects.roleLabel}:</span> {project.role}
+        </span>
+      </p>
+
+      <ul className="flex flex-wrap gap-1.5 mb-6 list-none p-0" aria-label="Stack">
+        {project.tech.map((tech) => (
+          <li key={tech} className="neo-tag text-[10px] font-semibold">
+            {tech}
+          </li>
+        ))}
+      </ul>
+
+      {/* A project can be missing either link: a client system has no public
+          site and no public repo. Render only what exists, and let the one
+          that is there carry the primary style. */}
+      <div className="flex flex-wrap items-stretch gap-2.5">
+        {project.liveUrl && (
+          <a
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="neo-btn bg-[var(--accent)] text-[var(--on-accent)] text-xs py-3 px-5 shadow-[3px_3px_0px_var(--ink)] group/visit"
+          >
+            <span>{t.projects.visitSite}</span>
+            <ArrowUpRight
+              className="w-4 h-4 transition-transform duration-150 group-hover/visit:translate-x-0.5 group-hover/visit:-translate-y-0.5"
+              aria-hidden="true"
+            />
+            <span className="sr-only">{t.projects.opensInNewTab}</span>
+          </a>
+        )}
+
+        {project.caseStudy && (
+          <a
+            href={`${CASE_STUDY_PREFIX}${project.caseStudy}`}
+            onClick={(event) => {
+              /* Let the browser handle new-tab and modified clicks. */
+              if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+              event.preventDefault();
+              onOpenCaseStudy(project.caseStudy);
+            }}
+            className={`neo-btn text-xs py-3 px-4 ${
+              project.liveUrl
+                ? 'bg-[var(--card-color)] text-[var(--ink)]'
+                : 'bg-[var(--ink)] text-[var(--bg-color)]'
+            }`}
+          >
+            <FileText className="w-4 h-4" aria-hidden="true" />
+            <span>{t.projects.caseStudyShort}</span>
+          </a>
+        )}
+
+        {project.repoUrl && (
+          <a
+            href={project.repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={t.projects.viewCode}
+            className="neo-btn bg-[var(--card-color)] text-[var(--ink)] text-xs py-3 px-4"
+          >
+            <Github className="w-4 h-4" />
+            <span>{t.projects.repo}</span>
+            <span className="sr-only">{t.projects.opensInNewTab}</span>
+          </a>
+        )}
+      </div>
+    </>
   );
 }

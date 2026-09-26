@@ -53,17 +53,16 @@ function chromeLabel(project) {
 
 const fill = (template, values) => template.replace(/\{(\w+)\}/g, (_, key) => values[key] ?? '');
 
-export default function ProjectGallery({ project, priority = false }) {
-  const { t } = useAppContext();
+/* Everything a gallery needs to move: the current slide, manual stepping and
+   the autoplay loop with all the reasons it should hold still. Shared by the
+   framed gallery and the full-bleed showcase so the two behave identically. */
+function useSlideshow({ slides, projectId, sizes }) {
   const reduceMotion = useReducedMotion();
-  const slides = imageManifest[project.id] ?? NO_SLIDES;
   const total = slides.length;
-  const ratio = stageRatio(slides);
 
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const dragged = useRef(false);
 
   /* Autoplay. The visitor's own switch, plus every reason to hold still:
      off screen, tab hidden, pointer resting on the image, keyboard focus
@@ -128,9 +127,40 @@ export default function ProjectGallery({ project, priority = false }) {
   useEffect(() => {
     if (!inView || total < 2) return;
     const img = new Image();
-    img.sizes = STAGE_SIZES;
-    img.srcset = slideSrcSet(project.id, slides[(index + 1) % total]);
-  }, [inView, index, total, slides, project.id]);
+    img.sizes = sizes;
+    img.srcset = slideSrcSet(projectId, slides[(index + 1) % total]);
+  }, [inView, index, total, slides, projectId, sizes]);
+
+  return {
+    index, direction, go, jump, multiple, running, playing,
+    togglePlaying: () => setPlaying((value) => !value),
+    frameRef, lightboxOpen, setLightboxOpen, reduceMotion,
+    containerProps: {
+      onFocus: () => setFocusWithin(true),
+      onBlur: (event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setFocusWithin(false);
+      }
+    },
+    hoverProps: {
+      /* Mouse only: a tap on a phone fires pointerenter and never the
+         matching leave, which would park the gallery for good. */
+      onPointerEnter: (event) => { if (event.pointerType === 'mouse') setHovering(true); },
+      onPointerLeave: (event) => { if (event.pointerType === 'mouse') setHovering(false); }
+    }
+  };
+}
+
+export default function ProjectGallery({ project, priority = false }) {
+  const { t } = useAppContext();
+  const slides = imageManifest[project.id] ?? NO_SLIDES;
+  const total = slides.length;
+  const ratio = stageRatio(slides);
+
+  const {
+    index, direction, go, jump, multiple, running, playing, togglePlaying,
+    frameRef, lightboxOpen, setLightboxOpen, reduceMotion, containerProps, hoverProps
+  } = useSlideshow({ slides, projectId: project.id, sizes: STAGE_SIZES });
+  const dragged = useRef(false);
 
   if (total === 0) {
     return (
@@ -176,7 +206,7 @@ export default function ProjectGallery({ project, priority = false }) {
         expandLabel={t.projects.openGallery}
         playback={multiple ? {
           playing,
-          toggle: () => setPlaying((value) => !value),
+          toggle: togglePlaying,
           label: playing ? t.projects.pauseSlideshow : t.projects.playSlideshow
         } : null}
       >
@@ -185,19 +215,13 @@ export default function ProjectGallery({ project, priority = false }) {
           aria-roledescription={t.projects.carouselRole}
           aria-label={fill(t.projects.galleryLabel, { title: project.title })}
           onKeyDown={multiple ? onKeyDown : undefined}
-          onFocus={() => setFocusWithin(true)}
-          onBlur={(event) => {
-            if (!event.currentTarget.contains(event.relatedTarget)) setFocusWithin(false);
-          }}
+          {...containerProps}
           className="relative"
         >
           <div
             className="relative overflow-hidden bg-stripes bg-[var(--bg-color)]"
             style={{ aspectRatio: `${1 / ratio}` }}
-            /* Mouse only: a tap on a phone fires pointerenter and never the
-               matching leave, which would park the gallery for good. */
-            onPointerEnter={(event) => { if (event.pointerType === 'mouse') setHovering(true); }}
-            onPointerLeave={(event) => { if (event.pointerType === 'mouse') setHovering(false); }}
+            {...hoverProps}
           >
             {multiple && (
               <div className="absolute top-2 inset-x-2 z-20 flex gap-1 pointer-events-none" aria-hidden="true">
@@ -387,14 +411,15 @@ const Frame = React.forwardRef(function Frame({ project, counter, onExpand, expa
   );
 });
 
-function StageArrow({ side, label, onClick }) {
+function StageArrow({ side, label, onClick, inline = false }) {
   const Icon = side === 'left' ? ChevronLeft : ChevronRight;
+  const place = inline ? '' : `absolute top-1/2 -translate-y-1/2 ${side === 'left' ? 'left-3' : 'right-3'} z-20`;
   return (
     <button
       type="button"
       onClick={onClick}
       aria-label={label}
-      className={`absolute top-1/2 -translate-y-1/2 ${side === 'left' ? 'left-3' : 'right-3'} z-20 w-10 h-10 inline-flex items-center justify-center border-2 border-[var(--ink)] bg-[var(--card-color)] text-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] cursor-pointer transition-[transform,box-shadow,background-color] duration-100 hover:bg-[var(--accent)] hover:text-[var(--on-accent)] hover:shadow-[3px_3px_0px_var(--ink)] active:shadow-none active:translate-x-0.5`}
+      className={`${place} w-10 h-10 inline-flex items-center justify-center border-2 border-[var(--ink)] bg-[var(--card-color)] text-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] cursor-pointer transition-[transform,box-shadow,background-color] duration-100 hover:bg-[var(--accent)] hover:text-[var(--on-accent)] hover:shadow-[3px_3px_0px_var(--ink)] active:shadow-none active:translate-x-0.5`}
     >
       <Icon className="w-5 h-5" aria-hidden="true" />
     </button>
@@ -474,5 +499,220 @@ function Lightbox({ open, onClose, project, slide, alt, counter, onPrev, onNext 
         </div>
       )}
     </dialog>
+  );
+}
+
+/* ------------------------------------------------------------------ *
+ * Showcase: the same slideshow, full bleed, with the project's own text
+ * laid over it. Each slide is drawn twice: a blurred cover copy that fills
+ * the card whatever its shape, and the real capture on top, cover-fitted
+ * on a desktop and contained on a phone or for portrait captures, so a
+ * phone screenshot is never cropped into a sliver.
+ * ------------------------------------------------------------------ */
+const SHOWCASE_SIZES = '(max-width: 1023px) calc(100vw - 2rem), 1152px';
+
+export function ProjectShowcase({ project, priority = false, flipped = false, children }) {
+  const { t } = useAppContext();
+  const slides = imageManifest[project.id] ?? NO_SLIDES;
+  const total = slides.length;
+  const {
+    index, direction, go, jump, multiple, running, playing, togglePlaying,
+    frameRef, lightboxOpen, setLightboxOpen, reduceMotion, containerProps, hoverProps
+  } = useSlideshow({ slides, projectId: project.id, sizes: SHOWCASE_SIZES });
+
+  const slide = slides[index];
+  const counter = multiple
+    ? `${String(index + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`
+    : null;
+  const altFor = (s, i) =>
+    s.caption
+      ? `${project.title}: ${s.caption}`
+      : fill(t.projects.slideAlt, { title: project.title, n: i + 1, total });
+
+  const offset = reduceMotion ? 0 : 40;
+  const variants = {
+    enter: (dir) => ({ opacity: 0, x: dir * offset, scale: reduceMotion ? 1 : 1.03 }),
+    center: { opacity: 1, x: 0, scale: 1 },
+    exit: { opacity: 0 }
+  };
+
+  const onKeyDown = (event) => {
+    if (event.key === 'ArrowRight') { event.preventDefault(); go(1); }
+    if (event.key === 'ArrowLeft') { event.preventDefault(); go(-1); }
+  };
+
+  return (
+    <>
+      <div
+        ref={frameRef}
+        role="region"
+        aria-roledescription={t.projects.carouselRole}
+        aria-label={fill(t.projects.galleryLabel, { title: project.title })}
+        onKeyDown={multiple ? onKeyDown : undefined}
+        {...containerProps}
+        {...hoverProps}
+        className="showcase neo-frame relative isolate overflow-hidden lg:min-h-[640px] flex"
+      >
+        {/* Slides */}
+        <div className="absolute inset-0 z-0 bg-[#0d0c0b]">
+          {slide ? (
+            <AnimatePresence initial={false} custom={direction} mode="popLayout">
+              <motion.div
+                key={slide.file}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: reduceMotion ? 0.01 : 0.8, ease: [0.22, 1, 0.36, 1] }}
+                drag={multiple && !reduceMotion ? 'x' : false}
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.18}
+                onDragEnd={(_, info) => {
+                  if (info.offset.x < -SWIPE_DISTANCE || info.velocity.x < -SWIPE_VELOCITY) go(1);
+                  else if (info.offset.x > SWIPE_DISTANCE || info.velocity.x > SWIPE_VELOCITY) go(-1);
+                }}
+                className="absolute inset-0 touch-pan-y"
+              >
+                <img
+                  src={slideSrc(project.id, slide, WIDTHS[0])}
+                  alt=""
+                  aria-hidden="true"
+                  decoding="async"
+                  draggable={false}
+                  className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-60 select-none pointer-events-none"
+                />
+                <img
+                  src={slideSrc(project.id, slide, WIDTHS.at(-1))}
+                  srcSet={slideSrcSet(project.id, slide)}
+                  sizes={SHOWCASE_SIZES}
+                  width={slide.width}
+                  height={slide.height}
+                  alt={altFor(slide, index)}
+                  loading={priority && index === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  draggable={false}
+                  className={`showcase-shot absolute inset-x-0 top-0 w-full select-none pointer-events-none ${
+                    slide.height > slide.width
+                      ? `showcase-shot--portrait ${flipped ? 'showcase-shot--left' : 'showcase-shot--right'}`
+                      : 'showcase-shot--landscape'
+                  }`}
+                />
+              </motion.div>
+            </AnimatePresence>
+          ) : (
+            <span className="absolute inset-0 bg-stripes" aria-hidden="true" />
+          )}
+        </div>
+
+        {/* Scrim: keeps the text legible without hiding the half of the
+            capture the text is not sitting on. */}
+        <div
+          aria-hidden="true"
+          className={`showcase-scrim absolute inset-0 z-10 pointer-events-none ${flipped ? 'showcase-scrim--flip' : ''}`}
+        />
+
+        {/* Top bar: progress, domain, controls */}
+        <div className="absolute top-0 inset-x-0 z-30 flex items-center gap-3 p-3 sm:p-4">
+          {multiple ? (
+            <div className="flex-1 flex gap-1.5">
+              {slides.map((s, i) => (
+                <button
+                  key={s.file}
+                  type="button"
+                  onClick={() => jump(i)}
+                  aria-label={altFor(s, i)}
+                  aria-current={i === index ? 'true' : undefined}
+                  className="group/seg flex-1 py-2 cursor-pointer"
+                >
+                  <span className="relative block h-1 bg-white/30 overflow-hidden group-hover/seg:bg-white/50 transition-colors">
+                    {i < index && <span className="absolute inset-0 bg-[var(--accent)]" />}
+                    {i === index && (
+                      <span
+                        key={index}
+                        className="gallery-progress absolute inset-0 bg-[var(--accent)] origin-left"
+                        style={{
+                          animationDuration: `${SLIDE_MS}ms`,
+                          animationPlayState: running ? 'running' : 'paused'
+                        }}
+                      />
+                    )}
+                  </span>
+                </button>
+              ))}
+            </div>
+          ) : (
+            <span className="flex-1" />
+          )}
+
+          <span className="hidden sm:inline font-mono text-[10px] font-semibold text-white/85 bg-black/45 backdrop-blur px-2 py-1 border border-white/25 truncate max-w-[40%]">
+            {chromeLabel(project)}
+          </span>
+          {counter && (
+            <span className="font-mono text-[10px] font-bold tabular-nums text-white/85" aria-hidden="true">{counter}</span>
+          )}
+          {multiple && (
+            <ShowcaseButton
+              onClick={togglePlaying}
+              label={playing ? t.projects.pauseSlideshow : t.projects.playSlideshow}
+              pressed={!playing}
+            >
+              {playing ? <Pause className="w-3.5 h-3.5" aria-hidden="true" /> : <Play className="w-3.5 h-3.5" aria-hidden="true" />}
+            </ShowcaseButton>
+          )}
+          {slide && (
+            <ShowcaseButton onClick={() => setLightboxOpen(true)} label={t.projects.openGallery}>
+              <Maximize2 className="w-3.5 h-3.5" aria-hidden="true" />
+            </ShowcaseButton>
+          )}
+        </div>
+
+        {multiple && (
+          <div className={`showcase-arrows absolute z-30 flex gap-2 ${flipped ? 'showcase-arrows--left' : ''}`}>
+            <StageArrow inline side="left" label={t.projects.prevSlide} onClick={() => go(-1)} />
+            <StageArrow inline side="right" label={t.projects.nextSlide} onClick={() => go(1)} />
+          </div>
+        )}
+
+        {/* The project's own text. Tokens are re-pointed to the dark palette
+            here, so every tag, button and rule inside reads on the scrim in
+            both themes without a second set of classes. */}
+        <div className={`showcase-content on-scrim relative z-20 w-full lg:w-[56%] flex flex-col justify-end lg:justify-center ${flipped ? 'lg:ml-auto' : ''}`}>
+          {children}
+        </div>
+
+        <p className="sr-only" aria-live={running ? 'off' : 'polite'} aria-atomic="true">
+          {multiple ? fill(t.projects.slideStatus, { n: index + 1, total }) : ''}
+        </p>
+      </div>
+
+      {slide && (
+        <Lightbox
+          open={lightboxOpen}
+          onClose={() => setLightboxOpen(false)}
+          project={project}
+          slide={slide}
+          alt={altFor(slide, index)}
+          counter={counter}
+          onPrev={multiple ? () => go(-1) : null}
+          onNext={multiple ? () => go(1) : null}
+        />
+      )}
+    </>
+  );
+}
+
+function ShowcaseButton({ onClick, label, pressed, children }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      aria-pressed={pressed}
+      title={label}
+      className="w-8 h-8 shrink-0 inline-flex items-center justify-center border-2 border-white/70 bg-black/45 backdrop-blur text-white hover:bg-[var(--accent)] hover:text-[var(--on-accent)] hover:border-[var(--on-accent)] cursor-pointer transition-colors"
+    >
+      {children}
+    </button>
   );
 }
