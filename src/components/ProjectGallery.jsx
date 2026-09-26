@@ -74,7 +74,7 @@ export default function ProjectGallery({ project, priority = false }) {
     setIndex(next);
   };
 
-  /* Neighbours are fetched only once the visitor starts browsing, so six
+  /* Neighbours are fetched only once the visitor starts browsing, so seven
      galleries sitting below the fold cost one image each, not all of them. */
   useEffect(() => {
     if (!touched.current || total < 2) return;

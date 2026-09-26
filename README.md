@@ -28,6 +28,7 @@ npm run dev
 | `npm run lint` | Oxlint over `src/` |
 | `npm run og` | Regenerates `public/og.png`, the 1200x630 share card |
 | `npm run images` | Rebuilds the served WebP variants from `assets/source/` |
+| `npm run screenshots -- <dir>` | Imports a folder of per-project screenshots, then runs `images` |
 | `npm run assets` | Both of the above |
 
 ## Structure
@@ -104,6 +105,18 @@ Then run `npm run images`. It emits two WebP widths per slide into `public/proje
 plus the portrait variants, and writes each slide's intrinsic size and caption to
 `src/data/imageManifest.json` so the carousel reserves its space before the file arrives.
 A new project only needs a folder whose name matches its `id`.
+
+To bring in a whole set of captures at once, point `npm run screenshots` at a folder with one
+sub-folder per project:
+
+```bash
+npm run screenshots -- "C:\Users\me\Pictures\Screenshots\PROJECTS-PORTFOLIO"
+```
+
+Sub-folders are matched by the `ALIASES` map in `scripts/import-screenshots.mjs` (`BOOM-POS`,
+`CALITOP`, `GEOTOP`, `GEOTOP-CERT`, `LO-EXACTO`, `REVOLT`, `ANEMIVISION`) or by project id. A
+matched project's gallery is replaced with that folder's images, keeping their file names; a
+project with no folder keeps its current gallery. Then it rebuilds the served images.
 
 ## Theming
 

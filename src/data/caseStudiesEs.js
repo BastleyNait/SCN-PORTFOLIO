@@ -123,7 +123,7 @@ export const caseStudies = {
     role: 'Arquitectura · Backend · Infraestructura',
     tech: ['Flask', 'Google Compute Engine', 'Nginx', 'Almacenamiento de objetos compatible con S3', 'QR'],
     metrics: [
-      { value: '700+', label: 'certificados en la nube' },
+      { value: '900+', label: 'certificados en la nube' },
       { value: 'Segundos', label: 'para verificar un instrumento' },
       { value: '0', label: 'apps que instalar' }
     ],
@@ -160,7 +160,7 @@ export const caseStudies = {
       {
         heading: 'Qué hace hoy',
         body: [
-          'Más de 700 certificados están en la nube y son direccionables desde el equipo al que pertenecen. Verificar, que antes era una llamada y un archivador, es un escaneo y unos segundos.',
+          'Más de 900 certificados están en la nube y son direccionables desde el equipo al que pertenecen. Verificar, que antes era una llamada y un archivador, es un escaneo y unos segundos.',
           'La trazabilidad es la parte silenciosa: un certificado ahora está atado a un objeto físico y no a una carpeta que alguien tiene que mantener.'
         ]
       },

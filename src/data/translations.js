@@ -40,7 +40,7 @@ export const translations = {
     projects: {
       portfolio: "WORK",
       featured: "Systems in Production",
-      description: "Six systems people actually use. Each one names the decision that shaped it, not just the framework it was built with. Browse the screenshots, then open the real thing.",
+      description: "Seven systems people actually use. Each one names the decision that shaped it, not just the framework it was built with. Browse the screenshots, then open the real thing.",
       allCategories: "All",
       roleLabel: "MY ROLE",
       decisionLabel: "KEY DECISION",
@@ -83,7 +83,7 @@ export const translations = {
     techStack: {
       label: "TOOLING",
       title: "Technologies & Tools",
-      description: "Six systems in production. A POS handling 100+ sales a day, a cloud certificate system with QR verification for 700+ documents, an offline Android screening app, and three commercial sites — all built and deployed end to end.",
+      description: "Seven systems in production. A POS handling 100+ sales a day, a cloud certificate system with QR verification for 900+ documents, an offline Android screening app, and four commercial sites — all built and deployed end to end.",
       frontendTitle: "Frontend",
       frontendDesc: "React 19 and Next.js App Router, Zustand for state that belongs on the client, Tailwind CSS v4 for interfaces that stay fast.",
       backendTitle: "Backend",
@@ -159,7 +159,7 @@ export const translations = {
     projects: {
       portfolio: "TRABAJO",
       featured: "Sistemas en Producción",
-      description: "Seis sistemas que la gente usa de verdad. Cada uno nombra la decisión que le dio forma, no solo el framework con el que se construyó. Recorre las capturas y luego abre el sitio real.",
+      description: "Siete sistemas que la gente usa de verdad. Cada uno nombra la decisión que le dio forma, no solo el framework con el que se construyó. Recorre las capturas y luego abre el sitio real.",
       allCategories: "Todos",
       roleLabel: "MI ROL",
       decisionLabel: "DECISIÓN CLAVE",
@@ -202,7 +202,7 @@ export const translations = {
     techStack: {
       label: "HERRAMIENTAS",
       title: "Tecnologías y Herramientas",
-      description: "Seis sistemas en producción. Un POS que mueve 100+ ventas al día, un sistema de certificados en la nube con verificación por QR para 700+ documentos, una app Android de tamizaje que funciona offline, y tres sitios comerciales — todos construidos y desplegados de punta a punta.",
+      description: "Siete sistemas en producción. Un POS que mueve 100+ ventas al día, un sistema de certificados en la nube con verificación por QR para 900+ documentos, una app Android de tamizaje que funciona offline, y cuatro sitios comerciales — todos construidos y desplegados de punta a punta.",
       frontendTitle: "Frontend",
       frontendDesc: "React 19 y Next.js App Router, Zustand para el estado que corresponde al cliente, Tailwind CSS v4 para interfaces que siguen siendo rápidas.",
       backendTitle: "Backend",
