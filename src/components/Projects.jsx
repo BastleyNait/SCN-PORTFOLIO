@@ -12,7 +12,7 @@ const ALL = '__all__';
    between them with one word:
    'showcase' - the screenshots fill the card and the text sits over them.
    'split'    - a framed gallery beside a column of text. */
-const PROJECT_LAYOUT = 'showcase';
+const PROJECT_LAYOUT = 'split';
 
 export default function Projects({ onOpenCaseStudy }) {
   const { t, data } = useAppContext();
