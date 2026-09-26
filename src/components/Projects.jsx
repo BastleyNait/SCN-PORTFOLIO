@@ -1,10 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ArrowUpRight, Sparkles, GitBranch, UserCog, FileText } from 'lucide-react';
+import { ArrowUpRight, FileText } from 'lucide-react';
 import { Github } from './Icons';
 import { useAppContext } from '../context/app-context';
 import { CASE_STUDY_PREFIX } from '../lib/router';
 import ProjectGallery, { ProjectShowcase } from './ProjectGallery';
+import SectionHeader from './SectionHeader';
+import { toSentence } from '../lib/text';
 
 const ALL = '__all__';
 
@@ -12,7 +14,7 @@ const ALL = '__all__';
    between them with one word:
    'showcase' - the screenshots fill the card and the text sits over them.
    'split'    - a framed gallery beside a column of text. */
-const PROJECT_LAYOUT = 'showcase';
+const PROJECT_LAYOUT = 'split';
 
 export default function Projects({ onOpenCaseStudy }) {
   const { t, data } = useAppContext();
@@ -32,27 +34,17 @@ export default function Projects({ onOpenCaseStudy }) {
     : projectsData.filter((project) => project.category === activeCategory);
 
   return (
-    <section id="projects" className="py-14 relative z-10 bg-[var(--bg-color)]" aria-labelledby="projects-title">
+    <section id="projects" className="py-20 lg:py-28 relative z-10 bg-[var(--bg-color)]" aria-labelledby="projects-title">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div className="flex flex-col items-center text-center mb-12">
-          <div className="neo-section-label mb-4">
-            <Sparkles className="w-4 h-4" aria-hidden="true" />
-            <span>{t.projects.portfolio}</span>
-          </div>
-
-          <h2
-            id="projects-title"
-            className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mb-4 text-[var(--ink)] text-balance"
+        <SectionHeader id="projects-title" title={t.projects.featured} description={t.projects.description}>
+          {/* Filters: a segmented control whose brass thumb slides to the
+              chosen category instead of blinking between buttons. */}
+          <div
+            className="mt-7 inline-flex flex-wrap gap-1 p-1 rounded-2xl bg-[var(--sunk-color)] border border-[var(--line)]"
+            role="group"
+            aria-label={t.projects.featured}
           >
-            {t.projects.featured}
-          </h2>
-
-          <p className="text-[var(--muted-color)] text-sm sm:text-base max-w-2xl leading-relaxed text-pretty">
-            {t.projects.description}
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-3 mt-8" role="group" aria-label={t.projects.featured}>
             {categories.map((category) => {
               const isActive = activeCategory === category;
               const label = category === ALL ? t.projects.allCategories : category;
@@ -63,18 +55,24 @@ export default function Projects({ onOpenCaseStudy }) {
                   type="button"
                   onClick={() => setActiveCategory(category)}
                   aria-pressed={isActive}
-                  className={`px-4 py-2 text-xs sm:text-sm font-heading font-bold uppercase tracking-wider transition-all duration-150 cursor-pointer border-2 border-[var(--ink)] ${
-                    isActive
-                      ? 'bg-[var(--accent)] text-[var(--on-accent)] shadow-[3px_3px_0px_var(--ink)] -translate-x-px -translate-y-px'
-                      : 'bg-[var(--card-color)] text-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] hover:shadow-[3px_3px_0px_var(--ink)] hover:-translate-x-px hover:-translate-y-px'
-                  }`}
+                  className="relative px-4 py-2 text-sm font-medium rounded-xl cursor-pointer"
                 >
-                  {label}
+                  {isActive && (
+                    <motion.span
+                      layoutId="project-filter"
+                      className="absolute inset-0 rounded-xl bg-[var(--card-color)] shadow-[var(--shadow-sm)] border border-[var(--line)]"
+                      transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                    />
+                  )}
+                  <span className={`relative z-10 inline-flex items-center gap-2 transition-colors ${isActive ? 'text-[var(--ink)]' : 'text-[var(--muted-color)] hover:text-[var(--ink)]'}`}>
+                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" aria-hidden="true" />}
+                    {label}
+                  </span>
                 </button>
               );
             })}
           </div>
-        </div>
+        </SectionHeader>
 
         {/* One project per row. The gallery gets the wider column because the
             screenshots are the evidence; the text says what to look for in them.
@@ -92,7 +90,7 @@ export default function Projects({ onOpenCaseStudy }) {
                 transition={{ duration: 0.3 }}
                 className={i === 0 ? '' : PROJECT_LAYOUT === 'showcase'
                   ? 'mt-10 lg:mt-14'
-                  : 'border-t-2 border-dashed border-[var(--ink)]/30 pt-12 mt-12 lg:pt-16 lg:mt-16'}
+                  : 'pt-16 mt-16 lg:pt-24 lg:mt-24 border-t border-[var(--line)]'}
               >
                 <ProjectRow
                   project={project}
@@ -107,7 +105,7 @@ export default function Projects({ onOpenCaseStudy }) {
         </motion.ol>
 
         {visibleProjects.length === 0 && (
-          <p className="text-center text-[var(--muted-color)] font-mono text-sm mt-10">
+          <p className="text-center text-[var(--muted-color)] text-sm mt-10">
             {t.projects.empty}
           </p>
         )}
@@ -117,20 +115,19 @@ export default function Projects({ onOpenCaseStudy }) {
   );
 }
 
-function ProjectRow({ project, position, total, flipped, onOpenCaseStudy }) {
+function ProjectRow({ project, position, flipped, onOpenCaseStudy }) {
   const headingId = `project-${project.id}-title`;
+  const compact = PROJECT_LAYOUT === 'showcase';
   const details = (
     <ProjectDetails
       project={project}
-      position={position}
-      total={total}
       headingId={headingId}
-      compact={PROJECT_LAYOUT === 'showcase'}
+      compact={compact}
       onOpenCaseStudy={onOpenCaseStudy}
     />
   );
 
-  if (PROJECT_LAYOUT === 'showcase') {
+  if (compact) {
     return (
       <article aria-labelledby={headingId}>
         <ProjectShowcase project={project} priority={position === 1} flipped={flipped}>
@@ -141,10 +138,10 @@ function ProjectRow({ project, position, total, flipped, onOpenCaseStudy }) {
   }
 
   return (
-    <article aria-labelledby={headingId} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-      <div className={`lg:col-span-7 ${flipped ? 'lg:order-2' : ''}`}>
+    <article aria-labelledby={headingId} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+      <RevealGallery className={`lg:col-span-7 ${flipped ? 'lg:order-2' : ''}`} flipped={flipped}>
         <ProjectGallery project={project} priority={position === 1} />
-      </div>
+      </RevealGallery>
       <div className={`lg:col-span-5 flex flex-col ${flipped ? 'lg:order-1' : ''}`}>
         {details}
       </div>
@@ -152,86 +149,99 @@ function ProjectRow({ project, position, total, flipped, onOpenCaseStudy }) {
   );
 }
 
-/* Index, title, description, key decision, role, stack and links. The
-   showcase drops the long description: over a screenshot, less text is
-   what keeps the screenshot visible. */
-function ProjectDetails({ project, position, total, headingId, compact, onOpenCaseStudy }) {
+/* The evidence arrives: the gallery rises and tilts flat into place, and a
+   brass glint crosses it once. The gallery is visible throughout; the motion
+   only moves it, so a scroll that outruns the observer still shows it. */
+function RevealGallery({ className, flipped, children }) {
+  const reduceMotion = useReducedMotion();
+  const [seen, setSeen] = useState(false);
+
+  return (
+    <motion.div
+      className={`relative ${className}`}
+      initial={reduceMotion ? false : { y: 48, rotate: flipped ? 1.2 : -1.2 }}
+      whileInView={{ y: 0, rotate: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+      onViewportEnter={() => setSeen(true)}
+    >
+      {children}
+      <span className="absolute inset-0 overflow-hidden rounded-[var(--radius-lg)] pointer-events-none" aria-hidden="true">
+        <span className={`glint ${seen && !reduceMotion ? 'is-on' : ''}`} />
+      </span>
+    </motion.div>
+  );
+}
+
+/* Title, description, key decision, role, stack and links. The showcase
+   drops the long description: over a screenshot, less text is what keeps
+   the screenshot visible. */
+function ProjectDetails({ project, headingId, compact, onOpenCaseStudy }) {
   const { t } = useAppContext();
 
   return (
     <>
-      <div className="flex items-center gap-3 mb-4">
-        <span className="font-mono text-sm font-black tabular-nums text-[var(--ink)]">
-          {String(position).padStart(2, '0')}
-          <span className="text-[var(--muted-color)] font-semibold"> / {String(total).padStart(2, '0')}</span>
+      <p className="flex flex-wrap items-center gap-2 mb-4 text-sm">
+        <span className="text-[var(--muted-color)]">{project.category}</span>
+        <span className="w-1 h-1 rounded-full bg-[var(--line-strong)]" aria-hidden="true" />
+        <span className="inline-flex items-center gap-1.5 text-[var(--ink)] font-medium">
+          <span className="w-1.5 h-1.5 rounded-full bg-[var(--mint)]" aria-hidden="true" />
+          {project.status}
         </span>
-        <span className="h-px flex-1 bg-[var(--ink)] opacity-30" aria-hidden="true" />
-        <span className="neo-tag text-[10px] font-semibold">{project.category}</span>
-        {compact && (
-          <span className="neo-tag text-[10px] font-bold uppercase tracking-wider bg-[var(--accent)] text-[var(--on-accent)] border-[var(--on-accent)]">
-            {project.status}
-          </span>
-        )}
-      </div>
+      </p>
 
       <h3
         id={headingId}
-        className={`font-heading font-black text-[var(--ink)] leading-[1.02] tracking-tight mb-3 text-balance ${
-          compact ? 'text-4xl sm:text-5xl lg:text-6xl' : 'text-3xl sm:text-4xl'
+        className={`font-heading font-bold text-[var(--ink)] leading-[1] tracking-[-0.035em] mb-4 text-balance ${
+          compact ? 'text-4xl sm:text-5xl lg:text-6xl' : 'text-[2.4rem] sm:text-5xl'
         }`}
       >
         {project.title}
       </h3>
 
-      <p className={`text-[var(--ink)] text-base leading-relaxed text-pretty font-medium ${compact ? 'mb-5 max-w-xl' : 'mb-2'}`}>
+      <p className={`text-[var(--ink)] text-[17px] leading-relaxed text-pretty ${compact ? 'mb-5 max-w-xl' : 'mb-3'}`}>
         {project.description}
       </p>
       {!compact && (
-        <p className="text-[var(--muted-color)] text-sm leading-relaxed mb-6 text-pretty">
+        <p className="text-[var(--muted-color)] text-[15px] leading-relaxed mb-7 text-pretty">
           {project.longDescription}
         </p>
       )}
 
-      {/* The decision behind the project, given more weight than the stack */}
-      <div className="border-l-4 border-[var(--accent)] pl-4 mb-5">
-        <p className="font-mono text-[10px] font-black uppercase tracking-[0.18em] text-[var(--muted-color)] mb-1.5 flex items-center gap-1.5">
-          <GitBranch className="w-3 h-3" aria-hidden="true" />
-          {t.projects.decisionLabel}
-        </p>
-        <p className="text-[var(--ink)] text-sm leading-relaxed font-semibold">
+      {/* The decision behind the project, given more weight than the stack. */}
+      <div className="relative rounded-[var(--radius-md)] bg-[var(--sunk-color)] px-5 py-4 mb-6">
+        <p className="text-[13px] text-[var(--muted-color)] mb-1.5">{toSentence(t.projects.decisionLabel)}</p>
+        <p className="font-heading text-[17px] font-semibold text-[var(--ink)] leading-snug tracking-[-0.01em]">
           {project.keyDecision}
         </p>
       </div>
 
-      <p className="font-mono text-[10px] text-[var(--muted-color)] uppercase tracking-wider mb-4 flex items-start gap-1.5">
-        <UserCog className="w-3 h-3 mt-0.5 shrink-0" aria-hidden="true" />
-        <span>
-          <span className="font-black">{t.projects.roleLabel}:</span> {project.role}
-        </span>
+      <p className="text-[13px] text-[var(--muted-color)] mb-3">
+        <span className="text-[var(--ink)] font-medium">{toSentence(t.projects.roleLabel)}</span>
+        <span className="mx-2" aria-hidden="true">—</span>
+        {project.role}
       </p>
 
-      <ul className="flex flex-wrap gap-1.5 mb-6 list-none p-0" aria-label="Stack">
+      <ul className="flex flex-wrap gap-1.5 mb-8 list-none p-0" aria-label="Stack">
         {project.tech.map((tech) => (
-          <li key={tech} className="neo-tag text-[10px] font-semibold">
-            {tech}
-          </li>
+          <li key={tech} className="neo-tag">{tech}</li>
         ))}
       </ul>
 
       {/* A project can be missing either link: a client system has no public
-          site and no public repo. Render only what exists, and let the one
-          that is there carry the primary style. */}
-      <div className="flex flex-wrap items-stretch gap-2.5">
+          site and no public repo. Render only what exists, and let the first
+          one that is there carry the primary style. */}
+      <div className="flex flex-wrap items-center gap-2.5">
         {project.liveUrl && (
           <a
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="neo-btn bg-[var(--accent)] text-[var(--on-accent)] text-xs py-3 px-5 shadow-[3px_3px_0px_var(--ink)] group/visit"
+            className="neo-btn btn-brass group/visit"
           >
-            <span>{t.projects.visitSite}</span>
+            <span>{toSentence(t.projects.visitSite)}</span>
             <ArrowUpRight
-              className="w-4 h-4 transition-transform duration-150 group-hover/visit:translate-x-0.5 group-hover/visit:-translate-y-0.5"
+              className="w-4 h-4 transition-transform duration-300 group-hover/visit:translate-x-0.5 group-hover/visit:-translate-y-0.5"
               aria-hidden="true"
             />
             <span className="sr-only">{t.projects.opensInNewTab}</span>
@@ -247,11 +257,7 @@ function ProjectDetails({ project, position, total, headingId, compact, onOpenCa
               event.preventDefault();
               onOpenCaseStudy(project.caseStudy);
             }}
-            className={`neo-btn text-xs py-3 px-4 ${
-              project.liveUrl
-                ? 'bg-[var(--card-color)] text-[var(--ink)]'
-                : 'bg-[var(--ink)] text-[var(--bg-color)]'
-            }`}
+            className={`neo-btn ${project.liveUrl ? 'btn-ghost' : 'btn-brass'}`}
           >
             <FileText className="w-4 h-4" aria-hidden="true" />
             <span>{t.projects.caseStudyShort}</span>
@@ -264,10 +270,10 @@ function ProjectDetails({ project, position, total, headingId, compact, onOpenCa
             target="_blank"
             rel="noopener noreferrer"
             title={t.projects.viewCode}
-            className="neo-btn bg-[var(--card-color)] text-[var(--ink)] text-xs py-3 px-4"
+            className="neo-btn btn-ghost"
           >
             <Github className="w-4 h-4" />
-            <span>{t.projects.repo}</span>
+            <span>{toSentence(t.projects.repo)}</span>
             <span className="sr-only">{t.projects.opensInNewTab}</span>
           </a>
         )}

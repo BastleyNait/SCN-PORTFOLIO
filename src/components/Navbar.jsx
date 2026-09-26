@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import { Menu, X, ArrowUpRight, Sun, Moon, Languages } from 'lucide-react';
 import { Github, Linkedin } from './Icons';
 import { useAppContext } from '../context/app-context';
+import { toSentence } from '../lib/text';
 
 /** Section ids are structural, so they live outside the translation layer. */
 const SECTIONS = [
@@ -16,7 +17,7 @@ const SECTIONS = [
 ];
 
 const ICON_BTN_CLASS =
-  'w-9 h-9 flex items-center justify-center bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0px_var(--ink)] transition-all text-[var(--ink)] cursor-pointer';
+  'w-9 h-9 flex items-center justify-center rounded-full border border-[var(--line)] hover:border-[var(--line-strong)] hover:bg-[var(--sunk-color)] transition-colors text-[var(--ink)] cursor-pointer';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -87,26 +88,31 @@ export default function Navbar() {
 
   const closeMenu = useCallback(() => setMobileMenuOpen(false), []);
 
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[var(--bg-color)] border-b-[3px] border-[var(--ink)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-[72px]">
+  /* Reading progress: a brass hairline along the bottom of the bar, sprung
+     so a fast scroll glides instead of jumping. */
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 28, mass: 0.4 });
 
-          <a href="#hero" className="flex items-center gap-3 group">
-            <span className="w-10 h-10 bg-[var(--ink)] text-[var(--bg-color)] flex items-center justify-center font-mono font-black text-base uppercase">
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-4 pt-3">
+      <div className="relative max-w-6xl mx-auto bg-[color-mix(in_oklab,var(--card-color)_92%,transparent)] backdrop-blur-md border border-[var(--line)] rounded-2xl shadow-[var(--shadow-md)] overflow-hidden">
+        <div className="flex items-center justify-between h-14 pl-3 pr-2 sm:pl-4">
+
+          <a href="#hero" className="flex items-center gap-2.5 group min-w-0">
+            <span className="w-9 h-9 rounded-xl bg-[var(--bottle)] text-[var(--on-bottle)] flex items-center justify-center font-heading font-bold text-sm tracking-tight shrink-0 transition-transform duration-300 group-hover:rotate-[-6deg]">
               SC
             </span>
-            <span className="flex flex-col">
-              <span className="font-heading font-black text-base sm:text-lg tracking-tight text-[var(--ink)] leading-none">
+            <span className="flex flex-col min-w-0">
+              <span className="font-heading font-semibold text-[15px] tracking-tight text-[var(--ink)] leading-none truncate">
                 {personalData.shortName}
               </span>
-              <span className="text-[11px] font-mono font-bold text-[var(--muted-color)] uppercase tracking-wider mt-1">
+              <span className="text-[11px] text-[var(--muted-color)] mt-1 truncate">
                 {t.nav.systemsEngineer}
               </span>
             </span>
           </a>
 
-          <nav className="hidden xl:flex items-center gap-2" aria-label="Primary">
+          <nav className="hidden xl:flex items-center gap-0.5 p-1 rounded-xl bg-[var(--sunk-color)]" aria-label="Primary">
             {SECTIONS.map((section) => {
               const isActive = activeSection === section.id;
               return (
@@ -114,16 +120,16 @@ export default function Navbar() {
                   key={section.id}
                   href={`#${section.id}`}
                   aria-current={isActive ? 'true' : undefined}
-                  className="relative px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider border border-[var(--ink)] transition-colors bg-[var(--card-color)] overflow-hidden"
+                  className="relative px-3 py-1.5 text-[13px] font-medium rounded-lg transition-colors"
                 >
                   {isActive && (
                     <motion.span
                       layoutId="activeTab"
-                      className="absolute inset-0 bg-[var(--ink)]"
-                      transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                      className="absolute inset-0 rounded-lg bg-[var(--bottle)] shadow-[var(--shadow-sm)]"
+                      transition={{ type: 'spring', stiffness: 420, damping: 34 }}
                     />
                   )}
-                  <span className={`relative z-10 ${isActive ? 'text-[var(--bg-color)]' : 'text-[var(--ink)]'}`}>
+                  <span className={`relative z-10 transition-colors duration-200 ${isActive ? 'text-[var(--on-bottle)]' : 'text-[var(--muted-color)] hover:text-[var(--ink)]'}`}>
                     {t.nav[section.labelKey]}
                   </span>
                 </a>
@@ -131,23 +137,34 @@ export default function Navbar() {
             })}
           </nav>
 
-          <div className="hidden md:flex items-center gap-2.5">
+          <div className="hidden md:flex items-center gap-1.5">
             <button
               type="button"
               onClick={toggleTheme}
-              className={`${ICON_BTN_CLASS} hover:bg-[var(--accent)] hover:text-[var(--on-accent)]`}
+              className={ICON_BTN_CLASS}
               aria-label={t.nav.toggleTheme}
               title={t.nav.toggleTheme}
             >
-              {theme === 'dark'
-                ? <Sun className="w-4 h-4" aria-hidden="true" />
-                : <Moon className="w-4 h-4" aria-hidden="true" />}
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={theme}
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="flex"
+                >
+                  {theme === 'dark'
+                    ? <Sun className="w-4 h-4" aria-hidden="true" />
+                    : <Moon className="w-4 h-4" aria-hidden="true" />}
+                </motion.span>
+              </AnimatePresence>
             </button>
 
             <button
               type="button"
               onClick={toggleLanguage}
-              className={`${ICON_BTN_CLASS} gap-1 w-auto px-2.5 hover:bg-[var(--accent)] hover:text-[var(--on-accent)] font-mono font-bold text-xs`}
+              className={`${ICON_BTN_CLASS} gap-1 w-auto px-3 text-xs font-semibold`}
               aria-label={`${language === 'en' ? 'ES' : 'EN'} — ${t.nav.toggleLanguage}`}
               title={t.nav.toggleLanguage}
             >
@@ -155,29 +172,31 @@ export default function Navbar() {
               {language === 'en' ? 'ES' : 'EN'}
             </button>
 
-            <a
-              href="#contact"
-              className="neo-btn !py-2 !px-4 !text-xs bg-[var(--accent)] text-[var(--on-accent)] ml-1"
-            >
-              <span>{t.nav.contactBtn}</span>
-              <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" aria-hidden="true" />
+            <a href="#contact" className="neo-btn btn-brass !py-2 !px-4 !text-[13px] ml-1">
+              <span>{toSentence(t.nav.contactBtn)}</span>
+              <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
             </a>
           </div>
 
           <button
             type="button"
             onClick={() => setMobileMenuOpen((open) => !open)}
-            className="xl:hidden w-10 h-10 flex items-center justify-center bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all text-[var(--ink)] cursor-pointer"
+            className={`xl:hidden ${ICON_BTN_CLASS} w-10 h-10`}
             aria-label={mobileMenuOpen ? t.nav.closeMenu : t.nav.openMenu}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-menu"
           >
             {mobileMenuOpen
-              ? <X className="w-5 h-5 stroke-[2.5]" aria-hidden="true" />
-              : <Menu className="w-5 h-5 stroke-[2.5]" aria-hidden="true" />}
+              ? <X className="w-5 h-5" aria-hidden="true" />
+              : <Menu className="w-5 h-5" aria-hidden="true" />}
           </button>
         </div>
-      </div>
+
+        <motion.span
+          aria-hidden="true"
+          className="absolute left-0 right-0 bottom-0 h-[2px] bg-[var(--accent)] origin-left"
+          style={{ scaleX: progress }}
+        />
 
       <AnimatePresence>
         {mobileMenuOpen && (
@@ -187,7 +206,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="xl:hidden border-t-[3px] border-[var(--ink)] bg-[var(--bg-color)] px-4 py-4 space-y-3 overflow-hidden max-h-[calc(100vh-72px)] overflow-y-auto"
+            className="xl:hidden border-t border-[var(--line)] px-3 py-3 space-y-3 overflow-hidden max-h-[calc(100vh-88px)] overflow-y-auto"
           >
             <nav className="flex flex-col gap-2" aria-label="Primary mobile">
               {SECTIONS.map((section) => {
@@ -198,20 +217,20 @@ export default function Navbar() {
                     href={`#${section.id}`}
                     onClick={closeMenu}
                     aria-current={isActive ? 'true' : undefined}
-                    className={`px-4 py-2.5 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider border-2 border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] transition-all flex items-center justify-between ${
+                    className={`px-3.5 py-2.5 text-[15px] font-medium rounded-xl transition-colors flex items-center justify-between ${
                       isActive
-                        ? 'bg-[var(--ink)] text-[var(--bg-color)]'
-                        : 'bg-[var(--card-color)] text-[var(--ink)]'
+                        ? 'bg-[var(--bottle)] text-[var(--on-bottle)]'
+                        : 'text-[var(--ink)] hover:bg-[var(--sunk-color)]'
                     }`}
                   >
                     <span>{t.nav[section.labelKey]}</span>
-                    {isActive && <span aria-hidden="true">●</span>}
+                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" aria-hidden="true" />}
                   </a>
                 );
               })}
             </nav>
 
-            <div className="pt-3 border-t-2 border-dashed border-[var(--ink)] flex items-center justify-between gap-3 flex-wrap">
+            <div className="pt-3 border-t border-[var(--line)] flex items-center justify-between gap-3 flex-wrap">
               <div className="flex items-center gap-2">
                 <a href={personalData.github} target="_blank" rel="noopener noreferrer" className={ICON_BTN_CLASS} aria-label="GitHub">
                   <Github className="w-4 h-4" />
@@ -227,7 +246,7 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={toggleLanguage}
-                  className={`${ICON_BTN_CLASS} w-auto px-2.5 font-mono font-bold text-xs`}
+                  className={`${ICON_BTN_CLASS} w-auto px-3 font-semibold text-xs`}
                   aria-label={`${language === 'en' ? 'ES' : 'EN'} — ${t.nav.toggleLanguage}`}
                 >
                   {language === 'en' ? 'ES' : 'EN'}
@@ -237,15 +256,16 @@ export default function Navbar() {
               <a
                 href="#contact"
                 onClick={closeMenu}
-                className="neo-btn !py-2 !px-4 !text-xs bg-[var(--accent)] text-[var(--on-accent)]"
+                className="neo-btn btn-brass !py-2 !px-4 !text-[13px]"
               >
-                <span>{t.nav.contactBtn}</span>
-                <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.5]" aria-hidden="true" />
+                <span>{toSentence(t.nav.contactBtn)}</span>
+                <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
               </a>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </header>
   );
 }

@@ -1,224 +1,181 @@
-import React, { useEffect, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
-import {
-  Terminal,
-  MapPin,
-  ArrowRight,
-  Download,
-  Rocket,
-  ScrollText,
-  Boxes,
-  Braces,
-  UserCheck
-} from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence, useInView, useReducedMotion, animate } from 'framer-motion';
+import { MapPin, ArrowDown, Download } from 'lucide-react';
 import { Github, Linkedin, Whatsapp } from './Icons';
 import { useAppContext } from '../context/app-context';
 import { CV_PATH, CV_DOWNLOAD_NAME } from '../lib/cv';
+import { toSentence } from '../lib/text';
+import DecisionTree from './DecisionTree';
 
-const STAT_ICONS = {
-  Rocket: Rocket,
-  ScrollText: ScrollText,
-  Boxes: Boxes,
-  Braces: Braces
-};
+const EASE = [0.16, 1, 0.3, 1];
+const LINE_MS = 3600;
 
-const SOCIAL_LINK_CLASS =
-  'p-2.5 bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_var(--ink)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center text-[var(--ink)]';
+const SOCIAL_CLASS =
+  'w-11 h-11 rounded-full border border-[var(--line-strong)] flex items-center justify-center text-[var(--ink)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] hover:border-transparent transition-colors duration-200';
 
-/** Types the tagline out character by character, or shows it whole when the
- *  visitor has asked the system to reduce motion. */
-function useTypedLine(lines, enabled) {
-  const [lineIndex, setLineIndex] = useState(0);
-  const [displayText, setDisplayText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
+/** Cycles the product one-liners with a crossfade. Holds on the first line
+ *  for reduced-motion visitors and whenever the hero is off screen. */
+function useRotatingLine(lines, running) {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    if (!running || lines.length < 2) return undefined;
+    const id = setInterval(() => setIndex((i) => (i + 1) % lines.length), LINE_MS);
+    return () => clearInterval(id);
+  }, [running, lines.length]);
+  return index;
+}
+
+/** Counts a stat up from zero once it is on screen. The final value is in
+ *  the markup from the start, so nothing depends on the animation running. */
+function CountUp({ value }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.6 });
+  const reduceMotion = useReducedMotion();
+  const target = Number.parseInt(value, 10);
+  const numeric = Number.isFinite(target);
 
   useEffect(() => {
-    if (!enabled) return undefined;
+    if (!inView || reduceMotion || !numeric || !ref.current) return undefined;
+    const node = ref.current;
+    const controls = animate(0, target, {
+      duration: 1.1,
+      ease: EASE,
+      onUpdate: (latest) => { node.textContent = String(Math.round(latest)); }
+    });
+    return () => controls.stop();
+  }, [inView, reduceMotion, numeric, target]);
 
-    const currentLine = lines[lineIndex];
-    const timeout = setTimeout(() => {
-      if (!isDeleting) {
-        setDisplayText(currentLine.substring(0, displayText.length + 1));
-        if (displayText.length === currentLine.length) {
-          setTimeout(() => setIsDeleting(true), 2200);
-        }
-      } else {
-        setDisplayText(currentLine.substring(0, displayText.length - 1));
-        if (displayText.length === 0) {
-          setIsDeleting(false);
-          setLineIndex((prev) => (prev + 1) % lines.length);
-        }
-      }
-    }, isDeleting ? 30 : 60);
-
-    return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, lineIndex, lines, enabled]);
-
-  return enabled ? displayText : lines[0];
+  return <span ref={ref}>{value}</span>;
 }
 
 export default function Hero() {
   const { t, data } = useAppContext();
   const personalData = data.personalData;
   const reduceMotion = useReducedMotion();
-  const [photoFailed, setPhotoFailed] = useState(false);
+  const sectionRef = useRef(null);
+  const inView = useInView(sectionRef, { amount: 0.25 });
+  const lineIndex = useRotatingLine(personalData.typingLines, inView && !reduceMotion);
 
-  const displayText = useTypedLine(personalData.typingLines, !reduceMotion);
+  const enter = (delay) => (reduceMotion ? {} : {
+    initial: { opacity: 0, y: 18, filter: 'blur(6px)' },
+    animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    transition: { duration: 0.8, delay, ease: EASE }
+  });
 
   return (
-    <section id="hero" className="relative pt-24 pb-10 bg-[var(--bg-color)] bg-grid-neo overflow-hidden">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section
+      id="hero"
+      ref={sectionRef}
+      className="bottle-region bottle-grain bg-grid-neo relative overflow-hidden pt-28 sm:pt-32 pb-10"
+    >
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 items-center">
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
-
-          {/* LEFT: identity, position, calls to action */}
-          <motion.div
-            initial={reduceMotion ? false : { opacity: 1, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-7 flex flex-col items-start"
-          >
-            <div className="flex flex-wrap items-center gap-3 mb-6">
-              <span className="neo-tag font-bold uppercase tracking-wider">
-                <span className="w-2 h-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
-                {t.hero.available}
+          <div className="lg:col-span-7 flex flex-col items-start">
+            <motion.p {...enter(0.05)} className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[var(--muted-color)] mb-7">
+              <span className="inline-flex items-center gap-2 text-[var(--ink)] font-medium">
+                <span className="relative flex w-2.5 h-2.5" aria-hidden="true">
+                  <span className="absolute inset-0 rounded-full bg-[var(--mint)] opacity-60 motion-safe:animate-ping" />
+                  <span className="relative w-2.5 h-2.5 rounded-full bg-[var(--mint)]" />
+                </span>
+                {toSentence(t.hero.available)}
               </span>
-              <span className="neo-tag shadow-[2px_2px_0px_var(--ink)]">
+              <span className="inline-flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5" aria-hidden="true" />
-                {personalData.location}
+                {personalData.location} · UTC-5
               </span>
-            </div>
+            </motion.p>
 
-            <h1 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.15] mb-4 text-[var(--ink)]">
-              {t.hero.greeting} <br />
-              <span className="bg-[var(--accent)] text-[var(--on-accent)] px-2.5 py-0.5 border-2 border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] inline-block mt-2">
+            <h1 className="font-heading font-extrabold text-[var(--ink)] leading-[0.92] tracking-[-0.04em] mb-6">
+              <motion.span {...enter(0.12)} className="block text-xl sm:text-2xl font-medium tracking-[-0.01em] text-[var(--muted-color)] mb-3">
+                {t.hero.greeting}
+              </motion.span>
+              <motion.span
+                {...enter(0.2)}
+                className="block text-[clamp(3.1rem,8.2vw,6rem)]"
+                style={{ fontVariationSettings: '"opsz" 96, "wdth" 88' }}
+              >
                 {personalData.shortName}
-              </span>
+              </motion.span>
             </h1>
 
-            {/* The positioning line — the single sentence this page is built around */}
-            <p className="font-heading font-extrabold text-xl sm:text-2xl text-[var(--ink)] leading-snug mb-6 max-w-xl text-balance">
+            <motion.p {...enter(0.32)} className="font-heading text-xl sm:text-2xl font-medium text-[var(--ink)] leading-snug max-w-xl text-balance mb-5">
               {personalData.headline}
-            </p>
+            </motion.p>
 
-            <div className="bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[3px_3px_0px_var(--ink)] px-4 py-3 flex items-center gap-2.5 w-full max-w-lg mb-6">
-              <span className="bg-[var(--ink)] p-1 text-[var(--accent)] shrink-0">
-                <Terminal className="w-4 h-4" aria-hidden="true" />
-              </span>
-              <span className="font-mono text-xs sm:text-sm text-[var(--ink)] font-bold tracking-wide truncate">
-                {displayText}
-              </span>
-              {!reduceMotion && (
-                <span className="w-2 h-4 bg-[var(--ink)] inline-block shrink-0 animate-pulse" aria-hidden="true" />
-              )}
-            </div>
+            {/* One-liners from the systems themselves, in rotation. */}
+            <motion.div {...enter(0.4)} className="relative h-7 w-full max-w-xl mb-7 overflow-hidden" aria-live="off">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.p
+                  key={lineIndex}
+                  initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -14 }}
+                  transition={{ duration: 0.45, ease: EASE }}
+                  className="absolute inset-0 flex items-center gap-2.5 text-sm sm:text-base text-[var(--accent)] truncate"
+                >
+                  <span className="w-5 h-px bg-[var(--accent)] shrink-0" aria-hidden="true" />
+                  {personalData.typingLines[lineIndex]}
+                </motion.p>
+              </AnimatePresence>
+            </motion.div>
 
-            <p className="text-[var(--muted-color)] text-sm sm:text-base leading-relaxed mb-8 max-w-xl">
+            <motion.p {...enter(0.48)} className="text-[var(--muted-color)] text-[15px] leading-relaxed max-w-[60ch] mb-9">
               {personalData.bio}
-            </p>
+            </motion.p>
 
-            <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto">
-              <a href="#decisions" className="neo-btn bg-[var(--accent)] text-[var(--on-accent)]">
-                <span>{t.hero.exploreBtn}</span>
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            <motion.div {...enter(0.56)} className="flex flex-wrap items-center gap-3">
+              <a href="#decisions" className="neo-btn btn-brass group">
+                <span>{toSentence(t.hero.exploreBtn)}</span>
+                <ArrowDown className="w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5" aria-hidden="true" />
               </a>
-
-              <a
-                href={CV_PATH}
-                download={CV_DOWNLOAD_NAME}
-                className="neo-btn bg-[var(--card-color)] text-[var(--ink)]"
-              >
+              <a href={CV_PATH} download={CV_DOWNLOAD_NAME} className="neo-btn btn-ghost">
                 <Download className="w-4 h-4" aria-hidden="true" />
                 <span>{t.hero.downloadCv}</span>
               </a>
-
-              <div className="flex items-center gap-3 ml-auto sm:ml-2 pt-2 sm:pt-0">
-                <a href={personalData.github} target="_blank" rel="noopener noreferrer" className={SOCIAL_LINK_CLASS} aria-label="GitHub">
-                  <Github className="w-5 h-5" />
+              <span className="flex items-center gap-2 sm:ml-2">
+                <a href={personalData.github} target="_blank" rel="noopener noreferrer" className={SOCIAL_CLASS} aria-label="GitHub">
+                  <Github className="w-[18px] h-[18px]" />
                 </a>
-                <a href={personalData.linkedin} target="_blank" rel="noopener noreferrer" className={SOCIAL_LINK_CLASS} aria-label="LinkedIn">
-                  <Linkedin className="w-5 h-5" />
+                <a href={personalData.linkedin} target="_blank" rel="noopener noreferrer" className={SOCIAL_CLASS} aria-label="LinkedIn">
+                  <Linkedin className="w-[18px] h-[18px]" />
                 </a>
-                <a href={personalData.whatsapp} target="_blank" rel="noopener noreferrer" className={SOCIAL_LINK_CLASS} aria-label="WhatsApp">
-                  <Whatsapp className="w-5 h-5" />
+                <a href={personalData.whatsapp} target="_blank" rel="noopener noreferrer" className={SOCIAL_CLASS} aria-label="WhatsApp">
+                  <Whatsapp className="w-[18px] h-[18px]" />
                 </a>
-              </div>
-            </div>
-          </motion.div>
+              </span>
+            </motion.div>
+          </div>
 
-          {/* RIGHT: portrait */}
-          <motion.div
-            initial={reduceMotion ? false : { opacity: 1, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="lg:col-span-5 flex justify-center relative"
-          >
-            <div className="relative w-full max-w-[340px] sm:max-w-[380px]">
-
-              <div className="w-full bg-[var(--card-color)] border-2 border-[var(--ink)] shadow-[5px_5px_0px_var(--ink)] p-4 flex flex-col items-center">
-                <div className="relative w-full h-[280px] sm:h-[320px] bg-[var(--bg-color)] border-2 border-[var(--ink)] overflow-hidden">
-                  {photoFailed ? (
-                    <span className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-[var(--muted-color)]">
-                      <UserCheck className="w-12 h-12" aria-hidden="true" />
-                      <span className="font-mono text-xs uppercase tracking-wider">{t.hero.photoPlaceholder}</span>
-                    </span>
-                  ) : (
-                    <img
-                      src="/profile-800.webp"
-                      srcSet="/profile-400.webp 400w, /profile-800.webp 800w"
-                      sizes="(max-width: 639px) 340px, 380px"
-                      alt={`${personalData.name}, ${personalData.role}`}
-                      width={800}
-                      height={800}
-                      loading="eager"
-                      fetchPriority="high"
-                      decoding="async"
-                      onError={() => setPhotoFailed(true)}
-                      className="absolute inset-0 w-full h-full object-cover object-center"
-                    />
-                  )}
-                </div>
-
-                <div className="w-full mt-3.5 pt-3 border-t-2 border-dashed border-[var(--ink)] flex items-center justify-between gap-2">
-                  <span className="flex items-center gap-2 min-w-0">
-                    <span className="w-2 h-2 rounded-full bg-[var(--accent)] shrink-0" aria-hidden="true" />
-                    <span className="font-heading font-extrabold text-xs sm:text-sm text-[var(--ink)] tracking-tight truncate">
-                      {personalData.shortName}
-                    </span>
-                  </span>
-                  <span className="neo-tag text-[10px] uppercase font-bold shrink-0">
-                    {t.hero.engineerBadge}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+          <div className="lg:col-span-5">
+            <DecisionTree
+              records={data.decisionLog}
+              portrait="/profile-400.webp"
+              portraitAlt={`${personalData.name}, ${personalData.role}`}
+              hint={t.hero.treeHint}
+            />
+          </div>
         </div>
 
-        {/* Stat bar */}
+        {/* The ledger: four facts, set as figures on one ruled line. */}
         <motion.dl
-          initial={reduceMotion ? false : { opacity: 1, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-10 neo-card-flat p-6 grid grid-cols-2 md:grid-cols-4 gap-6"
+          {...enter(0.7)}
+          className="mt-12 lg:mt-16 grid grid-cols-2 md:grid-cols-4 border-t border-[var(--line)]"
         >
-          {personalData.stats.map((stat) => {
-            const Icon = STAT_ICONS[stat.icon];
-
-            return (
-              <div key={stat.label} className="flex flex-col items-center text-center p-2">
-                <dd className="font-heading font-black text-3xl sm:text-4xl text-[var(--ink)] mb-1.5">
-                  {stat.value}
-                </dd>
-                <dt className="font-mono text-xs text-[var(--ink)] font-bold tracking-tight inline-flex items-center gap-1.5">
-                  {Icon && <Icon className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />}
-                  {stat.label}
-                </dt>
-              </div>
-            );
-          })}
+          {personalData.stats.map((stat, i) => (
+            <div
+              key={stat.label}
+              className={`flex flex-col-reverse gap-1 py-5 pr-4 ${i % 2 === 1 ? 'pl-4 md:pl-6' : 'md:pl-6'} ${i === 0 ? 'md:pl-0' : ''} ${
+                i > 0 ? 'md:border-l border-[var(--line)]' : ''
+              } ${i % 2 === 1 ? 'border-l border-[var(--line)] md:border-l' : ''}`}
+            >
+              <dt className="text-sm text-[var(--muted-color)] leading-snug">{stat.label}</dt>
+              <dd className="font-heading font-bold text-4xl sm:text-5xl text-[var(--ink)] tracking-[-0.04em] tabular-nums">
+                <CountUp value={stat.value} />
+              </dd>
+            </div>
+          ))}
         </motion.dl>
-
       </div>
     </section>
   );

@@ -40,11 +40,8 @@ export default function App() {
           <main id="main" className="relative z-10">
             <Hero />
             <Projects onOpenCaseStudy={openCaseStudy} />
-            <hr className="neo-divider max-w-6xl mx-auto" />
             <DecisionLog onOpenCaseStudy={openCaseStudy} />
-            <hr className="neo-divider max-w-6xl mx-auto" />
             <TechStack />
-            <hr className="neo-divider max-w-6xl mx-auto" />
             <Orchestration />
           </main>
 

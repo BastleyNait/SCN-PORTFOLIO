@@ -1,159 +1,124 @@
-import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
-import { Workflow, Bot, UserCog, Quote } from 'lucide-react';
+import React, { useRef } from 'react';
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { Bot, UserCog } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
+import { toSentence } from '../lib/text';
+import SectionHeader from './SectionHeader';
 
+/*
+ * The operating model. The loop is a real sequence, so it is numbered and
+ * drawn as a line the reader's scroll fills in brass: by the time the last
+ * phase is on screen, the line has reached it. The split closes the section
+ * as two facing panels, and the owned half is the bottle one.
+ */
 export default function Orchestration() {
   const { t, data } = useAppContext();
   const { thesis, loop, split } = data.orchestrationData;
   const reduceMotion = useReducedMotion();
+  const loopRef = useRef(null);
 
-  const rise = (delay = 0) => ({
-    initial: reduceMotion ? false : { opacity: 1, y: 18 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: '-60px' },
-    transition: { duration: 0.4, delay: reduceMotion ? 0 : delay }
-  });
+  const { scrollYProgress } = useScroll({ target: loopRef, offset: ['start 85%', 'end 55%'] });
+  const fill = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 });
+  const fillX = useTransform(fill, (v) => (reduceMotion ? 1 : v));
 
   return (
-    <section
-      id="orchestration"
-      className="py-14 relative bg-[var(--bg-color)] border-b-[3px] border-[var(--ink)]"
-      aria-labelledby="orchestration-title"
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="orchestration" className="py-20 lg:py-28 relative bg-[var(--bg-color)]" aria-labelledby="orchestration-title">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader id="orchestration-title" title={t.orchestration.title} description={thesis} />
 
-        {/* Section header */}
-        <div className="flex flex-col items-center text-center mb-10">
-          <div className="neo-section-label mb-4">
-            <Workflow className="w-4 h-4" aria-hidden="true" />
-            <span>{t.orchestration.label}</span>
+        <h3 className="sr-only">{t.orchestration.loopLabel}</h3>
+        <div ref={loopRef} className="relative">
+          {/* Track and its brass fill. Horizontal on a desktop, vertical on a phone. */}
+          <div className="hidden lg:block absolute left-0 right-0 top-[22px] h-px bg-[var(--line-strong)]" aria-hidden="true">
+            <motion.span className="absolute inset-0 bg-[var(--accent)] origin-left h-[2px] -top-px" style={{ scaleX: fillX }} />
+          </div>
+          <div className="lg:hidden absolute left-[21px] top-2 bottom-2 w-px bg-[var(--line-strong)]" aria-hidden="true">
+            <motion.span className="absolute inset-0 bg-[var(--accent)] origin-top w-[2px] -left-px" style={{ scaleY: fillX }} />
           </div>
 
-          <h2
-            id="orchestration-title"
-            className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-[var(--ink)] tracking-tight mb-6 max-w-3xl text-balance"
-          >
-            {t.orchestration.title}
-          </h2>
-
-          {/* The thesis, set as a pull quote so it reads as a position, not filler */}
-          <blockquote className="relative neo-card-flat max-w-3xl p-6 sm:p-8 text-left">
-            <Quote
-              className="w-8 h-8 absolute -top-4 -left-4 bg-[var(--ink)] text-[var(--bg-color)] p-1.5"
-              aria-hidden="true"
-            />
-            <p className="text-[var(--ink)] text-sm sm:text-base leading-relaxed font-medium">
-              {thesis}
-            </p>
-          </blockquote>
-        </div>
-
-        {/* The loop: five phases, each labelled with who owns it */}
-        <div className="mb-6 flex items-center gap-3">
-          <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--muted-color)]">
-            {t.orchestration.loopLabel}
-          </span>
-          <span className="h-[2px] flex-1 bg-[var(--ink)] opacity-30" aria-hidden="true" />
-        </div>
-
-        <ol className="border border-[var(--ink)] mb-10 list-none p-0">
-          {loop.map((phase, index) => {
-            const isShared = phase.owner === 'shared';
-
-            return (
-              <motion.li
-                key={phase.step}
-                {...rise(index * 0.04)}
-                className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 px-4 py-3 border-b border-[var(--ink)] last:border-b-0"
-              >
-                <span className="font-mono font-black text-sm text-[var(--muted-color)] shrink-0 w-6">
-                  {phase.step}
-                </span>
-
-                <span className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--muted-color)] shrink-0 w-28">
-                  {phase.phase}
-                </span>
-
-                <span className="font-heading font-bold text-sm text-[var(--ink)] flex-1 leading-snug">
-                  {phase.title}
-                </span>
-
-                <span
-                  className="neo-tag text-[10px] font-bold uppercase tracking-wider shrink-0 self-start"
-                  style={{ backgroundColor: isShared ? 'var(--card-color)' : 'var(--ink)', color: isShared ? 'var(--ink)' : 'var(--bg-color)' }}
+          <ol className="relative grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-6 list-none p-0 m-0">
+            {loop.map((phase, index) => {
+              const shared = phase.owner === 'shared';
+              return (
+                <motion.li
+                  key={phase.step}
+                  initial={reduceMotion ? false : { y: 24 }}
+                  whileInView={{ y: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.8, delay: reduceMotion ? 0 : index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                  className="relative pl-16 lg:pl-0"
                 >
-                  {isShared ? <Bot className="w-3 h-3" aria-hidden="true" /> : <UserCog className="w-3 h-3" aria-hidden="true" />}
-                  {isShared ? t.orchestration.ownerShared : t.orchestration.ownerHuman}
-                </span>
-              </motion.li>
-            );
-          })}
-        </ol>
-
-        {/* The split: what goes to the agents versus what never leaves my hands */}
-        <div className="mb-6 flex items-center gap-3">
-          <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--muted-color)]">
-            {t.orchestration.splitLabel}
-          </span>
-          <span className="h-[2px] flex-1 bg-[var(--ink)] opacity-30" aria-hidden="true" />
+                  <span
+                    className={`absolute left-0 top-0 lg:static w-11 h-11 rounded-full flex items-center justify-center font-mono text-[13px] mb-5 ring-4 ring-[var(--bg-color)] ${
+                      shared
+                        ? 'bg-[var(--card-color)] text-[var(--ink)] border border-[var(--line-strong)]'
+                        : 'bg-[var(--bottle)] text-[var(--on-bottle)]'
+                    }`}
+                  >
+                    {phase.step}
+                  </span>
+                  <p className="text-[13px] text-[var(--accent-strong)] font-medium mb-1">{phase.phase}</p>
+                  <h4 className="font-heading font-semibold text-[19px] leading-snug tracking-[-0.015em] text-[var(--ink)] mb-2.5">
+                    {phase.title}
+                  </h4>
+                  <p className="text-sm text-[var(--muted-color)] leading-relaxed mb-3">{phase.description}</p>
+                  <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[var(--ink)]">
+                    {shared ? <Bot className="w-3.5 h-3.5" aria-hidden="true" /> : <UserCog className="w-3.5 h-3.5" aria-hidden="true" />}
+                    {toSentence(shared ? t.orchestration.ownerShared : t.orchestration.ownerHuman)}
+                  </span>
+                </motion.li>
+              );
+            })}
+          </ol>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <SplitCard
-            {...rise(0)}
+        <h3 className="sr-only">{t.orchestration.splitLabel}</h3>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-20">
+          <SplitPanel
             icon={<Bot className="w-5 h-5" aria-hidden="true" />}
-            tag={split.delegatedTag}
             title={split.delegatedTitle}
+            note={toSentence(split.delegatedTag)}
             items={split.delegated}
-            color="var(--ink)"
-            marker="→"
+            className="neo-card-flat !rounded-[var(--radius-xl)]"
           />
-          <SplitCard
-            {...rise(0.1)}
+          <SplitPanel
             icon={<UserCog className="w-5 h-5" aria-hidden="true" />}
-            tag={split.ownedTag}
             title={split.ownedTitle}
+            note={toSentence(split.ownedTag)}
             items={split.owned}
-            color="var(--ink)"
-            marker="◆"
+            className="bottle-region bottle-grain rounded-[var(--radius-xl)] overflow-hidden"
+            owned
           />
         </div>
-
-
       </div>
     </section>
   );
 }
 
-function SplitCard({ icon, tag, title, items, color, marker, ...motionProps }) {
+function SplitPanel({ icon, title, note, items, className, owned = false }) {
+  const reduceMotion = useReducedMotion();
   return (
-    <motion.div {...motionProps} className="neo-card-flat p-6 sm:p-8">
-      <div className="flex items-center gap-3 mb-5">
-        <span className="w-11 h-11 border border-[var(--ink)] bg-[var(--ink)] text-[var(--bg-color)] flex items-center justify-center shrink-0">
+    <motion.div
+      initial={reduceMotion ? false : { y: 28 }}
+      whileInView={{ y: 0 }}
+      viewport={{ once: true, amount: 0.4 }}
+      transition={{ duration: 0.8, delay: owned && !reduceMotion ? 0.1 : 0, ease: [0.16, 1, 0.3, 1] }}
+      className={`p-7 sm:p-9 ${className}`}
+    >
+      <div className="flex items-center gap-3.5 mb-6">
+        <span className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${owned ? 'bg-[var(--accent)] text-[var(--on-accent)]' : 'bg-[var(--sunk-color)] text-[var(--ink)]'}`}>
           {icon}
         </span>
         <div>
-          <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--muted-color)]">
-            {tag}
-          </p>
-          <h3 className="font-heading font-extrabold text-lg text-[var(--ink)] leading-tight">
-            {title}
-          </h3>
+          <h4 className="font-heading font-bold text-2xl tracking-[-0.025em] text-[var(--ink)] leading-tight">{title}</h4>
+          <p className="text-[13px] text-[var(--muted-color)]">{note}</p>
         </div>
       </div>
-
-      <ul className="space-y-2.5">
+      <ul className="list-none p-0 m-0 divide-y divide-[var(--line)]">
         {items.map((item) => (
-          <li key={item} className="flex items-start gap-2.5 text-sm text-[var(--ink)] leading-relaxed">
-            <span
-              className="font-mono font-black text-xs mt-1 shrink-0"
-              style={{ color }}
-              aria-hidden="true"
-            >
-              {marker}
-            </span>
-            <span>{item}</span>
+          <li key={item} className="py-3 text-[15px] text-[var(--ink)] leading-relaxed flex items-start gap-3">
+            <span className={`mt-[0.55em] w-1.5 h-1.5 rounded-full shrink-0 ${owned ? 'bg-[var(--accent)]' : 'bg-[var(--line-strong)]'}`} aria-hidden="true" />
+            {item}
           </li>
         ))}
       </ul>

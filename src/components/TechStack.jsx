@@ -1,132 +1,103 @@
 import React, { useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
-import {
-  Code2,
-  Layout,
-  Server,
-  Smartphone,
-  Cloud,
-  Database,
-  Brain,
-  CheckCircle2,
-  Terminal,
-  Cpu
-} from 'lucide-react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { Code2, Layout, Server, Smartphone, Cloud, Database, Brain } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
 import EngineeringSkills from './EngineeringSkills';
+import SectionHeader from './SectionHeader';
 
-const ICONS = {
-  Code2,
-  Layout,
-  Server,
-  Smartphone,
-  Cloud,
-  Database,
-  Brain
-};
+const ICONS = { Code2, Layout, Server, Smartphone, Cloud, Database, Brain };
+const EASE = [0.16, 1, 0.3, 1];
 
 export default function TechStack() {
   const { t, data } = useAppContext();
   const techStackData = data.techStackData;
   const reduceMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
-
   const activeCategory = techStackData[activeIndex] ?? techStackData[0];
 
   return (
-    <section id="engineering" className="py-14 relative bg-[var(--bg-color)]" aria-labelledby="engineering-title">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="engineering" className="py-20 lg:py-28 relative bg-[var(--bg-color)]" aria-labelledby="engineering-title">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* The fundamentals lead the section and give it its heading. A tool
-            list answers "what did you use"; this answers "what do you know",
-            which is the question a reader who has seen a hundred stack lists
-            is actually asking. */}
-        <div className="flex flex-col items-center text-center mb-10">
-          <div className="neo-section-label mb-4">
-            <Cpu className="w-4 h-4" aria-hidden="true" />
-            <span>{t.engineering.label}</span>
-          </div>
-
-          <h2
-            id="engineering-title"
-            className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-[var(--ink)] tracking-tight mb-4 text-balance"
-          >
-            {t.engineering.title}
-          </h2>
-
-          <p className="text-[var(--muted-color)] text-sm sm:text-base max-w-2xl leading-relaxed">
-            {t.engineering.description}
-          </p>
-        </div>
+        {/* The fundamentals lead the section and give it its heading: a tool
+            list answers "what did you use", this answers "what do you know". */}
+        <SectionHeader id="engineering-title" title={t.engineering.title} description={t.engineering.description} />
 
         <EngineeringSkills />
 
-        <div id="stack" className="mt-14 scroll-mt-24">
-          <div className="mb-6 flex items-center gap-3">
-            <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--muted-color)]">
-              <Terminal className="w-3.5 h-3.5 inline mr-1.5 -mt-0.5" aria-hidden="true" />
-              {t.techStack.label}
-            </span>
-            <span className="h-px flex-1 bg-[var(--ink)] opacity-30" aria-hidden="true" />
+        <div id="stack" className="mt-20 lg:mt-24 scroll-mt-24 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+          <div className="lg:col-span-4">
+            <h3 className="font-heading font-bold text-3xl text-[var(--ink)] tracking-[-0.03em] mb-3">
+              {t.techStack.title}
+            </h3>
+            <p className="text-[15px] text-[var(--muted-color)] leading-relaxed">
+              {t.techStack.description}
+            </p>
           </div>
 
-          <p className="text-[var(--muted-color)] text-sm leading-relaxed max-w-2xl mb-7">
-            {t.techStack.description}
-          </p>
+          <div className="lg:col-span-8">
+            <div className="flex flex-wrap gap-1 p-1 rounded-2xl bg-[var(--sunk-color)] border border-[var(--line)] mb-6" role="tablist" aria-label={t.techStack.title}>
+              {techStackData.map((category, index) => {
+                const isActive = index === activeIndex;
+                const Icon = ICONS[category.icon];
+                return (
+                  <button
+                    key={category.category}
+                    type="button"
+                    role="tab"
+                    id={`stack-tab-${index}`}
+                    aria-selected={isActive}
+                    aria-controls="stack-panel"
+                    onClick={() => setActiveIndex(index)}
+                    className="relative px-3.5 py-2 rounded-xl text-sm font-medium cursor-pointer"
+                  >
+                    {isActive && (
+                      <motion.span
+                        layoutId="stack-tab"
+                        className="absolute inset-0 rounded-xl bg-[var(--bottle)] shadow-[var(--shadow-sm)]"
+                        transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                      />
+                    )}
+                    <span className={`relative z-10 inline-flex items-center gap-2 transition-colors ${isActive ? 'text-[var(--on-bottle)]' : 'text-[var(--muted-color)] hover:text-[var(--ink)]'}`}>
+                      {Icon && <Icon className="w-4 h-4" aria-hidden="true" />}
+                      {category.category}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
 
-        {/* Category tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 mb-10 max-w-4xl mx-auto" role="tablist" aria-label={t.techStack.title}>
-          {techStackData.map((category, index) => {
-            const isActive = index === activeIndex;
-            const Icon = ICONS[category.icon];
-
-            return (
-              <button
-                key={category.category}
-                type="button"
-                role="tab"
-                id={`stack-tab-${index}`}
-                aria-selected={isActive}
-                aria-controls="stack-panel"
-                onClick={() => setActiveIndex(index)}
-                className={`neo-tag cursor-pointer text-xs sm:text-sm font-bold px-4 py-2 transition-all duration-150 ${
-                  isActive
-                    ? 'on-accent shadow-[3px_3px_0px_var(--ink)] -translate-x-0.5 -translate-y-0.5'
-                    : 'shadow-[2px_2px_0px_var(--ink)] hover:-translate-x-px hover:-translate-y-px hover:shadow-[3px_3px_0px_var(--ink)]'
-                }`}
-                style={isActive ? { backgroundColor: 'var(--accent)' } : undefined}
-              >
-                {Icon && <Icon className="w-4 h-4" aria-hidden="true" />}
-                <span>{category.category}</span>
-              </button>
-            );
-          })}
+            <div id="stack-panel" role="tabpanel" aria-labelledby={`stack-tab-${activeIndex}`} className="min-h-[132px]">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.ul
+                  key={activeCategory.category}
+                  className="flex flex-wrap gap-2.5 list-none p-0 m-0"
+                  initial="hidden"
+                  animate="shown"
+                  exit="gone"
+                  variants={{
+                    hidden: {},
+                    shown: { transition: { staggerChildren: reduceMotion ? 0 : 0.04 } },
+                    gone: { opacity: 0, transition: { duration: 0.15 } }
+                  }}
+                >
+                  {activeCategory.items.map((item) => (
+                    <motion.li
+                      key={item.name}
+                      variants={{
+                        hidden: reduceMotion ? { opacity: 1 } : { opacity: 0, y: 10, scale: 0.96 },
+                        shown: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.45, ease: EASE } }
+                      }}
+                      className="px-4 py-2.5 rounded-xl bg-[var(--card-color)] border border-[var(--line)] font-heading font-medium text-[17px] text-[var(--ink)] tracking-[-0.01em] shadow-[var(--shadow-sm)] hover:border-[var(--accent)] transition-colors"
+                    >
+                      {item.name}
+                    </motion.li>
+                  ))}
+                </motion.ul>
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
-
-        {/* Active category items */}
-        <motion.div
-          key={activeCategory.category}
-          id="stack-panel"
-          role="tabpanel"
-          aria-labelledby={`stack-tab-${activeIndex}`}
-          initial={reduceMotion ? false : { opacity: 1, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          className="max-w-5xl mx-auto"
-        >
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 list-none p-0">
-          {activeCategory.items.map((item) => (
-            <li key={item.name} className="neo-card-sm p-4 flex items-center gap-3">
-              <CheckCircle2 className="w-4 h-4 shrink-0 text-[var(--ink)]" aria-hidden="true" />
-              <span className="font-heading font-bold text-sm text-[var(--ink)] truncate min-w-0">
-                {item.name}
-              </span>
-            </li>
-          ))}
-        </ul>
-        </motion.div>
-        </div>
-
       </div>
     </section>
   );

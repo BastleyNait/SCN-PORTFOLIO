@@ -283,12 +283,13 @@ export default function ProjectGallery({ project, priority = false }) {
             </AnimatePresence>
 
             {slide.caption && (
-              <span className="absolute bottom-3 left-3 z-10 neo-tag bg-[var(--card-color)] text-[10px] uppercase tracking-wider pointer-events-none">
+              <span className="absolute bottom-3 left-3 z-10 neo-tag shadow-[var(--shadow-sm)] pointer-events-none">
                 {slide.caption}
               </span>
             )}
 
-            <span className="absolute bottom-3 right-3 z-10 neo-tag bg-[var(--ink)] text-[var(--bg-color)] text-[10px] font-bold uppercase tracking-wider pointer-events-none">
+            <span className="absolute bottom-3 right-3 z-10 neo-tag !bg-[var(--bottle)] !text-[var(--on-bottle)] !border-transparent shadow-[var(--shadow-sm)] pointer-events-none">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--mint)]" aria-hidden="true" />
               {project.status}
             </span>
 
@@ -308,7 +309,7 @@ export default function ProjectGallery({ project, priority = false }) {
           </p>
 
           {multiple && (
-            <ul className="flex gap-2 p-2 overflow-x-auto border-t-[3px] border-[var(--ink)] bg-[var(--bg-color)] list-none m-0">
+            <ul className="flex gap-2 p-2.5 overflow-x-auto border-t border-[var(--line)] bg-[var(--sunk-color)] list-none m-0">
               {slides.map((s, i) => {
                 const active = i === index;
                 return (
@@ -318,10 +319,10 @@ export default function ProjectGallery({ project, priority = false }) {
                       onClick={() => jump(i)}
                       aria-label={altFor(s, i)}
                       aria-current={active ? 'true' : undefined}
-                      className={`block w-20 sm:w-24 aspect-video overflow-hidden border-2 bg-stripes cursor-pointer transition-[opacity,box-shadow,transform] duration-150 ${
+                      className={`block w-20 sm:w-24 aspect-video overflow-hidden rounded-lg bg-stripes cursor-pointer transition-[opacity,transform,box-shadow] duration-300 ${
                         active
-                          ? 'border-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] -translate-x-px -translate-y-px opacity-100 outline outline-2 outline-offset-1 outline-[var(--accent)]'
-                          : 'border-[var(--ink)]/40 opacity-60 hover:opacity-100'
+                          ? 'opacity-100 ring-2 ring-[var(--accent)] ring-offset-2 ring-offset-[var(--sunk-color)] -translate-y-0.5'
+                          : 'opacity-55 hover:opacity-100 ring-1 ring-[var(--line)]'
                       }`}
                     >
                       <img
@@ -362,20 +363,20 @@ export default function ProjectGallery({ project, priority = false }) {
 const Frame = React.forwardRef(function Frame({ project, counter, onExpand, expandLabel, playback, children }, ref) {
   return (
     <div ref={ref} className="neo-frame overflow-hidden">
-      <div className="h-9 bg-[var(--bg-color)] border-b-[3px] border-[var(--ink)] px-3 flex items-center gap-3">
+      <div className="h-10 bg-[var(--sunk-color)] border-b border-[var(--line)] px-3.5 flex items-center gap-3">
         <span className="flex gap-1.5 shrink-0" aria-hidden="true">
-          <span className="w-2.5 h-2.5 rounded-full border-2 border-[var(--ink)] bg-[var(--accent)]" />
-          <span className="w-2.5 h-2.5 rounded-full border-2 border-[var(--ink)]" />
-          <span className="w-2.5 h-2.5 rounded-full border-2 border-[var(--ink)]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent)]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[var(--line-strong)]" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[var(--line-strong)]" />
         </span>
 
-        <span className="font-mono text-[10px] text-[var(--ink)] font-semibold truncate bg-[var(--card-color)] px-2 py-0.5 border border-[var(--ink)] min-w-0">
+        <span className="font-mono text-[11px] text-[var(--muted-color)] truncate bg-[var(--card-color)] px-2.5 py-1 rounded-md border border-[var(--line)] min-w-0">
           {chromeLabel(project)}
         </span>
 
         <span className="ml-auto flex items-center gap-2 shrink-0">
           {counter && (
-            <span className="font-mono text-[10px] font-bold tabular-nums text-[var(--muted-color)]" aria-hidden="true">
+            <span className="font-mono text-[11px] tabular-nums text-[var(--muted-color)]" aria-hidden="true">
               {counter}
             </span>
           )}
@@ -386,7 +387,7 @@ const Frame = React.forwardRef(function Frame({ project, counter, onExpand, expa
               aria-label={playback.label}
               aria-pressed={!playback.playing}
               title={playback.label}
-              className="w-6 h-6 inline-flex items-center justify-center border-2 border-[var(--ink)] bg-[var(--card-color)] text-[var(--ink)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] cursor-pointer transition-colors"
+              className="w-7 h-7 inline-flex items-center justify-center rounded-lg text-[var(--muted-color)] hover:bg-[var(--card-color)] hover:text-[var(--ink)] cursor-pointer transition-colors"
             >
               {playback.playing
                 ? <Pause className="w-3 h-3" aria-hidden="true" />
@@ -399,7 +400,7 @@ const Frame = React.forwardRef(function Frame({ project, counter, onExpand, expa
               onClick={onExpand}
               aria-label={expandLabel}
               title={expandLabel}
-              className="w-6 h-6 inline-flex items-center justify-center border-2 border-[var(--ink)] bg-[var(--card-color)] text-[var(--ink)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] cursor-pointer transition-colors"
+              className="w-7 h-7 inline-flex items-center justify-center rounded-lg text-[var(--muted-color)] hover:bg-[var(--card-color)] hover:text-[var(--ink)] cursor-pointer transition-colors"
             >
               <Maximize2 className="w-3 h-3" aria-hidden="true" />
             </button>
@@ -419,7 +420,7 @@ function StageArrow({ side, label, onClick, inline = false }) {
       type="button"
       onClick={onClick}
       aria-label={label}
-      className={`${place} w-10 h-10 inline-flex items-center justify-center border-2 border-[var(--ink)] bg-[var(--card-color)] text-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] cursor-pointer transition-[transform,box-shadow,background-color] duration-100 hover:bg-[var(--accent)] hover:text-[var(--on-accent)] hover:shadow-[3px_3px_0px_var(--ink)] active:shadow-none active:translate-x-0.5`}
+      className={`${place} w-10 h-10 inline-flex items-center justify-center rounded-full bg-[color-mix(in_oklab,var(--card-color)_88%,transparent)] backdrop-blur text-[var(--ink)] border border-[var(--line)] shadow-[var(--shadow-md)] cursor-pointer opacity-90 transition-[transform,background-color,opacity] duration-200 hover:opacity-100 hover:scale-105 hover:bg-[var(--accent)] hover:text-[var(--on-accent)] active:scale-95`}
     >
       <Icon className="w-5 h-5" aria-hidden="true" />
     </button>
@@ -456,8 +457,8 @@ function Lightbox({ open, onClose, project, slide, alt, counter, onPrev, onNext 
     >
       {open && (
         <div className="neo-frame overflow-hidden">
-          <div className="h-11 bg-[var(--bg-color)] border-b-[3px] border-[var(--ink)] px-3 flex items-center gap-3">
-            <span className="font-heading font-black text-sm text-[var(--ink)] truncate">{project.title}</span>
+          <div className="h-12 bg-[var(--sunk-color)] border-b border-[var(--line)] px-4 flex items-center gap-3">
+            <span className="font-heading font-semibold text-[15px] text-[var(--ink)] truncate">{project.title}</span>
             {slide.caption && (
               <span className="hidden sm:inline font-mono text-[10px] uppercase tracking-wider text-[var(--muted-color)] truncate">
                 {slide.caption}
@@ -472,7 +473,7 @@ function Lightbox({ open, onClose, project, slide, alt, counter, onPrev, onNext 
                 onClick={onClose}
                 aria-label={t.projects.closeGallery}
                 autoFocus
-                className="w-8 h-8 inline-flex items-center justify-center border-2 border-[var(--ink)] bg-[var(--card-color)] text-[var(--ink)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] cursor-pointer"
+                className="w-8 h-8 inline-flex items-center justify-center rounded-full border border-[var(--line)] text-[var(--ink)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] hover:border-transparent cursor-pointer transition-colors"
               >
                 <X className="w-4 h-4" aria-hidden="true" />
               </button>

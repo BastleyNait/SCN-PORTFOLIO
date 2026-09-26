@@ -26,7 +26,9 @@ export const translations = {
       downloadCv: "Download CV",
       photoPlaceholder: "PHOTO",
       placeImage: "Place your image in",
-      engineerBadge: "REACT · PYTHON"
+      engineerBadge: "REACT · PYTHON",
+      treeHint: "Every branch is a decision on record. Dashed twigs are the options I turned down. Pick a node to read it.",
+      scrollHint: "Scroll"
     },
     orchestration: {
       label: "OPERATING MODEL",
@@ -147,7 +149,9 @@ export const translations = {
       downloadCv: "Descargar CV",
       photoPlaceholder: "FOTO",
       placeImage: "Coloca tu imagen en",
-      engineerBadge: "REACT · PYTHON"
+      engineerBadge: "REACT · PYTHON",
+      treeHint: "Cada rama es una decisión documentada. Las ramitas punteadas son las opciones que descarté. Elige un nodo para leerla.",
+      scrollHint: "Baja"
     },
     orchestration: {
       label: "MODELO DE TRABAJO",

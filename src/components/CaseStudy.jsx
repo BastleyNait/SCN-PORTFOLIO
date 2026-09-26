@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ArrowLeft, FileText, Building2 } from 'lucide-react';
+import { ArrowLeft, Building2 } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
 import { caseStudies as caseStudiesEn } from '../data/caseStudies';
 import { caseStudies as caseStudiesEs } from '../data/caseStudiesEs';
@@ -39,28 +39,24 @@ export default function CaseStudy({ slug, onBack }) {
 
   return (
     <main id="main" className="bg-[var(--bg-color)] min-h-screen pb-20">
-      <div className="bg-grid-neo border-b-[3px] border-[var(--ink)] pt-10 pb-12">
+      <div className="bottle-region bottle-grain bg-grid-neo pt-10 pb-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <button
             type="button"
             onClick={onBack}
-            className="neo-tag cursor-pointer shadow-[2px_2px_0px_var(--ink)] hover:-translate-x-px hover:-translate-y-px transition-transform mb-8"
+            className="neo-tag cursor-pointer !py-1.5 !px-3 hover:!bg-[var(--accent)] hover:!text-[var(--on-accent)] transition-colors mb-8"
           >
             <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
             <span>{t.caseStudy.back}</span>
           </button>
 
-          <div className="neo-section-label mb-5">
-            <FileText className="w-4 h-4" aria-hidden="true" />
-            <span>{t.caseStudy.label}</span>
-          </div>
 
-          <h1 className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.12] text-[var(--ink)] text-balance mb-6">
+          <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl tracking-[-0.035em] leading-[1.02] text-[var(--ink)] text-balance mb-6">
             {study.title}
           </h1>
 
-          <p className="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs sm:text-sm text-[var(--muted-color)]">
-            <span className="inline-flex items-center gap-2 font-bold text-[var(--ink)]">
+          <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-[var(--muted-color)]">
+            <span className="inline-flex items-center gap-2 font-medium text-[var(--ink)]">
               <Building2 className="w-4 h-4" aria-hidden="true" />
               {study.client}
             </span>
@@ -71,15 +67,15 @@ export default function CaseStudy({ slug, onBack }) {
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
-        <dl className="grid grid-cols-1 sm:grid-cols-3 gap-4 -mt-8 mb-12">
+        <dl className="grid grid-cols-1 sm:grid-cols-3 gap-4 -mt-10 mb-14 relative">
           {study.metrics.map((metric) => (
-            <div key={metric.label} className="neo-card-flat p-4 text-center">
+            <div key={metric.label} className="neo-card-flat !rounded-[var(--radius-lg)] p-5 shadow-[var(--shadow-md)]">
               <dd
-className="font-heading font-black text-3xl text-[var(--ink)] mb-1.5"
+className="font-heading font-bold text-4xl tracking-[-0.04em] text-[var(--ink)] mb-1"
               >
                 {metric.value}
               </dd>
-              <dt className="font-mono text-[11px] text-[var(--ink)] font-bold leading-tight">
+              <dt className="text-[13px] text-[var(--muted-color)] leading-snug">
                 {metric.label}
               </dt>
             </div>
@@ -89,11 +85,11 @@ className="font-heading font-black text-3xl text-[var(--ink)] mb-1.5"
         <article className="flex flex-col gap-10">
           {study.sections.map((section) => (
             <section key={section.heading}>
-              <h2 className="font-heading font-extrabold text-xl sm:text-2xl text-[var(--ink)] tracking-tight mb-4 pb-2 border-b-[3px] border-[var(--ink)]">
+              <h2 className="font-heading font-semibold text-2xl sm:text-[1.75rem] text-[var(--ink)] tracking-[-0.025em] mb-4">
                 {section.heading}
               </h2>
               {section.body.map((paragraph) => (
-                <p key={paragraph.slice(0, 40)} className="text-[var(--ink)] text-sm sm:text-base leading-relaxed mb-4 last:mb-0">
+                <p key={paragraph.slice(0, 40)} className="text-[var(--ink)] text-base sm:text-[17px] leading-[1.7] mb-4 last:mb-0 max-w-[68ch]">
                   {paragraph}
                 </p>
               ))}
@@ -101,19 +97,19 @@ className="font-heading font-black text-3xl text-[var(--ink)] mb-1.5"
           ))}
         </article>
 
-        <div className="mt-12 pt-6 border-t-[3px] border-dashed border-[var(--ink)]">
-          <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[var(--muted-color)] mb-3">
+        <div className="mt-14 pt-6 border-t border-[var(--line)]">
+          <p className="text-[13px] text-[var(--muted-color)] mb-3">
             {t.caseStudy.stackLabel}
           </p>
           <ul className="flex flex-wrap gap-2 list-none p-0">
             {study.tech.map((item) => (
-              <li key={item} className="neo-tag text-xs font-semibold">{item}</li>
+              <li key={item} className="neo-tag">{item}</li>
             ))}
           </ul>
         </div>
 
         <div className="mt-12 flex justify-center">
-          <button type="button" onClick={onBack} className="neo-btn bg-[var(--accent)] text-[var(--on-accent)]">
+          <button type="button" onClick={onBack} className="neo-btn btn-brass">
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             <span>{t.caseStudy.back}</span>
           </button>
