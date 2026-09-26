@@ -7,7 +7,7 @@ import { CV_PATH, CV_DOWNLOAD_NAME } from '../lib/cv';
 import { toSentence } from '../lib/text';
 
 const STAT_ICONS = { Rocket, ScrollText, Boxes, Braces };
-const STAT_CLAYS = ['clay-violet', 'clay-peach', 'clay-butter', 'clay-sky'];
+const STAT_CLAYS = ['clay-accent', 'clay-sand', 'clay-amber', 'clay-steel'];
 const LINE_MS = 3800;
 const SPRING = { type: 'spring', stiffness: 260, damping: 22 };
 
@@ -47,7 +47,7 @@ function CountUp({ value }) {
 
 /*
  * The hero as a bento of clay slabs: identity and actions on the big one,
- * the portrait on a lilac one, the four figures on four coloured ones, and
+ * the portrait on a slate one, the four figures on four coloured ones, and
  * the systems' own one-liners rotating along the bottom.
  */
 export default function Hero() {
@@ -115,7 +115,7 @@ export default function Hero() {
         </motion.div>
 
         {/* Portrait */}
-        <motion.div {...pop(1)} className="clay clay-lilac col-span-2 md:col-span-4 md:row-span-2 p-5 flex flex-col items-center justify-between gap-5 min-h-[360px] overflow-hidden">
+        <motion.div {...pop(1)} className="clay clay-slate col-span-2 md:col-span-4 md:row-span-2 p-5 flex flex-col items-center justify-between gap-5 min-h-[360px] overflow-hidden">
           <div className="relative w-full flex-1 flex items-center justify-center pt-2">
             <div className="clay-bob relative w-[88%] max-w-[300px] aspect-[4/5]" style={{ '--tilt': '-3deg' }}>
               <img
@@ -128,10 +128,10 @@ export default function Hero() {
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
-                className="w-full h-full object-cover rounded-[34px] shadow-[14px_18px_34px_-10px_rgba(60,40,140,0.45)]"
+                className="w-full h-full object-cover rounded-[34px] shadow-[14px_18px_34px_-10px_rgba(20,35,60,0.4)]"
               />
               <span
-                className="clay-bob absolute -bottom-3 -right-4 clay clay-butter !rounded-full px-3.5 py-1.5 font-heading font-semibold text-xs"
+                className="clay-bob absolute -bottom-3 -right-4 clay clay-amber !rounded-full px-3.5 py-1.5 font-heading font-semibold text-xs"
                 style={{ '--tilt': '6deg', animationDelay: '-2s' }}
               >
                 {t.hero.engineerBadge}
@@ -170,7 +170,7 @@ export default function Hero() {
 
         {/* The systems in one line each */}
         <motion.div {...pop(6)} className="clay-well col-span-2 md:col-span-12 px-5 sm:px-7 py-4 flex items-center gap-4">
-          <span className="w-9 h-9 rounded-full clay clay-violet flex items-center justify-center shrink-0 font-mono text-xs">
+          <span className="w-9 h-9 rounded-full clay clay-accent flex items-center justify-center shrink-0 font-mono text-xs">
             {String(lineIndex + 1).padStart(2, '0')}
           </span>
           <div className="relative flex-1 h-7 overflow-hidden" aria-live="off">

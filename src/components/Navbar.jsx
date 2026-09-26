@@ -21,7 +21,7 @@ const CHIP =
 /*
  * Two pieces. A light top bar for identity and settings, and a floating
  * clay dock at the bottom that carries the sections: always in reach of a
- * thumb, labelled on wide screens, icons on phones, with a violet puck that
+ * thumb, labelled on wide screens, icons on phones, with a cobalt puck that
  * slides to the section being read and a progress line along its base.
  */
 export default function Navbar() {
@@ -100,7 +100,7 @@ export default function Navbar() {
           }`}
         >
           <a href="#hero" className="flex items-center gap-2.5 min-w-0 group pl-1">
-            <span className="w-10 h-10 rounded-2xl clay clay-violet flex items-center justify-center font-heading font-bold text-sm shrink-0 transition-transform duration-500 [transition-timing-function:var(--ease-squish)] group-hover:rotate-[-10deg] group-hover:scale-110">
+            <span className="w-10 h-10 rounded-2xl clay clay-accent flex items-center justify-center font-heading font-bold text-sm shrink-0 transition-transform duration-500 [transition-timing-function:var(--ease-squish)] group-hover:rotate-[-10deg] group-hover:scale-110">
               SC
             </span>
             <span className="flex flex-col min-w-0">
@@ -164,7 +164,7 @@ export default function Navbar() {
                     {isActive && (
                       <motion.span
                         layoutId="dock-puck"
-                        className="absolute inset-0 rounded-full clay clay-violet"
+                        className="absolute inset-0 rounded-full clay clay-accent"
                         transition={{ type: 'spring', stiffness: 460, damping: 30 }}
                       />
                     )}

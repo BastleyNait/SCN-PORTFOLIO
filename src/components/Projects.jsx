@@ -38,7 +38,7 @@ export default function Projects({ onOpenCaseStudy }) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <SectionHeader id="projects-title" title={t.projects.featured} description={t.projects.description}>
-          {/* Filters: a segmented control whose violet puck slides to the
+          {/* Filters: a segmented control whose cobalt puck slides to the
               chosen category instead of blinking between buttons. */}
           <div
             className="mt-8 inline-flex flex-wrap gap-1 p-1.5 clay-well !rounded-full"
@@ -60,7 +60,7 @@ export default function Projects({ onOpenCaseStudy }) {
                   {isActive && (
                     <motion.span
                       layoutId="project-filter"
-                      className="absolute inset-0 rounded-full clay clay-violet"
+                      className="absolute inset-0 rounded-full clay clay-accent"
                       transition={{ type: 'spring', stiffness: 460, damping: 30 }}
                     />
                   )}
@@ -177,7 +177,7 @@ function ProjectDetails({ project, headingId, compact, onOpenCaseStudy }) {
     <>
       <p className="flex flex-wrap items-center gap-2 mb-4 text-sm">
         <span className="neo-tag">{project.category}</span>
-        <span className="neo-tag !bg-[var(--butter)] !text-[var(--on-pastel)]">{project.status}</span>
+        <span className="neo-tag !bg-[var(--amber)] !text-[var(--on-pastel)]">{project.status}</span>
       </p>
 
       <h3
@@ -199,7 +199,7 @@ function ProjectDetails({ project, headingId, compact, onOpenCaseStudy }) {
       )}
 
       {/* The decision behind the project, given more weight than the stack. */}
-      <div className="clay clay-lilac !rounded-[var(--radius-md)] px-5 py-4 mb-6">
+      <div className="clay clay-slate !rounded-[var(--radius-md)] px-5 py-4 mb-6">
         <p className="text-[13px] font-semibold opacity-80 mb-1">{toSentence(t.projects.decisionLabel)}</p>
         <p className="font-heading text-[17px] font-semibold leading-snug">
           {project.keyDecision}

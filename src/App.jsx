@@ -31,9 +31,9 @@ export default function App() {
 
       {/* Ambient clay: three pastel masses drifting behind everything. */}
       <div className="clay-ambient" aria-hidden="true">
-        <span style={{ width: '42vw', height: '42vw', left: '-10vw', top: '-8vw', background: 'var(--lilac)' }} />
-        <span style={{ width: '34vw', height: '34vw', right: '-8vw', top: '30vh', background: 'var(--peach)', animationDelay: '-9s' }} />
-        <span style={{ width: '30vw', height: '30vw', left: '30vw', bottom: '-12vw', background: 'var(--sky)', animationDelay: '-17s' }} />
+        <span style={{ width: '42vw', height: '42vw', left: '-10vw', top: '-8vw', background: 'var(--slate)' }} />
+        <span style={{ width: '34vw', height: '34vw', right: '-8vw', top: '30vh', background: 'var(--sand)', animationDelay: '-9s' }} />
+        <span style={{ width: '30vw', height: '30vw', left: '30vw', bottom: '-12vw', background: 'var(--steel)', animationDelay: '-17s' }} />
       </div>
 
       {route.name === 'case-study' ? (

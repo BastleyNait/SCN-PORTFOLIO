@@ -7,8 +7,8 @@ import SectionHeader from './SectionHeader';
 
 /*
  * The operating model. The loop is a real sequence, so it is numbered and
- * sits on a clay track the reader's scroll fills in violet. The split closes
- * the section as two facing slabs; the owned half is the violet one.
+ * sits on a clay track the reader's scroll fills in cobalt. The split closes
+ * the section as two facing slabs; the owned half is the cobalt one.
  */
 export default function Orchestration() {
   const { t, data } = useAppContext();
@@ -27,7 +27,7 @@ export default function Orchestration() {
 
         <h3 className="sr-only">{t.orchestration.loopLabel}</h3>
         <div ref={loopRef} className="relative">
-          {/* Clay track and its violet fill. Horizontal on a desktop, vertical on a phone. */}
+          {/* Clay track and its cobalt fill. Horizontal on a desktop, vertical on a phone. */}
           <div className="hidden lg:block absolute left-6 right-6 top-[40px] h-3 clay-well !rounded-full overflow-hidden" aria-hidden="true">
             <motion.span className="absolute inset-0 rounded-full bg-[var(--accent)] origin-left" style={{ scaleX: fillX }} />
           </div>
@@ -49,7 +49,7 @@ export default function Orchestration() {
                 >
                   <span
                     className={`absolute left-0 top-3 lg:static lg:mx-auto w-14 h-14 lg:w-[68px] lg:h-[68px] rounded-full clay flex items-center justify-center font-heading font-bold text-lg lg:text-xl mb-5 ${
-                      shared ? 'clay-butter' : 'clay-violet'
+                      shared ? 'clay-amber' : 'clay-accent'
                     }`}
                   >
                     {phase.step}
@@ -60,7 +60,7 @@ export default function Orchestration() {
                     {phase.title}
                   </h4>
                   <p className="text-sm text-[var(--muted-color)] leading-relaxed mb-3">{phase.description}</p>
-                  <span className={`neo-tag ${shared ? '!bg-[var(--butter)] !text-[var(--on-pastel)]' : ''}`}>
+                  <span className={`neo-tag ${shared ? '!bg-[var(--amber)] !text-[var(--on-pastel)]' : ''}`}>
                     {shared ? <Bot className="w-3.5 h-3.5" aria-hidden="true" /> : <UserCog className="w-3.5 h-3.5" aria-hidden="true" />}
                     {toSentence(shared ? t.orchestration.ownerShared : t.orchestration.ownerHuman)}
                   </span>
@@ -85,7 +85,7 @@ export default function Orchestration() {
             title={split.ownedTitle}
             note={toSentence(split.ownedTag)}
             items={split.owned}
-            className="clay clay-violet !rounded-[var(--radius-xl)]"
+            className="clay clay-accent !rounded-[var(--radius-xl)]"
             owned
           />
         </div>
@@ -105,7 +105,7 @@ function SplitPanel({ icon, title, note, items, className, owned = false }) {
       className={`p-7 sm:p-9 ${className}`}
     >
       <div className="flex items-center gap-3.5 mb-6">
-        <span className={`w-12 h-12 rounded-2xl clay flex items-center justify-center shrink-0 ${owned ? 'clay-butter' : 'clay-lilac'}`}>
+        <span className={`w-12 h-12 rounded-2xl clay flex items-center justify-center shrink-0 ${owned ? 'clay-amber' : 'clay-slate'}`}>
           {icon}
         </span>
         <div>
@@ -116,7 +116,7 @@ function SplitPanel({ icon, title, note, items, className, owned = false }) {
       <ul className="list-none p-0 m-0 flex flex-col gap-2.5">
         {items.map((item) => (
           <li key={item} className={`px-4 py-3 rounded-2xl text-[15px] leading-relaxed flex items-start gap-3 ${owned ? 'bg-[rgba(255,255,255,0.14)]' : 'clay-well'}`}>
-            <span className={`mt-[0.5em] w-2 h-2 rounded-full shrink-0 ${owned ? 'bg-[var(--butter)]' : 'bg-[var(--accent)]'}`} aria-hidden="true" />
+            <span className={`mt-[0.5em] w-2 h-2 rounded-full shrink-0 ${owned ? 'bg-[var(--amber)]' : 'bg-[var(--accent)]'}`} aria-hidden="true" />
             {item}
           </li>
         ))}

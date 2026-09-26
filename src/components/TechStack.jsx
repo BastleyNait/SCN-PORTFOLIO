@@ -53,7 +53,7 @@ export default function TechStack() {
                     {isActive && (
                       <motion.span
                         layoutId="stack-tab"
-                        className="absolute inset-0 rounded-full clay clay-violet"
+                        className="absolute inset-0 rounded-full clay clay-accent"
                         transition={{ type: 'spring', stiffness: 460, damping: 30 }}
                       />
                     )}

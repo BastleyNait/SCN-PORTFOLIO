@@ -2,8 +2,8 @@
  * Renders public/og.png, the 1200x630 card every scraper asks for when the
  * portfolio URL is pasted into LinkedIn, WhatsApp or an email client.
  *
- * The card is drawn in the same visual language as the site: a lavender
- * ground, a big clay slab for the name and four pastel clay chips. It is generated rather
+ * The card is drawn in the same visual language as the site: a stone
+ * ground, a big clay slab for the name and four muted clay chips. It is generated rather
  * than hand-exported so the copy can never drift from the data file.
  *
  *   node scripts/generate-og.mjs
@@ -19,10 +19,10 @@ const OUT = resolve(root, 'public/og.png');
 const WIDTH = 1200;
 const HEIGHT = 630;
 
-const INK = '#26204a';
-const BG = '#eeeaf7';
-const ACCENT = '#6b58e6';
-const MUTED = '#5a5382';
+const INK = '#141c28';
+const BG = '#e8eaee';
+const ACCENT = '#1f4bb8';
+const MUTED = '#4a5566';
 
 /* Escapes the five characters that would otherwise break the SVG document. */
 const esc = (value) =>
@@ -41,16 +41,16 @@ const SANS = "Segoe UI, Arial, Helvetica, DejaVu Sans, sans-serif";
 
 /* A clay slab: drop shadow, then the slab, then a soft highlight band on its
    upper half. Close enough to the CSS version at share-card size. */
-const slab = (x, y, w, h, r, fill, shadow = 'rgba(86,70,170,0.28)') => `
+const slab = (x, y, w, h, r, fill, shadow = 'rgba(24,36,58,0.25)') => `
   <rect x="${x + 14}" y="${y + 18}" width="${w}" height="${h}" rx="${r}" fill="${shadow}" filter="url(#soft)"/>
   <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${fill}"/>
   <rect x="${x + 6}" y="${y + 6}" width="${w - 12}" height="${h * 0.45}" rx="${r - 6}" fill="#ffffff" opacity="0.28"/>`;
 
 const CHIPS = [
-  ['7 systems', '#6b58e6', '#ffffff'],
-  ['7 decisions', '#ffb49b', INK],
-  ['4 domains', '#ffdb7d', INK],
-  ['5 languages', '#9ed6ff', INK]
+  ['7 systems', '#1f4bb8', '#ffffff'],
+  ['7 decisions', '#e4d8c4', INK],
+  ['4 domains', '#c2cfdf', INK],
+  ['5 languages', '#cdd3dc', INK]
 ];
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
@@ -59,10 +59,10 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${
     <filter id="blob" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="60"/></filter>
   </defs>
   <rect width="${WIDTH}" height="${HEIGHT}" fill="${BG}"/>
-  <circle cx="120" cy="80" r="220" fill="#cfc2ff" filter="url(#blob)" opacity="0.8"/>
-  <circle cx="1120" cy="540" r="240" fill="#ffb49b" filter="url(#blob)" opacity="0.6"/>
+  <circle cx="120" cy="80" r="220" fill="#c2cfdf" filter="url(#blob)" opacity="0.7"/>
+  <circle cx="1120" cy="540" r="240" fill="#e4d8c4" filter="url(#blob)" opacity="0.6"/>
 
-  ${slab(60, 60, 1080, 380, 48, '#faf8ff')}
+  ${slab(60, 60, 1080, 380, 48, '#f5f6f8')}
 
   <circle cx="118" cy="128" r="9" fill="${ACCENT}"/>
   <text x="138" y="137" font-family="${SANS}" font-size="26" font-weight="700" fill="${INK}">Available for work</text>

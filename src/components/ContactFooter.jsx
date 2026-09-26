@@ -54,7 +54,7 @@ export default function ContactFooter() {
           whileInView={{ y: 0, scale: 1 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ type: 'spring', stiffness: 160, damping: 20 }}
-          className="clay clay-violet !rounded-[48px] p-7 sm:p-10 lg:p-14 mb-10"
+          className="clay clay-accent !rounded-[48px] p-7 sm:p-10 lg:p-14 mb-10"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
 
@@ -67,7 +67,7 @@ export default function ContactFooter() {
                 {t.contact.description}
               </p>
 
-              <p className="inline-flex items-center gap-2 text-sm font-semibold mb-8 clay clay-butter !rounded-full px-4 py-2">
+              <p className="inline-flex items-center gap-2 text-sm font-semibold mb-8 clay clay-amber !rounded-full px-4 py-2">
                 <span className="w-2 h-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
                 {t.contact.availability}
               </p>

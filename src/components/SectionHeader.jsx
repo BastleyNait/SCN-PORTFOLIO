@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
 /*
- * Section opening: a big rounded heading, a violet squiggle that draws
+ * Section opening: a big rounded heading, a cobalt squiggle that draws
  * itself under it the first time it is seen, and the section's argument
  * beside it. No kicker label; the heading is the label.
  */

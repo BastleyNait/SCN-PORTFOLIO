@@ -41,7 +41,7 @@ export default function CaseStudy({ slug, onBack }) {
     <main id="main" className="relative z-10 min-h-screen pb-20">
       <div className="relative z-10 pt-10 pb-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <div className="clay clay-violet !rounded-[44px] p-7 sm:p-10">
+          <div className="clay clay-accent !rounded-[44px] p-7 sm:p-10">
           <button
             type="button"
             onClick={onBack}

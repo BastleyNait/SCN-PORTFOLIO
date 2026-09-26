@@ -20,7 +20,7 @@ const ICONS = {
   CloudCognitive: Cloud
 };
 
-const ICON_CLAYS = ['clay-violet', 'clay-peach', 'clay-sky', 'clay-butter', 'clay-rose', 'clay-lilac'];
+const ICON_CLAYS = ['clay-accent', 'clay-sand', 'clay-steel', 'clay-amber', 'clay-stone', 'clay-slate'];
 
 /*
  * Six fundamentals as clay cards. Each names the area, the concepts under

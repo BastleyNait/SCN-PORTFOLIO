@@ -105,7 +105,7 @@ export default function DecisionLog({ onOpenCaseStudy }) {
   );
 }
 
-const TILE_CLAYS = ['clay-lilac', 'clay-peach', 'clay-butter', 'clay-sky', 'clay-rose'];
+const TILE_CLAYS = ['clay-slate', 'clay-sand', 'clay-amber', 'clay-steel', 'clay-stone'];
 
 function RecordBody({ record, t, onOpenCaseStudy }) {
   return (
@@ -114,7 +114,7 @@ function RecordBody({ record, t, onOpenCaseStudy }) {
         <p className="flex flex-wrap items-center gap-2 mb-4">
           <span className="font-mono text-[12px] font-semibold text-[var(--accent-strong)]">{record.id.toUpperCase()}</span>
           <span className="neo-tag">{record.project}</span>
-          <span className="neo-tag !bg-[var(--butter)] !text-[var(--on-pastel)]">{record.tag}</span>
+          <span className="neo-tag !bg-[var(--amber)] !text-[var(--on-pastel)]">{record.tag}</span>
         </p>
 
         <h3 className="font-heading font-bold text-[1.9rem] sm:text-[2.3rem] leading-[1.05] tracking-[-0.02em] text-[var(--ink)] mb-7 text-balance">
@@ -129,21 +129,21 @@ function RecordBody({ record, t, onOpenCaseStudy }) {
           <ul className="list-none p-0 m-0 flex flex-col gap-2">
             {record.options.map((option, i) => (
               <li key={option} className="clay-well !rounded-2xl px-4 py-3 text-[15px] text-[var(--ink)] leading-snug flex items-start gap-3">
-                <span className="w-6 h-6 rounded-full clay clay-lilac flex items-center justify-center font-mono text-[11px] shrink-0">{i + 1}</span>
+                <span className="w-6 h-6 rounded-full clay clay-slate flex items-center justify-center font-mono text-[11px] shrink-0">{i + 1}</span>
                 {option}
               </li>
             ))}
           </ul>
         </Block>
 
-        <div className="clay clay-violet !rounded-[var(--radius-lg)] px-6 py-5 mt-2">
+        <div className="clay clay-accent !rounded-[var(--radius-lg)] px-6 py-5 mt-2">
           <p className="text-[13px] font-semibold opacity-85 mb-1">{toSentence(t.decisions.decisionLabel)}</p>
           <p className="font-heading text-[19px] font-semibold leading-snug">{record.decision}</p>
         </div>
       </div>
 
       <div className="lg:col-span-5 flex flex-col gap-6">
-        <div className="clay clay-peach !rounded-[var(--radius-lg)] px-6 py-5">
+        <div className="clay clay-sand !rounded-[var(--radius-lg)] px-6 py-5">
           <p className="text-[13px] font-semibold opacity-80 mb-1">{toSentence(t.decisions.tradeoffLabel)}</p>
           <p className="text-[15px] leading-relaxed italic">{record.tradeoff}</p>
         </div>
