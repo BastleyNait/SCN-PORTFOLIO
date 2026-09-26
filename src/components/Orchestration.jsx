@@ -2,18 +2,13 @@ import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Workflow, Bot, UserCog, Quote } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
+import { slideIn, stagger } from '../lib/motion';
 
 export default function Orchestration() {
   const { t, data } = useAppContext();
   const { thesis, loop, split } = data.orchestrationData;
   const reduceMotion = useReducedMotion();
 
-  const rise = (delay = 0) => ({
-    initial: reduceMotion ? false : { opacity: 1, y: 18 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: '-60px' },
-    transition: { duration: 0.4, delay: reduceMotion ? 0 : delay }
-  });
 
   return (
     <section
@@ -25,20 +20,21 @@ export default function Orchestration() {
 
         {/* Section header */}
         <div className="flex flex-col items-center text-center mb-10">
-          <div className="neo-section-label mb-4">
+          <motion.div {...slideIn('left', { reduce: reduceMotion })} className="neo-section-label mb-4">
             <Workflow className="w-4 h-4" aria-hidden="true" />
             <span>{t.orchestration.label}</span>
-          </div>
+          </motion.div>
 
-          <h2
+          <motion.h2
+            {...slideIn('left', { delay: 0.06, reduce: reduceMotion })}
             id="orchestration-title"
             className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-[var(--ink)] tracking-tight mb-6 max-w-3xl text-balance"
           >
             {t.orchestration.title}
-          </h2>
+          </motion.h2>
 
           {/* The thesis, set as a pull quote so it reads as a position, not filler */}
-          <blockquote className="relative neo-card-flat max-w-3xl p-6 sm:p-8 text-left">
+          <motion.blockquote {...slideIn('right', { delay: 0.12, reduce: reduceMotion })} className="relative neo-card-flat max-w-3xl p-6 sm:p-8 text-left">
             <Quote
               className="w-8 h-8 absolute -top-4 -left-4 bg-[var(--ink)] text-[var(--bg-color)] p-1.5"
               aria-hidden="true"
@@ -46,7 +42,7 @@ export default function Orchestration() {
             <p className="text-[var(--ink)] text-sm sm:text-base leading-relaxed font-medium">
               {thesis}
             </p>
-          </blockquote>
+          </motion.blockquote>
         </div>
 
         {/* The loop: five phases, each labelled with who owns it */}
@@ -64,7 +60,7 @@ export default function Orchestration() {
             return (
               <motion.li
                 key={phase.step}
-                {...rise(index * 0.04)}
+                {...slideIn('left', { delay: stagger(index, 0.06, 5), reduce: reduceMotion })}
                 className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 px-4 py-3 border-b border-[var(--ink)] last:border-b-0"
               >
                 <span className="font-mono font-black text-sm text-[var(--muted-color)] shrink-0 w-6">
@@ -101,7 +97,7 @@ export default function Orchestration() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <SplitCard
-            {...rise(0)}
+            {...slideIn('left', { reduce: reduceMotion })}
             icon={<Bot className="w-5 h-5" aria-hidden="true" />}
             tag={split.delegatedTag}
             title={split.delegatedTitle}
@@ -110,7 +106,7 @@ export default function Orchestration() {
             marker="→"
           />
           <SplitCard
-            {...rise(0.1)}
+            {...slideIn('right', { delay: 0.08, reduce: reduceMotion })}
             icon={<UserCog className="w-5 h-5" aria-hidden="true" />}
             tag={split.ownedTag}
             title={split.ownedTitle}

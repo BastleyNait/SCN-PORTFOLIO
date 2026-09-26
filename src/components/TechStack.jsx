@@ -13,6 +13,7 @@ import {
   Cpu
 } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
+import { slideIn, stagger } from '../lib/motion';
 import EngineeringSkills from './EngineeringSkills';
 
 const ICONS = {
@@ -30,6 +31,18 @@ export default function TechStack() {
   const techStackData = data.techStackData;
   const reduceMotion = useReducedMotion();
   const [activeIndex, setActiveIndex] = useState(0);
+  /* A new tab's tools slide in from the side of the tab that was picked:
+     moving right through the tabs brings them in from the right. The first
+     render reveals on scroll like everything else. */
+  const [direction, setDirection] = useState('left');
+  const [switched, setSwitched] = useState(false);
+
+  const selectTab = (index) => {
+    if (index === activeIndex) return;
+    setDirection(index > activeIndex ? 'right' : 'left');
+    setSwitched(true);
+    setActiveIndex(index);
+  };
 
   const activeCategory = techStackData[activeIndex] ?? techStackData[0];
 
@@ -42,21 +55,22 @@ export default function TechStack() {
             which is the question a reader who has seen a hundred stack lists
             is actually asking. */}
         <div className="flex flex-col items-center text-center mb-10">
-          <div className="neo-section-label mb-4">
+          <motion.div {...slideIn('left', { reduce: reduceMotion })} className="neo-section-label mb-4">
             <Cpu className="w-4 h-4" aria-hidden="true" />
             <span>{t.engineering.label}</span>
-          </div>
+          </motion.div>
 
-          <h2
+          <motion.h2
+            {...slideIn('left', { delay: 0.06, reduce: reduceMotion })}
             id="engineering-title"
             className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl text-[var(--ink)] tracking-tight mb-4 text-balance"
           >
             {t.engineering.title}
-          </h2>
+          </motion.h2>
 
-          <p className="text-[var(--muted-color)] text-sm sm:text-base max-w-2xl leading-relaxed">
+          <motion.p {...slideIn('right', { delay: 0.12, reduce: reduceMotion })} className="text-[var(--muted-color)] text-sm sm:text-base max-w-2xl leading-relaxed">
             {t.engineering.description}
-          </p>
+          </motion.p>
         </div>
 
         <EngineeringSkills />
@@ -88,7 +102,7 @@ export default function TechStack() {
                 id={`stack-tab-${index}`}
                 aria-selected={isActive}
                 aria-controls="stack-panel"
-                onClick={() => setActiveIndex(index)}
+                onClick={() => selectTab(index)}
                 className={`neo-tag cursor-pointer text-xs sm:text-sm font-bold px-4 py-2 transition-all duration-150 ${
                   isActive
                     ? 'on-accent shadow-[3px_3px_0px_var(--ink)] -translate-x-0.5 -translate-y-0.5'
@@ -104,27 +118,27 @@ export default function TechStack() {
         </div>
 
         {/* Active category items */}
-        <motion.div
-          key={activeCategory.category}
+        <div
           id="stack-panel"
           role="tabpanel"
           aria-labelledby={`stack-tab-${activeIndex}`}
-          initial={reduceMotion ? false : { opacity: 1, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
           className="max-w-5xl mx-auto"
         >
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 list-none p-0">
-          {activeCategory.items.map((item) => (
-            <li key={item.name} className="neo-card-sm p-4 flex items-center gap-3">
+          {activeCategory.items.map((item, i) => (
+            <motion.li
+              key={`${activeCategory.category}-${item.name}`}
+              {...slideIn(direction, { onMount: switched, delay: stagger(i, 0.04, 8), distance: 32, reduce: reduceMotion })}
+              className="neo-card-sm p-4 flex items-center gap-3"
+            >
               <CheckCircle2 className="w-4 h-4 shrink-0 text-[var(--ink)]" aria-hidden="true" />
               <span className="font-heading font-bold text-sm text-[var(--ink)] truncate min-w-0">
                 {item.name}
               </span>
-            </li>
+            </motion.li>
           ))}
         </ul>
-        </motion.div>
+        </div>
         </div>
 
       </div>

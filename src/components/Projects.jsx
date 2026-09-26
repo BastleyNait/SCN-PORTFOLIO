@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { ArrowUpRight, Sparkles, GitBranch, UserCog, FileText } from 'lucide-react';
 import { Github } from './Icons';
 import { useAppContext } from '../context/app-context';
+import { slideIn, stagger } from '../lib/motion';
 import { CASE_STUDY_PREFIX } from '../lib/router';
 import ProjectGallery, { ProjectShowcase } from './ProjectGallery';
 
@@ -36,21 +37,22 @@ export default function Projects({ onOpenCaseStudy }) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div className="flex flex-col items-center text-center mb-12">
-          <div className="neo-section-label mb-4">
+          <motion.div {...slideIn('left', { reduce: reduceMotion })} className="neo-section-label mb-4">
             <Sparkles className="w-4 h-4" aria-hidden="true" />
             <span>{t.projects.portfolio}</span>
-          </div>
+          </motion.div>
 
-          <h2
+          <motion.h2
+            {...slideIn('left', { delay: 0.06, reduce: reduceMotion })}
             id="projects-title"
             className="font-heading font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mb-4 text-[var(--ink)] text-balance"
           >
             {t.projects.featured}
-          </h2>
+          </motion.h2>
 
-          <p className="text-[var(--muted-color)] text-sm sm:text-base max-w-2xl leading-relaxed text-pretty">
+          <motion.p {...slideIn('right', { delay: 0.12, reduce: reduceMotion })} className="text-[var(--muted-color)] text-sm sm:text-base max-w-2xl leading-relaxed text-pretty">
             {t.projects.description}
-          </p>
+          </motion.p>
 
           <div className="flex flex-wrap items-center justify-center gap-3 mt-8" role="group" aria-label={t.projects.featured}>
             {categories.map((category) => {
@@ -118,7 +120,13 @@ export default function Projects({ onOpenCaseStudy }) {
 }
 
 function ProjectRow({ project, position, total, flipped, onOpenCaseStudy }) {
+  const reduceMotion = useReducedMotion();
   const headingId = `project-${project.id}-title`;
+  /* The screenshots arrive from the side they sit on and the text from the
+     other one, so each row closes like a pair of doors. Rows alternate, so
+     the direction alternates with them. */
+  const gallerySide = flipped ? 'right' : 'left';
+  const textSide = flipped ? 'left' : 'right';
   const details = (
     <ProjectDetails
       project={project}
@@ -126,28 +134,35 @@ function ProjectRow({ project, position, total, flipped, onOpenCaseStudy }) {
       total={total}
       headingId={headingId}
       compact={PROJECT_LAYOUT === 'showcase'}
+      side={textSide}
       onOpenCaseStudy={onOpenCaseStudy}
     />
   );
 
   if (PROJECT_LAYOUT === 'showcase') {
     return (
-      <article aria-labelledby={headingId}>
+      <motion.article aria-labelledby={headingId} {...slideIn(gallerySide, { reduce: reduceMotion })}>
         <ProjectShowcase project={project} priority={position === 1} flipped={flipped}>
           {details}
         </ProjectShowcase>
-      </article>
+      </motion.article>
     );
   }
 
   return (
     <article aria-labelledby={headingId} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-      <div className={`lg:col-span-7 ${flipped ? 'lg:order-2' : ''}`}>
+      <motion.div
+        {...slideIn(gallerySide, { reduce: reduceMotion, distance: 96 })}
+        className={`lg:col-span-7 ${flipped ? 'lg:order-2' : ''}`}
+      >
         <ProjectGallery project={project} priority={position === 1} />
-      </div>
-      <div className={`lg:col-span-5 flex flex-col ${flipped ? 'lg:order-1' : ''}`}>
+      </motion.div>
+      <motion.div
+        {...slideIn(textSide, { delay: 0.1, reduce: reduceMotion })}
+        className={`lg:col-span-5 flex flex-col ${flipped ? 'lg:order-1' : ''}`}
+      >
         {details}
-      </div>
+      </motion.div>
     </article>
   );
 }
@@ -155,8 +170,9 @@ function ProjectRow({ project, position, total, flipped, onOpenCaseStudy }) {
 /* Index, title, description, key decision, role, stack and links. The
    showcase drops the long description: over a screenshot, less text is
    what keeps the screenshot visible. */
-function ProjectDetails({ project, position, total, headingId, compact, onOpenCaseStudy }) {
+function ProjectDetails({ project, position, total, headingId, compact, side = 'right', onOpenCaseStudy }) {
   const { t } = useAppContext();
+  const reduceMotion = useReducedMotion();
 
   return (
     <>
@@ -211,10 +227,15 @@ function ProjectDetails({ project, position, total, headingId, compact, onOpenCa
       </p>
 
       <ul className="flex flex-wrap gap-1.5 mb-6 list-none p-0" aria-label="Stack">
-        {project.tech.map((tech) => (
-          <li key={tech} className="neo-tag text-[10px] font-semibold">
+        {/* The stack follows the text in, one tag after another. */}
+        {project.tech.map((tech, i) => (
+          <motion.li
+            key={tech}
+            {...slideIn(side, { delay: 0.25 + stagger(i, 0.04, 8), distance: 20, reduce: reduceMotion })}
+            className="neo-tag text-[10px] font-semibold"
+          >
             {tech}
-          </li>
+          </motion.li>
         ))}
       </ul>
 

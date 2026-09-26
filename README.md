@@ -134,8 +134,11 @@ The theme is applied by an inline script in `index.html` before first paint, the
 
 - The contact form composes a `mailto:` link in the visitor's own client. There is no backend and
   no third-party form service, and the form says so.
-- Entry animations are skipped entirely when the visitor has `prefers-reduced-motion` set.
-- Nothing that carries content starts at `opacity: 0`. Reveals animate position only, so a fast
-  or programmatic scroll that never fires the observer still leaves the section readable.
+- Entrances slide in from the side once, the first time a block scrolls into view
+  (`src/lib/motion.js`): transform and opacity only, a strong ease-out
+  (`cubic-bezier(0.23, 1, 0.32, 1)`), 700ms, siblings staggered 40–70ms. Project rows close like
+  doors (gallery from its own side, text from the other), decision records alternate sides, the
+  stack's tools arrive from the side of the tab that was picked. With `prefers-reduced-motion` the
+  travel is dropped and only a 300ms fade remains.
 - Fonts are requested as variable `wght` ranges, not discrete weights. Asking for the weights
   individually pulled 75 `@font-face` rules and a file per weight.
