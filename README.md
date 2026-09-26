@@ -44,13 +44,13 @@ src/
     caseStudies.js      Long-form write-ups, English
     caseStudiesEs.js    Long-form write-ups, Spanish
     translations.js     UI strings for both languages
-    imageManifest.json  Generated: intrinsic size of each preview image
+    imageManifest.json  Generated: slides per project, with size and caption
   lib/
     router.js      Home vs /case-studies/<slug>
     cv.js          CV path and download filename, shared by hero and footer
   index.css        Design tokens and the neobrutalist component classes
 
-assets/source/     Full-size originals. Never served; input to npm run images.
+assets/source/     Full-size originals, one folder per project. Never served.
 scripts/           generate-og.mjs, optimize-images.mjs
 ```
 
@@ -80,11 +80,30 @@ card renders without those buttons, which is the normal shape of client work.
 
 ## Images
 
-Full-size screenshots live in `assets/source/` and are never served. `npm run images` emits two
-WebP widths per project into `public/projects/` plus the portrait variants, and writes the
-intrinsic dimensions to `src/data/imageManifest.json` so cards reserve their space before the
-file arrives. To add a project image, drop the original in `assets/source/`, add it to the
-`PROJECTS` map in `scripts/optimize-images.mjs`, and rerun the script.
+Every project has a screenshot carousel. The source screenshots live in
+`assets/source/projects/<project-id>/` (one folder per project, named after its `id` in
+`projectsData`) and are never served. Each image in a folder becomes one slide:
+
+```
+assets/source/projects/
+  lo-exacto/
+    01-home.png          -> slide 1, caption "home"
+    02-catalogo.png      -> slide 2, caption "catalogo"
+    03.png               -> slide 3, no caption
+  boom-pos/
+    ...
+```
+
+- **Order** follows the file names with natural sorting, so prefix them `01-`, `02-`, … to set it.
+- **Captions** come from the name: `02-panel_admin.png` is captioned "panel admin". A name
+  without a number prefix (for example `Captura de pantalla 2026-09-01.png`) gets no caption.
+- **Formats:** PNG, JPG, WebP or AVIF, at any size. Desktop captures taller than 16:9 are cropped
+  to the top of the page; phone captures in portrait are shown whole, centred.
+
+Then run `npm run images`. It emits two WebP widths per slide into `public/projects/<id>/`
+plus the portrait variants, and writes each slide's intrinsic size and caption to
+`src/data/imageManifest.json` so the carousel reserves its space before the file arrives.
+A new project only needs a folder whose name matches its `id`.
 
 ## Theming
 

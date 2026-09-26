@@ -1,27 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ExternalLink, Sparkles, Eye, GitBranch, UserCog, FileText, ImageOff } from 'lucide-react';
+import { ArrowUpRight, Sparkles, GitBranch, UserCog, FileText } from 'lucide-react';
 import { Github } from './Icons';
 import { useAppContext } from '../context/app-context';
-import imageManifest from '../data/imageManifest.json';
 import { CASE_STUDY_PREFIX } from '../lib/router';
-
-/* Widths emitted by scripts/optimize-images.mjs. Keep the two in step. */
-const PREVIEW_WIDTHS = [640, 1280];
-
-/* A card is full width on a phone and roughly half the 1152px content column
-   on a desktop, so the browser has what it needs to skip the 1280 variant on
-   small screens instead of downloading it and throwing the pixels away. */
-const PREVIEW_SIZES = '(max-width: 767px) 100vw, 560px';
+import ProjectGallery from './ProjectGallery';
 
 const ALL = '__all__';
-
-/** What the fake browser chrome shows: the live domain, or whatever the
- *  project data says stands in for it when there is no public URL. */
-function previewLabel(project) {
-  if (project.liveUrl) return project.liveUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
-  return project.previewLabel || `${project.id}.apk`;
-}
 
 export default function Projects({ onOpenCaseStudy }) {
   const { t, data } = useAppContext();
@@ -44,7 +29,7 @@ export default function Projects({ onOpenCaseStudy }) {
     <section id="projects" className="py-14 relative z-10 bg-[var(--bg-color)]" aria-labelledby="projects-title">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div className="flex flex-col items-center text-center mb-10">
+        <div className="flex flex-col items-center text-center mb-12">
           <div className="neo-section-label mb-4">
             <Sparkles className="w-4 h-4" aria-hidden="true" />
             <span>{t.projects.portfolio}</span>
@@ -57,7 +42,7 @@ export default function Projects({ onOpenCaseStudy }) {
             {t.projects.featured}
           </h2>
 
-          <p className="text-[var(--muted-color)] text-sm sm:text-base max-w-2xl leading-relaxed">
+          <p className="text-[var(--muted-color)] text-sm sm:text-base max-w-2xl leading-relaxed text-pretty">
             {t.projects.description}
           </p>
 
@@ -85,148 +70,33 @@ export default function Projects({ onOpenCaseStudy }) {
           </div>
         </div>
 
-        <motion.ul layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 list-none p-0">
-          <AnimatePresence mode="popLayout">
-            {visibleProjects.map((project) => (
+        {/* One project per row. The gallery gets the wider column because the
+            screenshots are the evidence; the text says what to look for in them.
+            Rows alternate sides on a desktop so the page reads as a sequence of
+            pieces rather than one long list with a picture glued to the left. */}
+        <motion.ol layout className="list-none p-0 m-0">
+          <AnimatePresence mode="popLayout" initial={false}>
+            {visibleProjects.map((project, i) => (
               <motion.li
                 key={project.id}
                 layout
-                initial={false}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.94 }}
+                initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className="neo-card flex flex-col overflow-hidden group"
+                className={i > 0 ? 'border-t-2 border-dashed border-[var(--ink)]/30 pt-12 mt-12 lg:pt-16 lg:mt-16' : ''}
               >
-                {/* Preview with a browser chrome affordance */}
-                <div className="relative w-full border-b-[3px] border-[var(--ink)]">
-                  <div className="h-8 bg-[var(--bg-color)] border-b-2 border-[var(--ink)] px-3 flex items-center justify-between gap-2">
-                    <span className="font-mono text-[10px] text-[var(--ink)] font-semibold truncate bg-[var(--card-color)] px-2 py-0.5 border border-[var(--ink)]">
-                      {previewLabel(project)}
-                    </span>
-
-                    <span className="w-4 shrink-0" aria-hidden="true" />
-                  </div>
-
-                  <div className="relative w-full h-40 bg-[var(--bg-color)] overflow-hidden">
-                    <ProjectPreview project={project} />
-
-                    <span className="absolute bottom-3 right-3 z-10 neo-tag bg-[var(--ink)] text-[var(--bg-color)] text-[10px] font-bold uppercase tracking-wider">
-                      {project.status}
-                    </span>
-
-                    {(project.liveUrl || project.repoUrl) && (
-                    <span className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-200 flex items-center justify-center z-20">
-                      <a
-                        href={project.liveUrl || project.repoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="neo-btn bg-[var(--accent)] text-[var(--on-accent)] text-xs py-2 px-4"
-                      >
-                        <Eye className="w-4 h-4" aria-hidden="true" />
-                        <span>{t.projects.viewProject}</span>
-                      </a>
-                    </span>
-                    )}
-                  </div>
-                </div>
-
-                <div className="p-5 flex-1 flex flex-col">
-                  <div className="flex items-start justify-between gap-2 mb-2">
-                    <h3 className="font-heading font-black text-xl text-[var(--ink)] leading-tight">
-                      {project.title}
-                    </h3>
-                    <span className="neo-tag text-[10px] font-semibold shrink-0">
-                      {project.category}
-                    </span>
-                  </div>
-
-                  <p className="text-[var(--muted-color)] text-xs sm:text-sm leading-relaxed mb-4">
-                    {project.description}
-                  </p>
-
-                  {/* The decision behind the project, given more weight than the stack */}
-                  <div className="bg-[var(--bg-color)] border-2 border-[var(--ink)] p-3 mb-4">
-                    <p className="font-mono text-[10px] font-black uppercase tracking-[0.18em] text-[var(--muted-color)] mb-1.5 flex items-center gap-1.5">
-                      <GitBranch className="w-3 h-3" aria-hidden="true" />
-                      {t.projects.decisionLabel}
-                    </p>
-                    <p className="text-[var(--ink)] text-xs leading-relaxed font-medium">
-                      {project.keyDecision}
-                    </p>
-                  </div>
-
-                  <p className="font-mono text-[10px] text-[var(--muted-color)] uppercase tracking-wider mb-4 flex items-start gap-1.5">
-                    <UserCog className="w-3 h-3 mt-0.5 shrink-0" aria-hidden="true" />
-                    <span>
-                      <span className="font-black">{t.projects.roleLabel}:</span> {project.role}
-                    </span>
-                  </p>
-
-                  <div className="mt-auto">
-                    <ul className="flex flex-wrap gap-1.5 mb-4 list-none p-0">
-                      {project.tech.map((tech) => (
-                        <li key={tech} className="neo-tag text-[10px] font-semibold">
-                          {tech}
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="border-t-2 border-dashed border-[var(--ink)] my-3" />
-
-                    {project.caseStudy && (
-                      <a
-                        href={`${CASE_STUDY_PREFIX}${project.caseStudy}`}
-                        onClick={(event) => {
-                          /* Let the browser handle new-tab and modified clicks. */
-                          if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
-                          event.preventDefault();
-                          onOpenCaseStudy(project.caseStudy);
-                        }}
-                        className="neo-btn w-full bg-[var(--ink)] text-[var(--bg-color)] text-xs py-2 px-3 border-2 shadow-[2px_2px_0px_var(--ink)] mb-2"
-                      >
-                        <FileText className="w-3.5 h-3.5" aria-hidden="true" />
-                        <span>{t.projects.caseStudyLink}</span>
-                      </a>
-                    )}
-
-                    {/* A project can be missing either link: a client system has
-                        no public site and no public repo. Render only what exists. */}
-                    {(project.liveUrl || project.repoUrl) && (
-                    <div className="flex items-center gap-2 pt-1">
-                      {project.liveUrl && (
-                        <a
-                          href={project.liveUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="neo-btn flex-1 bg-[var(--accent)] text-[var(--on-accent)] text-xs py-2 px-3 border-2 shadow-[2px_2px_0px_var(--ink)]"
-                        >
-                          <span>{t.projects.liveDemo}</span>
-                          <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
-                        </a>
-                      )}
-
-                      {project.repoUrl && (
-                      <a
-                        href={project.repoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title={t.projects.viewCode}
-                        className={`neo-btn bg-[var(--card-color)] text-[var(--ink)] text-xs py-2 px-3 border-2 shadow-[2px_2px_0px_var(--ink)] ${
-                          project.liveUrl ? '' : 'flex-1'
-                        }`}
-                      >
-                        <Github className="w-3.5 h-3.5" />
-                        <span>{t.projects.repo}</span>
-                      </a>
-                      )}
-                    </div>
-                    )}
-                  </div>
-                </div>
+                <ProjectRow
+                  project={project}
+                  position={i + 1}
+                  total={visibleProjects.length}
+                  flipped={i % 2 === 1}
+                  onOpenCaseStudy={onOpenCaseStudy}
+                />
               </motion.li>
             ))}
           </AnimatePresence>
-        </motion.ul>
+        </motion.ol>
 
         {visibleProjects.length === 0 && (
           <p className="text-center text-[var(--muted-color)] font-mono text-sm mt-10">
@@ -239,32 +109,121 @@ export default function Projects({ onOpenCaseStudy }) {
   );
 }
 
-/* Serves the narrow variant to phones and the wide one to desktops, and states
-   the intrinsic box so the card never resizes once the file arrives. */
-function ProjectPreview({ project }) {
-  const base = project.previewImage;
-  const intrinsic = imageManifest[base];
-
-  if (!base || !intrinsic) {
-    return (
-      <span className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-stripes text-[var(--muted-color)]">
-        <ImageOff className="w-7 h-7" aria-hidden="true" />
-        <span className="font-mono text-[10px] uppercase tracking-wider">{project.title}</span>
-      </span>
-    );
-  }
+function ProjectRow({ project, position, total, flipped, onOpenCaseStudy }) {
+  const { t } = useAppContext();
+  const headingId = `project-${project.id}-title`;
 
   return (
-    <img
-      src={`/projects/${base}-${PREVIEW_WIDTHS.at(-1)}.webp`}
-      srcSet={PREVIEW_WIDTHS.map((w) => `/projects/${base}-${w}.webp ${w}w`).join(', ')}
-      sizes={PREVIEW_SIZES}
-      width={intrinsic.width}
-      height={intrinsic.height}
-      alt={`${project.title} preview`}
-      loading="lazy"
-      decoding="async"
-      className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
-    />
+    <article aria-labelledby={headingId} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      <div className={`lg:col-span-7 ${flipped ? 'lg:order-2' : ''}`}>
+        <ProjectGallery project={project} priority={position === 1} />
+      </div>
+
+      <div className={`lg:col-span-5 flex flex-col ${flipped ? 'lg:order-1' : ''}`}>
+        <div className="flex items-center gap-3 mb-4">
+          <span className="font-mono text-sm font-black tabular-nums text-[var(--ink)]">
+            {String(position).padStart(2, '0')}
+            <span className="text-[var(--muted-color)] font-semibold"> / {String(total).padStart(2, '0')}</span>
+          </span>
+          <span className="h-px flex-1 bg-[var(--ink)] opacity-30" aria-hidden="true" />
+          <span className="neo-tag text-[10px] font-semibold">{project.category}</span>
+        </div>
+
+        <h3
+          id={headingId}
+          className="font-heading font-black text-3xl sm:text-4xl text-[var(--ink)] leading-[1.05] tracking-tight mb-3 text-balance"
+        >
+          {project.title}
+        </h3>
+
+        <p className="text-[var(--ink)] text-base leading-relaxed mb-2 text-pretty font-medium">
+          {project.description}
+        </p>
+        <p className="text-[var(--muted-color)] text-sm leading-relaxed mb-6 text-pretty">
+          {project.longDescription}
+        </p>
+
+        {/* The decision behind the project, given more weight than the stack */}
+        <div className="border-l-4 border-[var(--accent)] pl-4 mb-5">
+          <p className="font-mono text-[10px] font-black uppercase tracking-[0.18em] text-[var(--muted-color)] mb-1.5 flex items-center gap-1.5">
+            <GitBranch className="w-3 h-3" aria-hidden="true" />
+            {t.projects.decisionLabel}
+          </p>
+          <p className="text-[var(--ink)] text-sm leading-relaxed font-semibold">
+            {project.keyDecision}
+          </p>
+        </div>
+
+        <p className="font-mono text-[10px] text-[var(--muted-color)] uppercase tracking-wider mb-4 flex items-start gap-1.5">
+          <UserCog className="w-3 h-3 mt-0.5 shrink-0" aria-hidden="true" />
+          <span>
+            <span className="font-black">{t.projects.roleLabel}:</span> {project.role}
+          </span>
+        </p>
+
+        <ul className="flex flex-wrap gap-1.5 mb-6 list-none p-0" aria-label="Stack">
+          {project.tech.map((tech) => (
+            <li key={tech} className="neo-tag text-[10px] font-semibold">
+              {tech}
+            </li>
+          ))}
+        </ul>
+
+        {/* A project can be missing either link: a client system has no public
+            site and no public repo. Render only what exists, and let the one
+            that is there carry the primary style. */}
+        <div className="flex flex-wrap items-stretch gap-2.5">
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="neo-btn bg-[var(--accent)] text-[var(--on-accent)] text-xs py-3 px-5 shadow-[3px_3px_0px_var(--ink)] group/visit"
+            >
+              <span>{t.projects.visitSite}</span>
+              <ArrowUpRight
+                className="w-4 h-4 transition-transform duration-150 group-hover/visit:translate-x-0.5 group-hover/visit:-translate-y-0.5"
+                aria-hidden="true"
+              />
+              <span className="sr-only">{t.projects.opensInNewTab}</span>
+            </a>
+          )}
+
+          {project.caseStudy && (
+            <a
+              href={`${CASE_STUDY_PREFIX}${project.caseStudy}`}
+              onClick={(event) => {
+                /* Let the browser handle new-tab and modified clicks. */
+                if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+                event.preventDefault();
+                onOpenCaseStudy(project.caseStudy);
+              }}
+              className={`neo-btn text-xs py-3 px-4 ${
+                project.liveUrl
+                  ? 'bg-[var(--card-color)] text-[var(--ink)]'
+                  : 'bg-[var(--ink)] text-[var(--bg-color)]'
+              }`}
+            >
+              <FileText className="w-4 h-4" aria-hidden="true" />
+              <span>{t.projects.caseStudyShort}</span>
+            </a>
+          )}
+
+          {project.repoUrl && (
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={t.projects.viewCode}
+              className="neo-btn bg-[var(--card-color)] text-[var(--ink)] text-xs py-3 px-4"
+            >
+              <Github className="w-4 h-4" />
+              <span>{t.projects.repo}</span>
+              <span className="sr-only">{t.projects.opensInNewTab}</span>
+            </a>
+          )}
+        </div>
+      </div>
+    </article>
   );
 }

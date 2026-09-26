@@ -1,26 +1,50 @@
 {
-  "lo-exacto": {
-    "width": 1280,
-    "height": 640
-  },
-  "calitop-services": {
-    "width": 1280,
-    "height": 647
-  },
-  "revolt-laptop": {
-    "width": 1280,
-    "height": 647
-  },
-  "boom-pos": {
-    "width": 1280,
-    "height": 642
-  },
-  "anemivision": {
-    "width": 1280,
-    "height": 720
-  },
-  "geotop-certificates": {
-    "width": 1280,
-    "height": 550
-  }
+  "anemivision": [
+    {
+      "file": "01",
+      "width": 1280,
+      "height": 720,
+      "caption": null
+    }
+  ],
+  "boom-pos": [
+    {
+      "file": "01",
+      "width": 1280,
+      "height": 642,
+      "caption": null
+    }
+  ],
+  "calitop-services": [
+    {
+      "file": "01",
+      "width": 1280,
+      "height": 647,
+      "caption": null
+    }
+  ],
+  "geotop-certificates": [
+    {
+      "file": "01",
+      "width": 1280,
+      "height": 550,
+      "caption": null
+    }
+  ],
+  "lo-exacto": [
+    {
+      "file": "01",
+      "width": 1280,
+      "height": 640,
+      "caption": null
+    }
+  ],
+  "revolt-laptop": [
+    {
+      "file": "01",
+      "width": 1280,
+      "height": 647,
+      "caption": null
+    }
+  ]
 }

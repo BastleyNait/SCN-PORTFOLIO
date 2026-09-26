@@ -118,6 +118,14 @@
     box-shadow: 7px 7px 0px var(--ink);
   }
 
+  /* A project gallery: the card's weight without the hover lift, which would
+     fight the carousel controls sitting on top of it. */
+  .neo-frame {
+    background: var(--card-color);
+    border: 3px solid var(--ink);
+    box-shadow: 5px 5px 0px var(--ink);
+  }
+
   .neo-card-sm {
     background: var(--card-color);
     border: 1px solid var(--ink);
@@ -232,6 +240,16 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
+}
+
+/* Gallery lightbox. The page behind a modal dialog is inert but still
+   scrolls, so lock it while one is open. */
+.lightbox::backdrop {
+  background: rgba(10, 9, 8, 0.82);
+}
+
+html:has(dialog[open]) {
+  overflow: hidden;
 }
 
 /* Backdrop patterns follow the theme through --ink-rgb. */

@@ -217,8 +217,7 @@ export const projectsData = [
     liveUrl: "https://www.lo-exacto.com/",
     repoUrl: "https://github.com/BastleyNait/LO-EXACTO.git",
     featured: true,
-    status: "Producción",
-    previewImage: "lo-exacto"
+    status: "Producción"
   },
   {
     id: "calitop-services",
@@ -232,8 +231,7 @@ export const projectsData = [
     liveUrl: "https://www.calitop-services.com/",
     repoUrl: "https://github.com/BastleyNait/CALITOP-WEB",
     featured: true,
-    status: "Producción",
-    previewImage: "calitop-services"
+    status: "Producción"
   },
   {
     id: "revolt-laptop",
@@ -247,8 +245,7 @@ export const projectsData = [
     liveUrl: "https://revolt-laptops.vercel.app/",
     repoUrl: "https://github.com/BastleyNait/REVOLT-LAP",
     featured: true,
-    status: "Producción",
-    previewImage: "revolt-laptop"
+    status: "Producción"
   },
   {
     id: "boom-pos",
@@ -263,7 +260,6 @@ export const projectsData = [
     repoUrl: "https://github.com/BastleyNait/BOOM-POS",
     featured: true,
     status: "Producción",
-    previewImage: "boom-pos",
     caseStudy: "boom-pos"
   },
   {
@@ -280,7 +276,6 @@ export const projectsData = [
     featured: true,
     previewLabel: "anemivision.apk",
     status: "Edge AI",
-    previewImage: "anemivision",
     caseStudy: "anemivision"
   },
   {
@@ -297,7 +292,6 @@ export const projectsData = [
     featured: true,
     status: "Producción",
     previewLabel: "gestor de certificados",
-    previewImage: "geotop-certificates",
     caseStudy: "geotop-certificates"
   }
 ];
