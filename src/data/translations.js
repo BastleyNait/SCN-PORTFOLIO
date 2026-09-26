@@ -58,6 +58,8 @@ export const translations = {
       nextSlide: "Next screenshot",
       openGallery: "View full size",
       closeGallery: "Close",
+      pauseSlideshow: "Pause slideshow",
+      playSlideshow: "Play slideshow",
       empty: "No projects in this category yet."
     },
     caseStudy: {
@@ -177,6 +179,8 @@ export const translations = {
       nextSlide: "Captura siguiente",
       openGallery: "Ver en grande",
       closeGallery: "Cerrar",
+      pauseSlideshow: "Pausar presentación",
+      playSlideshow: "Reproducir presentación",
       empty: "Todavía no hay proyectos en esta categoría."
     },
     caseStudy: {

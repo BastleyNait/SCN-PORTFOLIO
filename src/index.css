@@ -242,6 +242,19 @@
   background: var(--accent);
 }
 
+/* Per-slide progress in an autoplaying gallery. Paused and resumed through
+   animation-play-state, so the bar always matches the slide timer. */
+@keyframes gallery-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.gallery-progress {
+  animation-name: gallery-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+
 /* Gallery lightbox. The page behind a modal dialog is inert but still
    scrolls, so lock it while one is open. */
 .lightbox::backdrop {

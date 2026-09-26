@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Maximize2, X, ImageOff } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Maximize2, X, ImageOff, Pause, Play } from 'lucide-react';
 import { useAppContext } from '../context/app-context';
 import imageManifest from '../data/imageManifest.json';
 
@@ -19,6 +19,11 @@ const SWIPE_DISTANCE = 60;
 const SWIPE_VELOCITY = 400;
 
 const NO_SLIDES = [];
+
+/* How long each slide stays up while the gallery plays on its own. Long
+   enough to read a screenshot, short enough that a visitor scrolling past
+   still sees two or three of them. */
+const SLIDE_MS = 4500;
 
 /* The stage takes the shape of the gallery's own desktop screenshots, so a set
    of 2:1 browser captures fills it edge to edge instead of floating in a 16:9
@@ -59,36 +64,77 @@ export default function ProjectGallery({ project, priority = false }) {
   const [direction, setDirection] = useState(1);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const dragged = useRef(false);
-  const touched = useRef(false);
+
+  /* Autoplay. The visitor's own switch, plus every reason to hold still:
+     off screen, tab hidden, pointer resting on the image, keyboard focus
+     inside, or the lightbox open. Reduced-motion users start paused and
+     can still press play. */
+  const [playing, setPlaying] = useState(!reduceMotion);
+  const [hovering, setHovering] = useState(false);
+  const [focusWithin, setFocusWithin] = useState(false);
+  const [inView, setInView] = useState(false);
+  const [pageVisible, setPageVisible] = useState(true);
+  const frameRef = useRef(null);
+  const elapsed = useRef(0);
+  const shownIndex = useRef(0);
+
+  const multiple = total > 1;
+  const running = multiple && playing && inView && pageVisible && !hovering && !focusWithin && !lightboxOpen;
+
+  useEffect(() => {
+    const node = frameRef.current;
+    if (!node || typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0.35 });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const sync = () => setPageVisible(document.visibilityState === 'visible');
+    document.addEventListener('visibilitychange', sync);
+    return () => document.removeEventListener('visibilitychange', sync);
+  }, []);
 
   const go = useCallback((step) => {
     if (total < 2) return;
-    touched.current = true;
     setDirection(step);
     setIndex((current) => (current + step + total) % total);
   }, [total]);
 
   const jump = (next) => {
-    touched.current = true;
     setDirection(next >= index ? 1 : -1);
     setIndex(next);
   };
 
-  /* Neighbours are fetched only once the visitor starts browsing, so seven
-     galleries sitting below the fold cost one image each, not all of them. */
+  /* One timeout per slide. Pausing banks the time already spent, so resuming
+     finishes the current slide instead of starting it over; a new slide,
+     whether it came from the timer or from the visitor, starts from zero. */
   useEffect(() => {
-    if (!touched.current || total < 2) return;
-    for (const step of [1, -1]) {
-      const slide = slides[(index + step + total) % total];
-      const img = new Image();
-      img.sizes = STAGE_SIZES;
-      img.srcset = slideSrcSet(project.id, slide);
+    if (shownIndex.current !== index) {
+      shownIndex.current = index;
+      elapsed.current = 0;
     }
-  }, [index, total, slides, project.id]);
+    if (!running) return;
+    const startedAt = performance.now();
+    const timer = setTimeout(() => go(1), Math.max(0, SLIDE_MS - elapsed.current));
+    return () => {
+      clearTimeout(timer);
+      elapsed.current += performance.now() - startedAt;
+    };
+  }, [running, index, go]);
+
+  /* Only the next slide is fetched, and only once the gallery is on screen,
+     so seven galleries below the fold cost one image each, not all of them. */
+  useEffect(() => {
+    if (!inView || total < 2) return;
+    const img = new Image();
+    img.sizes = STAGE_SIZES;
+    img.srcset = slideSrcSet(project.id, slides[(index + 1) % total]);
+  }, [inView, index, total, slides, project.id]);
 
   if (total === 0) {
     return (
-      <Frame project={project} counter={null}>
+      <Frame ref={frameRef} project={project} counter={null}>
         <div className="relative aspect-video flex flex-col items-center justify-center gap-2 bg-stripes text-[var(--muted-color)]">
           <ImageOff className="w-8 h-8" aria-hidden="true" />
           <span className="font-mono text-[10px] uppercase tracking-wider">{project.title}</span>
@@ -98,7 +144,6 @@ export default function ProjectGallery({ project, priority = false }) {
   }
 
   const slide = slides[index];
-  const multiple = total > 1;
   const counter = multiple
     ? `${String(index + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`
     : null;
@@ -107,11 +152,13 @@ export default function ProjectGallery({ project, priority = false }) {
       ? `${project.title}: ${s.caption}`
       : fill(t.projects.slideAlt, { title: project.title, n: i + 1, total });
 
-  const offset = reduceMotion ? 0 : 48;
+  /* The incoming slide drifts in over the outgoing one while both fade, so
+     the loop reads as one continuous reel rather than a hard cut. */
+  const offset = reduceMotion ? 0 : 32;
   const variants = {
-    enter: (dir) => ({ opacity: 0, x: dir * offset }),
-    center: { opacity: 1, x: 0 },
-    exit: (dir) => ({ opacity: 0, x: dir * -offset })
+    enter: (dir) => ({ opacity: 0, x: dir * offset, scale: reduceMotion ? 1 : 1.02 }),
+    center: { opacity: 1, x: 0, scale: 1 },
+    exit: { opacity: 0 }
   };
 
   const onKeyDown = (event) => {
@@ -122,22 +169,56 @@ export default function ProjectGallery({ project, priority = false }) {
   return (
     <>
       <Frame
+        ref={frameRef}
         project={project}
         counter={counter}
         onExpand={() => setLightboxOpen(true)}
         expandLabel={t.projects.openGallery}
+        playback={multiple ? {
+          playing,
+          toggle: () => setPlaying((value) => !value),
+          label: playing ? t.projects.pauseSlideshow : t.projects.playSlideshow
+        } : null}
       >
         <div
           role="region"
           aria-roledescription={t.projects.carouselRole}
           aria-label={fill(t.projects.galleryLabel, { title: project.title })}
           onKeyDown={multiple ? onKeyDown : undefined}
+          onFocus={() => setFocusWithin(true)}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) setFocusWithin(false);
+          }}
           className="relative"
         >
           <div
             className="relative overflow-hidden bg-stripes bg-[var(--bg-color)]"
             style={{ aspectRatio: `${1 / ratio}` }}
+            /* Mouse only: a tap on a phone fires pointerenter and never the
+               matching leave, which would park the gallery for good. */
+            onPointerEnter={(event) => { if (event.pointerType === 'mouse') setHovering(true); }}
+            onPointerLeave={(event) => { if (event.pointerType === 'mouse') setHovering(false); }}
           >
+            {multiple && (
+              <div className="absolute top-2 inset-x-2 z-20 flex gap-1 pointer-events-none" aria-hidden="true">
+                {slides.map((s, i) => (
+                  <span key={s.file} className="relative h-1 flex-1 bg-white/40 shadow-[0_0_0_1px_rgba(0,0,0,0.25)] overflow-hidden">
+                    {i < index && <span className="absolute inset-0 bg-[var(--accent)]" />}
+                    {i === index && (
+                      <span
+                        key={index}
+                        className="gallery-progress absolute inset-0 bg-[var(--accent)] origin-left"
+                        style={{
+                          animationDuration: `${SLIDE_MS}ms`,
+                          animationPlayState: running ? 'running' : 'paused'
+                        }}
+                      />
+                    )}
+                  </span>
+                ))}
+              </div>
+            )}
+
             <AnimatePresence initial={false} custom={direction} mode="popLayout">
               <motion.button
                 key={slide.file}
@@ -147,7 +228,7 @@ export default function ProjectGallery({ project, priority = false }) {
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{ duration: reduceMotion ? 0.01 : 0.35, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: reduceMotion ? 0.01 : 0.6, ease: [0.22, 1, 0.36, 1] }}
                 drag={multiple && !reduceMotion ? 'x' : false}
                 dragConstraints={{ left: 0, right: 0 }}
                 dragElastic={0.18}
@@ -195,8 +276,10 @@ export default function ProjectGallery({ project, priority = false }) {
             )}
           </div>
 
-          {/* The index is announced once per change, not on every render. */}
-          <p className="sr-only" aria-live="polite" aria-atomic="true">
+          {/* Announced when the visitor moves the gallery, silent while it
+              plays on its own so a screen reader is not interrupted every
+              few seconds. */}
+          <p className="sr-only" aria-live={running ? 'off' : 'polite'} aria-atomic="true">
             {multiple ? fill(t.projects.slideStatus, { n: index + 1, total }) : ''}
           </p>
 
@@ -252,9 +335,9 @@ export default function ProjectGallery({ project, priority = false }) {
 
 /* The browser-window frame every gallery sits in. The chrome bar carries the
    domain, the slide counter and the full-screen control. */
-function Frame({ project, counter, onExpand, expandLabel, children }) {
+const Frame = React.forwardRef(function Frame({ project, counter, onExpand, expandLabel, playback, children }, ref) {
   return (
-    <div className="neo-frame overflow-hidden">
+    <div ref={ref} className="neo-frame overflow-hidden">
       <div className="h-9 bg-[var(--bg-color)] border-b-[3px] border-[var(--ink)] px-3 flex items-center gap-3">
         <span className="flex gap-1.5 shrink-0" aria-hidden="true">
           <span className="w-2.5 h-2.5 rounded-full border-2 border-[var(--ink)] bg-[var(--accent)]" />
@@ -272,6 +355,20 @@ function Frame({ project, counter, onExpand, expandLabel, children }) {
               {counter}
             </span>
           )}
+          {playback && (
+            <button
+              type="button"
+              onClick={playback.toggle}
+              aria-label={playback.label}
+              aria-pressed={!playback.playing}
+              title={playback.label}
+              className="w-6 h-6 inline-flex items-center justify-center border-2 border-[var(--ink)] bg-[var(--card-color)] text-[var(--ink)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] cursor-pointer transition-colors"
+            >
+              {playback.playing
+                ? <Pause className="w-3 h-3" aria-hidden="true" />
+                : <Play className="w-3 h-3" aria-hidden="true" />}
+            </button>
+          )}
           {onExpand && (
             <button
               type="button"
@@ -288,7 +385,7 @@ function Frame({ project, counter, onExpand, expandLabel, children }) {
       {children}
     </div>
   );
-}
+});
 
 function StageArrow({ side, label, onClick }) {
   const Icon = side === 'left' ? ChevronLeft : ChevronRight;
