@@ -161,6 +161,17 @@ export default function ProjectGallery({ project, priority = false }) {
     frameRef, lightboxOpen, setLightboxOpen, reduceMotion, containerProps, hoverProps
   } = useSlideshow({ slides, projectId: project.id, sizes: STAGE_SIZES });
   const dragged = useRef(false);
+  const stripRef = useRef(null);
+
+  /* With more thumbnails than fit, keep the current one centred in the
+     strip. Scrolls the strip sideways only, never the page. */
+  useEffect(() => {
+    const strip = stripRef.current;
+    const thumb = strip?.querySelector(`[data-thumb="${index}"]`);
+    if (!strip || !thumb) return;
+    const left = thumb.offsetLeft - strip.clientWidth / 2 + thumb.clientWidth / 2;
+    strip.scrollTo({ left: Math.max(0, left), behavior: reduceMotion ? 'auto' : 'smooth' });
+  }, [index, reduceMotion]);
 
   if (total === 0) {
     return (
@@ -292,12 +303,6 @@ export default function ProjectGallery({ project, priority = false }) {
               {project.status}
             </span>
 
-            {multiple && (
-              <>
-                <StageArrow side="left" label={t.projects.prevSlide} onClick={() => go(-1)} />
-                <StageArrow side="right" label={t.projects.nextSlide} onClick={() => go(1)} />
-              </>
-            )}
           </div>
 
           {/* Announced when the visitor moves the gallery, silent while it
@@ -307,12 +312,16 @@ export default function ProjectGallery({ project, priority = false }) {
             {multiple ? fill(t.projects.slideStatus, { n: index + 1, total }) : ''}
           </p>
 
+          {/* Control rail under the image: previous and next sit at its ends,
+              the thumbnails between them, so nothing covers the screenshot. */}
           {multiple && (
-            <ul className="flex gap-2 p-2 overflow-x-auto border-t-[3px] border-[var(--ink)] bg-[var(--bg-color)] list-none m-0">
+            <div className="flex items-stretch gap-2 p-2 border-t-[3px] border-[var(--ink)] bg-[var(--bg-color)]">
+            <RailArrow side="left" label={t.projects.prevSlide} onClick={() => go(-1)} />
+            <ul ref={stripRef} className="flex-1 min-w-0 flex gap-2 overflow-x-auto list-none m-0 p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {slides.map((s, i) => {
                 const active = i === index;
                 return (
-                  <li key={s.file} className="shrink-0">
+                  <li key={s.file} data-thumb={i} className="shrink-0">
                     <button
                       type="button"
                       onClick={() => jump(i)}
@@ -339,6 +348,8 @@ export default function ProjectGallery({ project, priority = false }) {
                 );
               })}
             </ul>
+            <RailArrow side="right" label={t.projects.nextSlide} onClick={() => go(1)} />
+            </div>
           )}
         </div>
       </Frame>
@@ -411,6 +422,31 @@ const Frame = React.forwardRef(function Frame({ project, counter, onExpand, expa
   );
 });
 
+/* Previous / next in the site's own button language: ink frame, hard
+   shadow, accent on hover, pressed flat into the shadow on click. The
+   chevron nudges toward where it will take you. */
+function RailArrow({ side, label, onClick, compact = false }) {
+  const Icon = side === 'left' ? ChevronLeft : ChevronRight;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      title={label}
+      className={`group/arrow shrink-0 flex items-center justify-center border-2 border-[var(--ink)] bg-[var(--card-color)] text-[var(--ink)] shadow-[2px_2px_0px_var(--ink)] cursor-pointer transition-[transform,box-shadow,background-color,color] duration-150 ease-out hover:bg-[var(--accent)] hover:text-[var(--on-accent)] hover:-translate-x-px hover:-translate-y-px hover:shadow-[3px_3px_0px_var(--ink)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none ${
+        compact ? 'w-8 h-8' : 'w-11 sm:w-12'
+      }`}
+    >
+      <Icon
+        className={`w-5 h-5 transition-transform duration-150 ease-out ${
+          side === 'left' ? 'group-hover/arrow:-translate-x-0.5' : 'group-hover/arrow:translate-x-0.5'
+        }`}
+        aria-hidden="true"
+      />
+    </button>
+  );
+}
+
 function StageArrow({ side, label, onClick, inline = false }) {
   const Icon = side === 'left' ? ChevronLeft : ChevronRight;
   const place = inline ? '' : `absolute top-1/2 -translate-y-1/2 ${side === 'left' ? 'left-3' : 'right-3'} z-20`;
@@ -464,9 +500,13 @@ function Lightbox({ open, onClose, project, slide, alt, counter, onPrev, onNext 
               </span>
             )}
             <span className="ml-auto flex items-center gap-3 shrink-0">
+              {/* In the lightbox the image gets the whole stage too: previous
+                  and next sit in the header, either side of the counter. */}
+              {onPrev && <RailArrow compact side="left" label={t.projects.prevSlide} onClick={onPrev} />}
               {counter && (
                 <span className="font-mono text-xs font-bold tabular-nums text-[var(--muted-color)]">{counter}</span>
               )}
+              {onNext && <RailArrow compact side="right" label={t.projects.nextSlide} onClick={onNext} />}
               <button
                 type="button"
                 onClick={onClose}
@@ -493,8 +533,6 @@ function Lightbox({ open, onClose, project, slide, alt, counter, onPrev, onNext 
               decoding="async"
               className="block w-auto h-auto max-w-[min(1280px,calc(100vw-2rem-6px))] max-h-[calc(100dvh-8rem)] object-contain"
             />
-            {onPrev && <StageArrow side="left" label={t.projects.prevSlide} onClick={onPrev} />}
-            {onNext && <StageArrow side="right" label={t.projects.nextSlide} onClick={onNext} />}
           </div>
         </div>
       )}
