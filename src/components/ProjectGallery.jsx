@@ -288,8 +288,7 @@ export default function ProjectGallery({ project, priority = false }) {
               </span>
             )}
 
-            <span className="absolute bottom-3 right-3 z-10 neo-tag !bg-[var(--bottle)] !text-[var(--on-bottle)] !border-transparent shadow-[var(--shadow-sm)] pointer-events-none">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--mint)]" aria-hidden="true" />
+            <span className="absolute bottom-3 right-3 z-10 neo-tag !bg-[var(--accent)] !text-[var(--on-accent)] pointer-events-none">
               {project.status}
             </span>
 
@@ -362,7 +361,7 @@ export default function ProjectGallery({ project, priority = false }) {
    domain, the slide counter and the full-screen control. */
 const Frame = React.forwardRef(function Frame({ project, counter, onExpand, expandLabel, playback, children }, ref) {
   return (
-    <div ref={ref} className="neo-frame overflow-hidden">
+    <div ref={ref} className="neo-frame overflow-hidden !rounded-[22px]">
       <div className="h-10 bg-[var(--sunk-color)] border-b border-[var(--line)] px-3.5 flex items-center gap-3">
         <span className="flex gap-1.5 shrink-0" aria-hidden="true">
           <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent)]" />

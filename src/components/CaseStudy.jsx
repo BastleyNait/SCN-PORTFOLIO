@@ -38,9 +38,10 @@ export default function CaseStudy({ slug, onBack }) {
   }
 
   return (
-    <main id="main" className="bg-[var(--bg-color)] min-h-screen pb-20">
-      <div className="bottle-region bottle-grain bg-grid-neo pt-10 pb-20">
+    <main id="main" className="relative z-10 min-h-screen pb-20">
+      <div className="relative z-10 pt-10 pb-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <div className="clay clay-violet !rounded-[44px] p-7 sm:p-10">
           <button
             type="button"
             onClick={onBack}
@@ -51,25 +52,26 @@ export default function CaseStudy({ slug, onBack }) {
           </button>
 
 
-          <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl tracking-[-0.035em] leading-[1.02] text-[var(--ink)] text-balance mb-6">
+          <h1 className="font-heading font-bold text-4xl sm:text-5xl lg:text-6xl tracking-[-0.025em] leading-[1.02] text-balance mb-6">
             {study.title}
           </h1>
 
-          <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-[var(--muted-color)]">
-            <span className="inline-flex items-center gap-2 font-medium text-[var(--ink)]">
+          <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm opacity-90">
+            <span className="inline-flex items-center gap-2 font-semibold">
               <Building2 className="w-4 h-4" aria-hidden="true" />
               {study.client}
             </span>
             <span aria-hidden="true">•</span>
             <span>{study.role}</span>
           </p>
+          </div>
         </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <dl className="grid grid-cols-1 sm:grid-cols-3 gap-4 -mt-10 mb-14 relative">
           {study.metrics.map((metric) => (
-            <div key={metric.label} className="neo-card-flat !rounded-[var(--radius-lg)] p-5 shadow-[var(--shadow-md)]">
+            <div key={metric.label} className="clay p-5">
               <dd
 className="font-heading font-bold text-4xl tracking-[-0.04em] text-[var(--ink)] mb-1"
               >
@@ -109,7 +111,7 @@ className="font-heading font-bold text-4xl tracking-[-0.04em] text-[var(--ink)] 
         </div>
 
         <div className="mt-12 flex justify-center">
-          <button type="button" onClick={onBack} className="neo-btn btn-brass">
+          <button type="button" onClick={onBack} className="neo-btn btn-primary">
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />
             <span>{t.caseStudy.back}</span>
           </button>

@@ -34,14 +34,14 @@ export default function Projects({ onOpenCaseStudy }) {
     : projectsData.filter((project) => project.category === activeCategory);
 
   return (
-    <section id="projects" className="py-20 lg:py-28 relative z-10 bg-[var(--bg-color)]" aria-labelledby="projects-title">
+    <section id="projects" className="py-16 lg:py-24 relative z-10" aria-labelledby="projects-title">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <SectionHeader id="projects-title" title={t.projects.featured} description={t.projects.description}>
-          {/* Filters: a segmented control whose brass thumb slides to the
+          {/* Filters: a segmented control whose violet puck slides to the
               chosen category instead of blinking between buttons. */}
           <div
-            className="mt-7 inline-flex flex-wrap gap-1 p-1 rounded-2xl bg-[var(--sunk-color)] border border-[var(--line)]"
+            className="mt-8 inline-flex flex-wrap gap-1 p-1.5 clay-well !rounded-full"
             role="group"
             aria-label={t.projects.featured}
           >
@@ -55,17 +55,16 @@ export default function Projects({ onOpenCaseStudy }) {
                   type="button"
                   onClick={() => setActiveCategory(category)}
                   aria-pressed={isActive}
-                  className="relative px-4 py-2 text-sm font-medium rounded-xl cursor-pointer"
+                  className="relative px-4 py-2.5 text-sm font-semibold rounded-full cursor-pointer"
                 >
                   {isActive && (
                     <motion.span
                       layoutId="project-filter"
-                      className="absolute inset-0 rounded-xl bg-[var(--card-color)] shadow-[var(--shadow-sm)] border border-[var(--line)]"
-                      transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                      className="absolute inset-0 rounded-full clay clay-violet"
+                      transition={{ type: 'spring', stiffness: 460, damping: 30 }}
                     />
                   )}
-                  <span className={`relative z-10 inline-flex items-center gap-2 transition-colors ${isActive ? 'text-[var(--ink)]' : 'text-[var(--muted-color)] hover:text-[var(--ink)]'}`}>
-                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" aria-hidden="true" />}
+                  <span className={`relative z-10 transition-colors ${isActive ? 'text-[var(--on-accent)]' : 'text-[var(--muted-color)] hover:text-[var(--ink)]'}`}>
                     {label}
                   </span>
                 </button>
@@ -90,7 +89,7 @@ export default function Projects({ onOpenCaseStudy }) {
                 transition={{ duration: 0.3 }}
                 className={i === 0 ? '' : PROJECT_LAYOUT === 'showcase'
                   ? 'mt-10 lg:mt-14'
-                  : 'pt-16 mt-16 lg:pt-24 lg:mt-24 border-t border-[var(--line)]'}
+                  : 'mt-8 lg:mt-10'}
               >
                 <ProjectRow
                   project={project}
@@ -138,37 +137,32 @@ function ProjectRow({ project, position, flipped, onOpenCaseStudy }) {
   }
 
   return (
-    <article aria-labelledby={headingId} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
-      <RevealGallery className={`lg:col-span-7 ${flipped ? 'lg:order-2' : ''}`} flipped={flipped}>
-        <ProjectGallery project={project} priority={position === 1} />
-      </RevealGallery>
-      <div className={`lg:col-span-5 flex flex-col ${flipped ? 'lg:order-1' : ''}`}>
-        {details}
-      </div>
-    </article>
+    <RevealCard>
+      <article aria-labelledby={headingId} className="clay !rounded-[var(--radius-xl)] p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-10 items-center">
+        <div className={`lg:col-span-7 ${flipped ? 'lg:order-2' : ''}`}>
+          <ProjectGallery project={project} priority={position === 1} />
+        </div>
+        <div className={`lg:col-span-5 flex flex-col px-2 sm:px-0 pb-2 lg:pb-0 ${flipped ? 'lg:order-1' : ''}`}>
+          {details}
+        </div>
+      </article>
+    </RevealCard>
   );
 }
 
-/* The evidence arrives: the gallery rises and tilts flat into place, and a
-   brass glint crosses it once. The gallery is visible throughout; the motion
-   only moves it, so a scroll that outruns the observer still shows it. */
-function RevealGallery({ className, flipped, children }) {
+/* Each project slab pops up into place with a little overshoot, like clay
+   pressed onto the page. It starts visible and only moves, so a scroll that
+   outruns the observer still shows it. */
+function RevealCard({ children }) {
   const reduceMotion = useReducedMotion();
-  const [seen, setSeen] = useState(false);
-
   return (
     <motion.div
-      className={`relative ${className}`}
-      initial={reduceMotion ? false : { y: 48, rotate: flipped ? 1.2 : -1.2 }}
-      whileInView={{ y: 0, rotate: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-      onViewportEnter={() => setSeen(true)}
+      initial={reduceMotion ? false : { y: 60, scale: 0.96 }}
+      whileInView={{ y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ type: 'spring', stiffness: 170, damping: 20 }}
     >
       {children}
-      <span className="absolute inset-0 overflow-hidden rounded-[var(--radius-lg)] pointer-events-none" aria-hidden="true">
-        <span className={`glint ${seen && !reduceMotion ? 'is-on' : ''}`} />
-      </span>
     </motion.div>
   );
 }
@@ -182,17 +176,13 @@ function ProjectDetails({ project, headingId, compact, onOpenCaseStudy }) {
   return (
     <>
       <p className="flex flex-wrap items-center gap-2 mb-4 text-sm">
-        <span className="text-[var(--muted-color)]">{project.category}</span>
-        <span className="w-1 h-1 rounded-full bg-[var(--line-strong)]" aria-hidden="true" />
-        <span className="inline-flex items-center gap-1.5 text-[var(--ink)] font-medium">
-          <span className="w-1.5 h-1.5 rounded-full bg-[var(--mint)]" aria-hidden="true" />
-          {project.status}
-        </span>
+        <span className="neo-tag">{project.category}</span>
+        <span className="neo-tag !bg-[var(--butter)] !text-[var(--on-pastel)]">{project.status}</span>
       </p>
 
       <h3
         id={headingId}
-        className={`font-heading font-bold text-[var(--ink)] leading-[1] tracking-[-0.035em] mb-4 text-balance ${
+        className={`font-heading font-bold text-[var(--ink)] leading-[1] tracking-[-0.025em] mb-4 text-balance ${
           compact ? 'text-4xl sm:text-5xl lg:text-6xl' : 'text-[2.4rem] sm:text-5xl'
         }`}
       >
@@ -209,9 +199,9 @@ function ProjectDetails({ project, headingId, compact, onOpenCaseStudy }) {
       )}
 
       {/* The decision behind the project, given more weight than the stack. */}
-      <div className="relative rounded-[var(--radius-md)] bg-[var(--sunk-color)] px-5 py-4 mb-6">
-        <p className="text-[13px] text-[var(--muted-color)] mb-1.5">{toSentence(t.projects.decisionLabel)}</p>
-        <p className="font-heading text-[17px] font-semibold text-[var(--ink)] leading-snug tracking-[-0.01em]">
+      <div className="clay clay-lilac !rounded-[var(--radius-md)] px-5 py-4 mb-6">
+        <p className="text-[13px] font-semibold opacity-80 mb-1">{toSentence(t.projects.decisionLabel)}</p>
+        <p className="font-heading text-[17px] font-semibold leading-snug">
           {project.keyDecision}
         </p>
       </div>
@@ -237,7 +227,7 @@ function ProjectDetails({ project, headingId, compact, onOpenCaseStudy }) {
             href={project.liveUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="neo-btn btn-brass group/visit"
+            className="neo-btn btn-primary group/visit"
           >
             <span>{toSentence(t.projects.visitSite)}</span>
             <ArrowUpRight
@@ -257,7 +247,7 @@ function ProjectDetails({ project, headingId, compact, onOpenCaseStudy }) {
               event.preventDefault();
               onOpenCaseStudy(project.caseStudy);
             }}
-            className={`neo-btn ${project.liveUrl ? 'btn-ghost' : 'btn-brass'}`}
+            className={`neo-btn ${project.liveUrl ? 'btn-ghost' : 'btn-primary'}`}
           >
             <FileText className="w-4 h-4" aria-hidden="true" />
             <span>{t.projects.caseStudyShort}</span>

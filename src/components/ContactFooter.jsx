@@ -7,7 +7,7 @@ import { CV_PATH, CV_DOWNLOAD_NAME } from '../lib/cv';
 import { toSentence } from '../lib/text';
 
 const INPUT_CLASS =
-  'w-full px-4 py-3 rounded-xl bg-[rgba(238,244,234,0.06)] border border-[var(--line)] text-[15px] text-[var(--ink)] placeholder:text-[var(--muted-color)] placeholder:opacity-70 hover:border-[var(--line-strong)] focus:border-[var(--accent)] focus:bg-[rgba(238,244,234,0.1)] focus:outline-none focus:ring-4 focus:ring-[rgba(216,168,76,0.18)] transition-[border-color,background-color,box-shadow] duration-200';
+  'w-full px-4 py-3 clay-well !rounded-2xl text-[15px] text-[var(--ink)] placeholder:text-[var(--muted-color)] placeholder:opacity-80 focus:outline-none focus:ring-4 focus:ring-[color-mix(in_oklab,var(--accent)_35%,transparent)] transition-shadow duration-200';
 
 const LABEL_CLASS =
   'block text-[13px] font-medium text-[var(--muted-color)] mb-1.5';
@@ -46,29 +46,29 @@ export default function ContactFooter() {
   };
 
   return (
-    <footer id="contact" className="pt-10 pb-8 relative z-10 bg-[var(--bg-color)]">
+    <footer id="contact" className="pt-10 pb-8 relative z-10">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <motion.div
-          initial={reduceMotion ? false : { y: 40, scale: 0.98 }}
+          initial={reduceMotion ? false : { y: 60, scale: 0.95 }}
           whileInView={{ y: 0, scale: 1 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="bottle-region bottle-grain bg-grid-neo rounded-[var(--radius-xl)] overflow-hidden p-7 sm:p-10 lg:p-14 mb-10 shadow-[var(--shadow-lg)]"
+          transition={{ type: 'spring', stiffness: 160, damping: 20 }}
+          className="clay clay-violet !rounded-[48px] p-7 sm:p-10 lg:p-14 mb-10"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
 
             <div className="lg:col-span-7 flex flex-col items-start">
-              <h2 className="font-heading font-bold text-[clamp(2.4rem,5.4vw,4.4rem)] leading-[0.98] tracking-[-0.04em] text-[var(--ink)] mb-6 text-balance">
+              <h2 className="font-heading font-bold text-[clamp(2.4rem,5.4vw,4.4rem)] leading-[0.98] tracking-[-0.025em] mb-6 text-balance">
                 {t.contact.title}
               </h2>
 
-              <p className="text-[var(--muted-color)] text-base sm:text-[17px] leading-relaxed mb-6 max-w-[52ch]">
+              <p className="opacity-90 text-base sm:text-[17px] leading-relaxed mb-6 max-w-[52ch]">
                 {t.contact.description}
               </p>
 
-              <p className="inline-flex items-center gap-2 text-sm text-[var(--ink)] mb-8">
-                <span className="w-2 h-2 rounded-full bg-[var(--mint)]" aria-hidden="true" />
+              <p className="inline-flex items-center gap-2 text-sm font-semibold mb-8 clay clay-butter !rounded-full px-4 py-2">
+                <span className="w-2 h-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
                 {t.contact.availability}
               </p>
 
@@ -76,8 +76,8 @@ export default function ContactFooter() {
                   wants to paste it into their own client should not have to
                   trust a clipboard API that a locked-down browser may refuse. */}
               <div className="flex flex-wrap items-center gap-3">
-                <div className="rounded-2xl border border-[var(--line-strong)] flex items-stretch overflow-hidden">
-                  <span className="flex items-center gap-2.5 px-5 py-3.5 text-[15px] text-[var(--ink)] select-all">
+                <div className="clay !rounded-full flex items-stretch overflow-hidden text-[var(--ink)]">
+                  <span className="flex items-center gap-2.5 pl-5 pr-3 py-3.5 text-[15px] select-all">
                     <Mail className="w-4 h-4 shrink-0 text-[var(--accent)]" aria-hidden="true" />
                     {personalData.email}
                   </span>
@@ -85,7 +85,7 @@ export default function ContactFooter() {
                     type="button"
                     onClick={handleCopyEmail}
                     aria-label={t.contact.copyEmail}
-                    className="px-4 border-l border-[var(--line-strong)] flex items-center text-[var(--ink)] cursor-pointer hover:bg-[var(--accent)] hover:text-[var(--on-accent)] transition-colors"
+                    className="px-4 flex items-center text-[var(--ink)] cursor-pointer hover:text-[var(--accent)] transition-colors"
                   >
                     {copied
                       ? <Check className="w-4 h-4" aria-hidden="true" />
@@ -93,7 +93,7 @@ export default function ContactFooter() {
                   </button>
                 </div>
 
-                <span className="text-sm text-[var(--accent)] font-medium" role="status" aria-live="polite">
+                <span className="text-sm font-semibold" role="status" aria-live="polite">
                   {copied ? t.contact.copied : ''}
                 </span>
               </div>
@@ -103,7 +103,7 @@ export default function ContactFooter() {
                 <SocialLink href={personalData.linkedin} label="LinkedIn"><Linkedin className="w-[18px] h-[18px]" /></SocialLink>
                 <SocialLink href={personalData.whatsapp} label="WhatsApp"><Whatsapp className="w-[18px] h-[18px]" /></SocialLink>
 
-                <a href={CV_PATH} download={CV_DOWNLOAD_NAME} className="neo-btn btn-ghost ml-1">
+                <a href={CV_PATH} download={CV_DOWNLOAD_NAME} className="neo-btn ml-1">
                   <Download className="w-4 h-4" aria-hidden="true" />
                   <span>{t.hero.downloadCv}</span>
                 </a>
@@ -111,8 +111,8 @@ export default function ContactFooter() {
             </div>
 
             <div className="lg:col-span-5 w-full">
-              <div className="rounded-[var(--radius-lg)] border border-[var(--line)] bg-[rgba(0,0,0,0.16)] p-6 sm:p-7">
-                <h3 className="font-heading font-semibold text-xl text-[var(--ink)] tracking-[-0.015em] mb-5 flex items-center gap-2.5">
+              <div className="clay !rounded-[36px] p-6 sm:p-7 text-[var(--ink)]">
+                <h3 className="font-heading font-semibold text-xl text-[var(--ink)] mb-5 flex items-center gap-2.5">
                   <Send className="w-4 h-4 text-[var(--accent)]" aria-hidden="true" />
                   {t.contact.formTitle}
                 </h3>
@@ -131,7 +131,7 @@ export default function ContactFooter() {
                     <textarea id="contact-message" name="message" required rows={4} placeholder={t.contact.messagePlaceholder} className={`${INPUT_CLASS} resize-none`} />
                   </div>
 
-                  <button type="submit" className="neo-btn btn-brass w-full !py-3.5 mt-1 group">
+                  <button type="submit" className="neo-btn btn-primary w-full !py-3.5 mt-1 group">
                     <span>{toSentence(t.contact.sendBtn)}</span>
                     <Send className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" aria-hidden="true" />
                   </button>
@@ -154,7 +154,7 @@ export default function ContactFooter() {
             </span>
           </p>
 
-          <p className="font-heading italic text-[var(--ink)] order-first sm:order-none">{t.contact.tagline}</p>
+          <p className="font-heading font-medium text-[var(--ink)] order-first sm:order-none">{t.contact.tagline}</p>
 
           <nav className="flex items-center gap-1" aria-label="Footer">
             <FooterLink href={personalData.linkedin}>LinkedIn</FooterLink>
@@ -175,7 +175,7 @@ function SocialLink({ href, label, children }) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="w-11 h-11 rounded-full border border-[var(--line-strong)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] hover:border-transparent transition-colors flex items-center justify-center text-[var(--ink)]"
+      className="w-11 h-11 rounded-full clay clay-press flex items-center justify-center text-[var(--ink)]"
     >
       {children}
     </a>
@@ -189,7 +189,7 @@ function FooterLink({ href, children }) {
       href={href}
       target={isExternal ? '_blank' : undefined}
       rel={isExternal ? 'noopener noreferrer' : undefined}
-      className="px-3 py-1.5 rounded-lg hover:bg-[var(--card-color)] hover:text-[var(--ink)] transition-colors"
+      className="px-3.5 py-1.5 rounded-full font-semibold hover:bg-[var(--card-color)] hover:text-[var(--ink)] transition-colors"
     >
       {children}
     </a>

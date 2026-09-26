@@ -1,130 +1,123 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   BOTTLE & BRASS
-   An engineer's pad by day, bottle glass under a desk lamp by night.
-   Bottle green owns the brand regions (hero, contact) in both themes; brass
-   is spent on actions and the one drawn moment; everything else is ink on
-   pale green paper, ruled like an engineering computation pad.
+   CLAY
+   Soft, inflated surfaces lit from the top left: every card is a puffy
+   slab with a highlight on its upper edge, a shade on its lower edge and a
+   soft drop shadow, and every control squishes in when pressed.
 
-   The legacy token names (--ink, --bg-color, --card-color, --muted-color,
-   --accent, --on-accent) are kept and re-pointed, so any component that
-   still speaks them lands in the new world without a rewrite.
+   Palette: lavender mist ground, indigo ink, and four pastel clays (violet,
+   peach, butter, sky) that tag roles, never decoration. Violet is the only
+   action colour.
+
+   Legacy token names (--ink, --bg-color, --card-color, --muted-color,
+   --accent, --on-accent, --line, --sunk-color) are kept and re-pointed.
    ========================================================================== */
 @layer base {
   :root {
     color-scheme: light;
 
-    /* Paper */
-    --bg-color: #eef2ea;          /* canvas: engineering pad */
-    --card-color: #f8faf5;        /* raised paper */
-    --sunk-color: #e3eadf;        /* wells, tracks */
-    --ink: #0e2a21;               /* text: bottle ink */
-    --ink-rgb: 14, 42, 33;
-    --muted-color: #3f5a4f;       /* 7.4:1 on canvas */
-    --line: rgba(14, 42, 33, 0.14);
-    --line-strong: rgba(14, 42, 33, 0.28);
+    --bg-color: #eeeaf7;
+    --card-color: #faf8ff;
+    --sunk-color: #e5e0f3;
+    --ink: #26204a;
+    --ink-rgb: 38, 32, 74;
+    --muted-color: #5a5382;        /* 6.4:1 on the ground */
+    --line: rgba(38, 32, 74, 0.1);
+    --line-strong: rgba(38, 32, 74, 0.2);
 
-    /* Bottle (brand regions, same in both themes) */
-    --bottle: #0f4a36;
-    --bottle-deep: #0a3327;
-    --bottle-rgb: 15, 74, 54;
-    --on-bottle: #eef4ea;
-    --on-bottle-soft: rgba(238, 244, 234, 0.74);
-    --bottle-line: rgba(238, 244, 234, 0.16);
+    --accent: #6b58e6;             /* violet: actions */
+    --accent-strong: #5641d4;      /* violet as text */
+    --on-accent: #ffffff;          /* 5.1:1 on violet */
 
-    /* Brass (actions, the drawn moment) */
-    --accent: #c9973a;
-    --accent-strong: #a8781f;     /* brass as text on paper: 3.3:1, large only */
-    --on-accent: #0b2a20;         /* 6.9:1 on brass */
-    --mint: #74d3a4;              /* live signal */
+    --peach: #ffb49b;
+    --butter: #ffdb7d;
+    --sky: #9ed6ff;
+    --lilac: #cfc2ff;
+    --rose: #ffabcd;
+    --on-pastel: #26204a;
 
-    --black-color: var(--ink);
+    /* Clay lighting */
+    --clay-drop: rgba(86, 70, 170, 0.22);
+    --clay-glow: rgba(255, 255, 255, 0.95);
+    --clay-shade: rgba(86, 70, 170, 0.13);
+    --clay-shine: rgba(255, 255, 255, 0.9);
 
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 18px;
-    --radius-xl: 26px;
-
-    --shadow-sm: 0 1px 2px rgba(10, 51, 39, 0.06), 0 1px 1px rgba(10, 51, 39, 0.04);
-    --shadow-md: 0 2px 4px rgba(10, 51, 39, 0.05), 0 8px 24px -6px rgba(10, 51, 39, 0.14);
-    --shadow-lg: 0 4px 10px rgba(10, 51, 39, 0.06), 0 24px 60px -18px rgba(10, 51, 39, 0.32);
+    --radius-sm: 12px;
+    --radius-md: 18px;
+    --radius-lg: 28px;
+    --radius-xl: 40px;
 
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-squish: cubic-bezier(0.34, 1.56, 0.64, 1);
 
-    --grid-minor: rgba(15, 74, 54, 0.06);
-    --grid-major: rgba(15, 74, 54, 0.11);
-    --stripe-opacity: 0.04;
+    --shadow-sm: 0 4px 10px -2px var(--clay-drop);
+    --shadow-md: 10px 12px 26px -8px var(--clay-drop), -6px -6px 16px -6px var(--clay-glow);
+    --shadow-lg: 18px 22px 44px -12px var(--clay-drop), -10px -10px 26px -8px var(--clay-glow);
 
-    /* Kept for components that still reach for them. */
-    --accent-lime: #9fcf6a;
-    --accent-pink: #e79ab6;
-    --accent-blue: #6fb3d9;
-    --accent-orange: #e2a15a;
-    --accent-purple: #b59ad8;
-    --accent-red: #e07b72;
+    --stripe-opacity: 0.05;
+    --black-color: var(--ink);
   }
 
   .dark {
     color-scheme: dark;
 
-    --bg-color: #07231a;
-    --card-color: #0c2f24;
-    --sunk-color: #0a291f;
-    --ink: #e8efe5;
-    --ink-rgb: 232, 239, 229;
-    --muted-color: #a6bbb0;
-    --line: rgba(232, 239, 229, 0.12);
-    --line-strong: rgba(232, 239, 229, 0.24);
+    --bg-color: #1b1730;
+    --card-color: #282245;
+    --sunk-color: #201b39;
+    --ink: #f0ebff;
+    --ink-rgb: 240, 235, 255;
+    --muted-color: #b6addb;
+    --line: rgba(240, 235, 255, 0.1);
+    --line-strong: rgba(240, 235, 255, 0.2);
 
-    --accent: #d8a84c;
-    --accent-strong: #e2b865;
-    --on-accent: #0b2a20;
+    --accent: #9585ff;
+    --accent-strong: #b3a7ff;
+    --on-accent: #150f33;
 
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.25), 0 10px 28px -8px rgba(0, 0, 0, 0.5);
-    --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.3), 0 28px 64px -18px rgba(0, 0, 0, 0.7);
+    --peach: #f29b82;
+    --butter: #f2c75e;
+    --sky: #7dc2f5;
+    --lilac: #a996f5;
+    --rose: #f08fb8;
+    --on-pastel: #1b1535;
 
-    --grid-minor: rgba(232, 239, 229, 0.035);
-    --grid-major: rgba(232, 239, 229, 0.07);
-    --stripe-opacity: 0.05;
+    --clay-drop: rgba(0, 0, 0, 0.55);
+    --clay-glow: rgba(160, 140, 255, 0.07);
+    --clay-shade: rgba(0, 0, 0, 0.35);
+    --clay-shine: rgba(255, 255, 255, 0.09);
   }
 }
 
 @theme {
-  --font-heading: 'Bricolage Grotesque', 'Segoe UI', system-ui, -apple-system, sans-serif;
-  --font-body: 'Geist', 'Segoe UI', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Geist Mono', 'Cascadia Mono', Consolas, 'Liberation Mono', monospace;
+  --font-heading: 'Fredoka', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-body: 'DM Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cascadia Mono', Consolas, monospace;
 
   --color-neo-bg: var(--bg-color);
   --color-neo-ink: var(--ink);
   --color-neo-card: var(--card-color);
   --color-neo-muted: var(--muted-color);
   --color-neo-accent: var(--accent);
-  --color-bottle: var(--bottle);
-  --color-brass: var(--accent);
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 5.5rem;
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
   }
 
   body {
     background-color: var(--bg-color);
     color: var(--ink);
     font-family: var(--font-body);
-    font-feature-settings: "ss01", "cv11";
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    font-variation-settings: "opsz" 72;
+    font-weight: 600;
+    letter-spacing: -0.015em;
   }
 
   ::selection {
@@ -137,150 +130,147 @@
   }
 
   :where(a, button, input, textarea, select, [tabindex]):focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 3px solid var(--accent);
     outline-offset: 3px;
-    border-radius: 6px;
+    border-radius: 14px;
   }
 
-  /* Numerals in data line up. */
   :where(dd, .tabular-nums, time) {
     font-variant-numeric: tabular-nums;
   }
 }
 
-/* ===== COMPONENT CLASSES =====
-   Same names as the neobrutalist system they replace, redrawn: hairline
-   borders, soft layered shadows, radius by hierarchy. Declared inside
-   @layer components so utilities in markup still win. */
 @layer components {
-  .neo-card {
+  /* The clay slab. Four shadows: a soft drop to the lower right, a faint
+     glow to the upper left, and inside, a shine on the upper edge and a
+     shade on the lower one. That pair of insets is what makes it puffy. */
+  .clay {
     background: var(--card-color);
-    border: 1px solid var(--line);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
-    transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+    box-shadow:
+      16px 18px 38px -10px var(--clay-drop),
+      -8px -8px 22px -8px var(--clay-glow),
+      inset -6px -8px 16px -4px var(--clay-shade),
+      inset 6px 8px 16px -4px var(--clay-shine);
   }
 
-  .neo-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-  }
+  .clay-violet { background: var(--accent); color: var(--on-accent); --clay-shade: rgba(34, 18, 120, 0.4); --clay-shine: rgba(255, 255, 255, 0.35); }
+  .clay-peach { background: var(--peach); color: var(--on-pastel); --clay-shade: rgba(160, 60, 30, 0.22); --clay-shine: rgba(255, 255, 255, 0.55); }
+  .clay-butter { background: var(--butter); color: var(--on-pastel); --clay-shade: rgba(150, 100, 0, 0.22); --clay-shine: rgba(255, 255, 255, 0.6); }
+  .clay-sky { background: var(--sky); color: var(--on-pastel); --clay-shade: rgba(20, 90, 160, 0.22); --clay-shine: rgba(255, 255, 255, 0.55); }
+  .clay-lilac { background: var(--lilac); color: var(--on-pastel); --clay-shade: rgba(80, 50, 170, 0.22); --clay-shine: rgba(255, 255, 255, 0.55); }
+  .clay-rose { background: var(--rose); color: var(--on-pastel); --clay-shade: rgba(160, 40, 100, 0.22); --clay-shine: rgba(255, 255, 255, 0.55); }
 
-  .neo-card-sm,
-  .neo-card-flat {
-    background: var(--card-color);
-    border: 1px solid var(--line);
+  /* Pressed-in well: inputs, tracks, the state of a toggled control. */
+  .clay-well {
+    background: var(--sunk-color);
     border-radius: var(--radius-md);
+    box-shadow:
+      inset 5px 6px 12px -2px var(--clay-drop),
+      inset -5px -6px 12px -4px var(--clay-glow);
   }
 
-  .neo-frame {
-    background: var(--card-color);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
+  /* Hover lifts with a little overshoot; press squishes it into the page. */
+  .clay-press {
+    transition: transform 0.35s var(--ease-squish), box-shadow 0.25s ease, background-color 0.2s ease, color 0.2s ease;
   }
 
+  .clay-press:hover {
+    transform: translateY(-3px);
+  }
+
+  .clay-press:active {
+    transform: translateY(1px) scale(0.97);
+    box-shadow:
+      inset 4px 5px 10px -2px var(--clay-shade),
+      inset -3px -4px 10px -2px var(--clay-shine);
+  }
+
+  /* Buttons. */
   .neo-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.55rem;
-    padding: 0.75rem 1.25rem;
-    font-family: var(--font-body);
+    padding: 0.8rem 1.4rem;
+    font-family: var(--font-heading);
     font-weight: 600;
-    font-size: 0.9rem;
-    letter-spacing: -0.005em;
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius-md);
-    transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out),
-      background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    font-size: 0.98rem;
+    letter-spacing: 0;
+    border-radius: 999px;
+    background: var(--card-color);
+    color: var(--ink);
+    box-shadow:
+      8px 10px 20px -8px var(--clay-drop),
+      -4px -4px 12px -6px var(--clay-glow),
+      inset -3px -4px 8px -2px var(--clay-shade),
+      inset 3px 4px 8px -2px var(--clay-shine);
+    transition: transform 0.35s var(--ease-squish), box-shadow 0.25s ease, background-color 0.2s ease;
     cursor: pointer;
   }
 
-  .neo-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-  }
+  .neo-btn:hover { transform: translateY(-3px); }
 
   .neo-btn:active {
-    transform: translateY(0) scale(0.98);
-    box-shadow: none;
+    transform: translateY(1px) scale(0.96);
+    box-shadow:
+      inset 4px 5px 10px -2px var(--clay-shade),
+      inset -3px -4px 10px -2px var(--clay-shine);
   }
 
-  .btn-brass {
+  .btn-brass,
+  .btn-primary {
     background: var(--accent);
     color: var(--on-accent);
-    border-color: transparent;
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) inset, 0 6px 18px -8px rgba(168, 120, 31, 0.8);
+    --clay-shade: rgba(34, 18, 120, 0.42);
+    --clay-shine: rgba(255, 255, 255, 0.38);
   }
 
-  .btn-brass:hover {
-    background: color-mix(in oklab, var(--accent) 88%, white);
-  }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--ink);
-    border-color: var(--line-strong);
-  }
-
-  .btn-ghost:hover {
-    background: var(--card-color);
-  }
+  .btn-ghost { background: var(--card-color); color: var(--ink); }
 
   .neo-tag {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    padding: 0.2rem 0.6rem;
-    font-family: var(--font-body);
-    font-size: 0.72rem;
-    font-weight: 500;
-    border: 1px solid var(--line);
+    padding: 0.28rem 0.75rem;
+    font-size: 0.76rem;
+    font-weight: 600;
     border-radius: 999px;
-    background: var(--card-color);
+    background: var(--sunk-color);
     color: var(--ink);
+    box-shadow:
+      inset 2px 2px 5px -1px var(--clay-drop),
+      inset -2px -2px 5px -2px var(--clay-glow);
   }
 
-  .neo-divider {
-    border: none;
-    border-top: 1px solid var(--line);
-    margin: 0;
+  .neo-card,
+  .neo-card-flat,
+  .neo-card-sm,
+  .neo-frame {
+    background: var(--card-color);
+    border-radius: var(--radius-lg);
+    box-shadow:
+      16px 18px 38px -10px var(--clay-drop),
+      -8px -8px 22px -8px var(--clay-glow),
+      inset -6px -8px 16px -4px var(--clay-shade),
+      inset 6px 8px 16px -4px var(--clay-shine);
   }
+
+  .neo-divider { border: none; border-top: 1px solid var(--line); margin: 0; }
 
   .neo-section-label {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.35rem 0.8rem;
-    font-family: var(--font-body);
-    font-size: 0.78rem;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    border: 1px solid var(--line);
     border-radius: 999px;
-    background: var(--card-color);
-    color: var(--muted-color);
-  }
-
-  /* A region painted in the brand bottle, in either theme. Tokens inside are
-     re-pointed so text, tags and buttons read on it without extra classes. */
-  .bottle-region {
-    --ink: var(--on-bottle);
-    --ink-rgb: 238, 244, 234;
-    --muted-color: var(--on-bottle-soft);
-    --line: var(--bottle-line);
-    --line-strong: rgba(238, 244, 234, 0.3);
-    --card-color: rgba(238, 244, 234, 0.06);
-    --grid-minor: rgba(238, 244, 234, 0.045);
-    --grid-major: rgba(238, 244, 234, 0.085);
-    background-color: var(--bottle);
-    color: var(--on-bottle);
+    background: var(--sunk-color);
   }
 }
 
-.on-accent {
-  color: var(--on-accent);
-}
+.on-accent { color: var(--on-accent); }
 
 .skip-link {
   position: absolute;
@@ -290,43 +280,20 @@
   padding: 0.75rem 1.25rem;
   background: var(--accent);
   color: var(--on-accent);
-  border-radius: var(--radius-md);
-  font-weight: 700;
-  font-size: 0.85rem;
-}
-
-.skip-link:focus {
-  top: 1rem;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-color);
-}
-
-::-webkit-scrollbar-thumb {
-  background: color-mix(in oklab, var(--bottle) 55%, transparent);
   border-radius: 999px;
-  border: 2px solid var(--bg-color);
+  font-weight: 700;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
-}
+.skip-link:focus { top: 1rem; }
 
-/* Engineering computation pad: minor ruling every 24px, a major line every
-   fifth. Follows the theme and the bottle regions through its tokens. */
-.bg-grid-neo {
-  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
-  background-image:
-    linear-gradient(to right, var(--grid-major) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-major) 1px, transparent 1px),
-    linear-gradient(to right, var(--grid-minor) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-minor) 1px, transparent 1px);
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: var(--bg-color); }
+::-webkit-scrollbar-thumb {
+  background: var(--lilac);
+  border-radius: 999px;
+  border: 3px solid var(--bg-color);
 }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
 .bg-stripes {
   background-image: repeating-linear-gradient(
@@ -338,41 +305,39 @@
   );
 }
 
-/* Grain on the bottle regions, so the green reads as glass, not a flat fill. */
-.bottle-grain {
-  position: relative;
-  isolation: isolate;
-}
-
-.bottle-grain::before {
-  content: "";
-  position: absolute;
+/* Ambient clay blobs behind the page: three soft pastel masses that drift
+   very slowly. Fixed, behind everything, never interactive. */
+.clay-ambient {
+  position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(120% 80% at 85% 0%, rgba(116, 211, 164, 0.16), transparent 55%),
-    radial-gradient(90% 70% at 0% 100%, rgba(0, 0, 0, 0.35), transparent 60%);
+  overflow: hidden;
 }
 
-/* A brass glint that crosses a gallery once, the first time it is seen.
-   Purely additive: the image underneath is visible the whole time. */
-.glint {
+.clay-ambient span {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 25;
-  background: linear-gradient(105deg, transparent 35%, rgba(216, 168, 76, 0.28) 48%, rgba(255, 255, 255, 0.22) 50%, transparent 62%);
-  transform: translateX(-120%);
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+  animation: blob-drift 26s ease-in-out infinite alternate;
 }
 
-.glint.is-on {
-  animation: glint-sweep 1.3s var(--ease-out) 0.15s both;
+.dark .clay-ambient span { opacity: 0.22; }
+
+@keyframes blob-drift {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(4vw, -3vh, 0) scale(1.08); }
+  100% { transform: translate3d(-3vw, 4vh, 0) scale(0.95); }
 }
 
-@keyframes glint-sweep {
-  to { transform: translateX(120%); }
+/* A gentle bob for the hero portrait and the floating chips. */
+@keyframes clay-bob {
+  0%, 100% { transform: translateY(0) rotate(var(--tilt, 0deg)); }
+  50% { transform: translateY(-8px) rotate(var(--tilt, 0deg)); }
 }
+
+.clay-bob { animation: clay-bob 6s ease-in-out infinite; }
 
 /* Per-slide progress in an autoplaying gallery. Paused and resumed through
    animation-play-state, so the bar always matches the slide timer. */
@@ -472,7 +437,7 @@
 /* Gallery lightbox. The page behind a modal dialog is inert but still
    scrolls, so lock it while one is open. */
 .lightbox::backdrop {
-  background: rgba(7, 35, 26, 0.88);
+  background: rgba(27, 23, 48, 0.72);
   backdrop-filter: blur(6px);
 }
 
@@ -481,11 +446,9 @@ html:has(dialog[open]) {
 }
 
 
-/* Respect the operating-system motion preference across the whole page. */
+
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
 
   *,
   *::before,
@@ -494,6 +457,4 @@ html:has(dialog[open]) {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-
-  .glint { display: none; }
 }
