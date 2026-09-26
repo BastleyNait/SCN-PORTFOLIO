@@ -20,6 +20,7 @@ export default function Projects({ onOpenCaseStudy }) {
   const projectsData = data.projectsData;
   const reduceMotion = useReducedMotion();
   const [activeCategory, setActiveCategory] = useState(ALL);
+  const [filtered, setFiltered] = useState(false);
 
   /* Categories come from the project data itself, so a new project can never
      end up in a filter that silently matches nothing. */
@@ -63,7 +64,10 @@ export default function Projects({ onOpenCaseStudy }) {
                 <button
                   key={category}
                   type="button"
-                  onClick={() => setActiveCategory(category)}
+                  onClick={() => {
+                    setFiltered(true);
+                    setActiveCategory(category);
+                  }}
                   aria-pressed={isActive}
                   className={`px-4 py-2 text-xs sm:text-sm font-heading font-bold uppercase tracking-wider transition-all duration-150 cursor-pointer border-2 border-[var(--ink)] ${
                     isActive
@@ -83,12 +87,16 @@ export default function Projects({ onOpenCaseStudy }) {
             Rows alternate sides on a desktop so the page reads as a sequence of
             pieces rather than one long list with a picture glued to the left. */}
         <motion.ol layout className="list-none p-0 m-0">
-          <AnimatePresence mode="popLayout" initial={false}>
+          {/* No initial={false} here: on AnimatePresence it blocks the
+              initial state of every motion element inside, which would leave
+              the rows' side entrances with nothing to animate from. The
+              filter fade is switched on only once a filter has been used. */}
+          <AnimatePresence mode="popLayout">
             {visibleProjects.map((project, i) => (
               <motion.li
                 key={project.id}
                 layout
-                initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
+                initial={!filtered ? false : reduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
